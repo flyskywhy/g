@@ -417,7 +417,7 @@ In redboot, run elf file:
         ~/proj/git-hg/bin/git-hg clone http://hg-pub.ecoscentric.com/flash_v2
         ~/proj/git-hg/bin/git-hg clone http://hg-pub.ecoscentric.com/images
         ~/proj/git-hg/bin/git-hg clone http://hg-pub.ecoscentric.com/nand-ecoscentric
-        ~/proj/git-hg/bin/git-hg clone http://hg-pub.ecoscentric.com/yaffs-ecoscentric-gp
+        ~/proj/git-hg/bin/git-hg clone http://hg-pub.ecoscentric.com/yaffs-ecoscentric-gpl
 
 - Use the following command to download the code needed in the compiling of the ecos-tools:
 

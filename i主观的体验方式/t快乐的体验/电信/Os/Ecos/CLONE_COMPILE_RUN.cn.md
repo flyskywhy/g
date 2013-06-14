@@ -417,7 +417,7 @@ lunch命令会列出本目录中所有的.ecc文件，请选择与前述ecos配�
         ~/proj/git-hg/bin/git-hg clone http://hg-pub.ecoscentric.com/flash_v2
         ~/proj/git-hg/bin/git-hg clone http://hg-pub.ecoscentric.com/images
         ~/proj/git-hg/bin/git-hg clone http://hg-pub.ecoscentric.com/nand-ecoscentric
-        ~/proj/git-hg/bin/git-hg clone http://hg-pub.ecoscentric.com/yaffs-ecoscentric-gp
+        ~/proj/git-hg/bin/git-hg clone http://hg-pub.ecoscentric.com/yaffs-ecoscentric-gpl
 
 - 使用了如下命令下载了编译ecos-tools所需的代码：
 
