@@ -147,6 +147,10 @@
 
     source proj/env.sh
 
+或是在类似ecos/apps/ecos_app_base/目录中运行如下命令：
+
+    source ../../proj/env.sh
+
 - 如果是Linux：
 
     如果使用的是预编译好的ecos/tools/ecos-tools/，则需要：
@@ -232,6 +236,10 @@
 在项目根目录中运行如下命令：
 
     source proj/env.sh
+
+或是在类似ecos/apps/ecos_app_base/目录中运行如下命令：
+
+    source ../../proj/env.sh
 
 
 ### 3.3.2 编译

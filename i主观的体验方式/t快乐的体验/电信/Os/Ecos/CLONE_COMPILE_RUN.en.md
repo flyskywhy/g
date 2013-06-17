@@ -147,6 +147,10 @@ In the project root directory, run the following command:
 
     source proj/env.sh
 
+Or in similar ecos/apps/ecos_app_base/ directory, run the following command:
+
+    source ../../proj/env.sh
+
 - If it is Linux:
 
     If you are using the precompiled ecos/tools/ecos-tools/, you will need:
@@ -232,6 +236,10 @@ Then click on `Build->Library`
 In the project root directory, run the following command:
 
     source proj/env.sh
+
+Or in similar ecos/apps/ecos_app_base/ directory, run the following command:
+
+    source ../../proj/env.sh
 
 
 ### 3.3.2 Compile
