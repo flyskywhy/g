@@ -1,3 +1,7 @@
+Li Zheng <flyskywhy@gmail.com>
+
+2013.06.25
+
 # 0. $SHELL可能需要的准备
 
 如果Linux中自己账户默认使用的SHELL不是bash，本文中使用的shell脚本运行可能会出错。鉴于bash在Linux世界中的通用性，建议除非必要，否则就将自己的账户设置为默认使用bash。

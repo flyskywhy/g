@@ -1,3 +1,7 @@
+Li Zheng <flyskywhy@gmail.com>
+
+2013.06.25
+
 # 0. $SHELL may need to prepare
 
 If the SHELL used by default in your Linux account is not bash, shell scripts used in this document may run fail. Given bash in the Linux world's versatility, it is recommended unless absolutely necessary, otherwise your account will be set as the default to use bash.
