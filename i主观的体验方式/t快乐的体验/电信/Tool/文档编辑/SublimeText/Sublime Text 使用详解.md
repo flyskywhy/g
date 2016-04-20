@@ -82,8 +82,11 @@ LiveStyle 可参见这篇文章 [Emmet LiveStyle 无刷新同步修改预览](ht
 ## 在 Package Control 中安装 OmniMarkupPreviewer
 这样就可以在浏览器中实时预览 markdown 文件。
 
+## 在 Package Control 中安装 All Autocomplete
+这样就可以在敲代码时也能自动匹配到其它文件中的某个变量。
+
 ## 在 Package Control 中安装 AlignTab
 这样就可以很容易让代码基于 = 或 : 等符号进行列对齐。
 
-## 在 Package Control 中安装 All Autocomplete
-这样就可以在敲代码时也能自动匹配到其它文件中的某个变量。
+## 在 Package Control 中安装 JsFormat
+这样就可以不用记忆 = 符号两边要加空格之类众多的编码规范。
