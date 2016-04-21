@@ -18,3 +18,4 @@ Li Zheng <flyskywhy@gmail.com>
 
     cd ~/proj/my_app
     git remote add origin lizheng@192.168.1.7:/pub/gittrees/apps/my_app.git
+    git push origin master
