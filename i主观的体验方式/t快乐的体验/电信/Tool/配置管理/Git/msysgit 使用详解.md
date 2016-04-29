@@ -4,7 +4,7 @@ Li Zheng <flyskywhy@gmail.com>
 msysgit 是 git 的 Windows 版本。
 
 ## 下载安装
-虽然 msysgit 已经被`Git for Windows`取代，但在`Git for Windows`还没有解决`git clone`时可能出现的`sssh-dss`错误之前，还是下载使用 msysgit 吧。
+虽然 msysgit 已经被`Git for Windows`取代，但在`Git for Windows`还没有解决`git clone`时可能出现的`ssh-dss`错误之前，还是下载使用 msysgit 吧。
 
 到 [https://github.com/msysgit/msysgit/releases](https://github.com/msysgit/msysgit/releases) 中，下载
 
@@ -24,3 +24,14 @@ msysgit 是 git 的 Windows 版本。
 
     [gui]
         encoding = utf-8
+
+## Linux 文件权限
+如果发现在 git gui 中某个文件内容没有变化，但是仍然提示有不同：
+
+    old mode 100644
+    new mode 100755
+
+则需要在 `msys.bat` 终端窗口中运行如下命令：
+
+    git config --global core.filemode false
+    git config core.filemode false
