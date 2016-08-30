@@ -38,8 +38,37 @@ Nodejs 代码会包含一个自动下载的包含了许多许多文件的 node_m
 ## 在 Package Control 中安装 Nodejs
 这样就可以增加许多自动完成功能，比如敲入`fs`就会出现许多`fs.mkdir`等相关的函数可供选择。还有，菜单 `Tools | Snippet` 中也会多出几个代码段可供选择。
 
+## 在 Package Control 中安装 Babel
+支持 ES6 ， React.js ， jsx 代码高亮。
+
+安装好后需进行配置：
+
+* 打开 .js ， .jsx 后缀的文件
+* 点击菜单 `view | Syntax | Open all with current extension as... | Babel | JavaScript (Babel)`
+
 ## 在 Package Control 中安装 SublimeLinter
 这是使用各种语言的 lint 工具前需要安装的基础插件。
+
+## 在 Package Control 中安装 SublimeLinter-eslint
+由于 eslint 相比 jshint 多出了对最新代码格式比如 React 的支持，所以推荐安装 eslint 。
+
+安装好 SublimeLinter-eslint 之后，还需如下操作：
+
+在源代码目录中安装 eslint 可执行文件：
+
+    npm install --save-dev eslint eslint-plugin-jsx-a11y eslint-config-airbnb eslint-plugin-import eslint-plugin-react
+
+在源代码目录中初始化 `.eslintrc` 文件，后续可再自行编辑：
+
+    eslint --init
+
+在初始化过程中回答如下问题即可：
+
+    ? How would you like to configure ESLint? Use a popular style guide
+    ? Which style guide do you want to follow? AirBnB
+    ? What format do you want your config file to be in? JavaScript
+
+这里选择 AirBnB 是因为 airbnb 的 [react 开发代码规范](https://github.com/airbnb/javascript/tree/master/react) 得到了许多开发者的点赞。
 
 ## 在 Package Control 中安装 SublimeLinter-jshint
 安装好 SublimeLinter-jshint 之后，还需如下操作：
@@ -93,3 +122,9 @@ LiveStyle 可参见这篇文章 [Emmet LiveStyle 无刷新同步修改预览](ht
 
 ## 在 Package Control 中安装 JsFormat
 这样就可以不用记忆 = 符号两边要加空格之类众多的编码规范。
+
+为了支持 React 的 JSX 格式，需要打开 `preferences | Package Settings | JsFormat | Setting | Users` ，输入以下配置：
+
+    {
+        "e4x": true
+    }
