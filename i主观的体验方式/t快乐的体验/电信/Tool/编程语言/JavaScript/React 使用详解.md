@@ -136,4 +136,4 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
     npm install --save-dev redux-devtools
 
 ## 使用 moles-web
-react-web 用起来还是有点磕磕绊绊，可能开发者淘宝方面不太重视，还好另一家公司携程基于 react-web 做了个高级版 moles-web ，现在已经在携程的主 App 上投入生产，详见 [Moles：携程基于React Native的跨平台开发框架](https://www.sdk.cn/news/4602) ，只是其目前最新版还未开源。
+react-web 用起来还是有点磕磕绊绊，还好携程基于 react-web 做了个高级版 moles-web ，现在已经在携程的主 App 上投入生产，详见 [Moles：携程基于React Native的跨平台开发框架](https://www.sdk.cn/news/4602) ，只是其目前最新版还未开源，可以先拿 npm 上的旧版本与 react-web 代码整合用用。
