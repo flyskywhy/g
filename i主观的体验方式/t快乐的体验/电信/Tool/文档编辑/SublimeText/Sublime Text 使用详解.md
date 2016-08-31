@@ -54,6 +54,14 @@ Nodejs 代码会包含一个自动下载的包含了许多许多文件的 node_m
 
 安装好 SublimeLinter-eslint 之后，还需如下操作：
 
+### 实际项目中使用的复杂规则文件
+在源代码目录中安装 eslint 可执行文件：
+
+    npm install --save-dev babel-eslint eslint eslint-plugin-react
+
+从 https://github.com/flyskywhy/noder-react-native 中复制 `.eslintrc` 文件到源代码目录。
+
+### 简单规则文件示例
 在源代码目录中安装 eslint 可执行文件：
 
     npm install --save-dev eslint eslint-plugin-jsx-a11y eslint-config-airbnb eslint-plugin-import eslint-plugin-react
