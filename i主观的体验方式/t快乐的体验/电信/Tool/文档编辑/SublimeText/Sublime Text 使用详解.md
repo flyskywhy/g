@@ -61,6 +61,13 @@ Nodejs 代码会包含一个自动下载的包含了许多许多文件的 node_m
 
 从 https://github.com/flyskywhy/noder-react-native 中复制 `.eslintrc` 文件到源代码目录。
 
+### 解决规则文件没起作用的问题
+这可能是 eslint 的一个 BUG ，解决的方法是再额外全局安装一下 eslint
+
+    npm install -g eslint
+
+然后在`Tools | SublimeLinter`临时把`Lint Mode`设定为`Load/save`，这样做以后，就可以在`Preferences | Package Settings | SublimeLinter | Settings - User`中看到一个完整的配置参数，在这些参数中的 `paths` 处设定好 eslint 可执行文件的所在路径比如在 `windows` 处添加 `"D:\\node\\bin"` ，最后把`Lint Mode`改回为`Background`。
+
 ### 简单规则文件示例
 在源代码目录中安装 eslint 可执行文件：
 
@@ -91,7 +98,7 @@ Nodejs 代码会包含一个自动下载的包含了许多许多文件的 node_m
         "esversion": 6
     }
 
-在`Tools | SublimeLinter`临时把`Lint Mode`设定为`Load/save`，这样做以后，就可以在`Preferences | Package Settings | SublimeLinter | Settings - User`中看到一个完整的配置参数，此时先把`Lint Mode`改回为`Background`，然后在"paths"中设定好 jshint 可执行文件的所在路径比如在"windows"处添加"D:\\node\\bin"。
+然后如前所述在 `paths` 处设定好 jshint 可执行文件的所在路径。
 
 ## 在 Package Control 中安装 Color Highlighter
 这样就可以直观地在 `.css` 文件中 `color:` 的十六进制数值上通过左键单击看到颜色，还可以在右键菜单中选择颜色。
