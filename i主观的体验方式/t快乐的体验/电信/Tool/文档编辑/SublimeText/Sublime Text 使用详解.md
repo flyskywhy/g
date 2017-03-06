@@ -49,10 +49,10 @@ Nodejs 代码会包含一个自动下载的包含了许多许多文件的 node_m
 ## 在 Package Control 中安装 SublimeLinter
 这是使用各种语言的 lint 工具前需要安装的基础插件。
 
-## 在 Package Control 中安装 SublimeLinter-eslint
+## 在 Package Control 中安装 SublimeLinter-contrib-eslint
 由于 eslint 相比 jshint 多出了对最新代码格式比如 React 的支持，所以推荐安装 eslint 。
 
-安装好 SublimeLinter-eslint 之后，还需如下操作：
+安装好 SublimeLinter-contrib-eslint 之后，还需如下操作：
 
 ### 实际项目中使用的复杂规则文件
 在源代码目录中安装 eslint 可执行文件：
