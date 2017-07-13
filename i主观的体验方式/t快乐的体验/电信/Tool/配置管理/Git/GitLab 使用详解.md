@@ -148,3 +148,148 @@ gitlab 用的 web 服务程序是 nginx ，如果占用 80 端口的其它程序
 
 # 关停帐号
 用 root 帐号可以关停用户帐号。有三种关停方式： `Block user` 、 `Remove user` 、 `Remove user and contributions` ，需要注意的是，记录在 PostgreSQL 中的 Snippets 会在后两种情况下消失。
+
+# 持续集成 CI
+让 gitlab 能够在新 commit （网页上直接修改文件内容而形成的 commit） 或 push 的事件时自动触发持续集成动作，有两个前提条件：将持续集成的具体动作比如“测试”、“部署”等 job 写在 Project 根目录中的 `.gitlab-ci.yml` 文件里；在 Project 的 gitlab 网页里配置好在另外一台服务器中运行的 Runner 以便让 Runner 去运行这些 job 。
+
+## 创建 .gitlab-ci.yml 文件
+参照 [Getting started with GitLab CI](https://docs.gitlab.com/ce/ci/quick_start/README.html) 和 [Configuration of your jobs with .gitlab-ci.yml](https://docs.gitlab.com/ce/ci/yaml/README.html) 两篇文章，简单来说，除了 stages 、 cache 等关键字外，其它顶行书写的都是 job 。如果 job 中没有描述 stage 字段的，则这个 job 的 stage 默认为 test 。如果存在有 stages 的比如：
+
+```
+stages:
+  - build
+  - test
+  - deploy
+```
+则首先并行执行完所有 stage 为 build 的 job ，如果这些 job 都成功了，就并行执行所有 stage 为 test 的 job ，以此类推。
+
+job 中必须至少含有一个关键字 script 用来执行该 job 的动作，比如：
+```
+test_gitlab_ci:
+  script:
+    - npm install
+```
+为了避免经常让 npm 重新下载那些 node_modules ，可以添加 cache 关键字，比如：
+```
+cache:
+  paths:
+    - node_modules/
+```
+在 gitlab 的 Project 页面上有 `Set up CI` 按钮可以方便地直接跳转到 Repository 页面并且自动点击了 `+` 按钮、自动选择了 `.gitlab-ci.yml` 这个 Template ，只需要再人工选择一下 `Apply a GitLab CI Yaml template` 并进行修改即可。
+
+`.gitlab-ci.yml` 的语法是否书写正确， 可以在 http://gitlab.your-company.com/ci/lint 中进行验证，而不用等到 Runner 报来错误再去修改。
+
+## 配置 Runner
+Runner 最好是安装在与 Gitlab 不同的服务器上，因为 Runner 会消耗大量内存资源，而 Gitlab 如果没有足够内存的话会很卡顿。
+
+Runner 分为两种：一个或多个 Project 特定使用的 specific Runner 以及 任何 Project 都能使用的 shared Runner 。
+
+配置 Runner 时会用到 registration token ， specific Runner 的 token 是从 Project 的 `Settings ➔ Pipelines ` 页面上获取的， shared Runner 的 token 是从 root 账户的 admin/runners 页面上获取的。
+
+按照 [Install GitLab Runner](http://docs.gitlab.com/runner/install/) 安装好 Runner ，然后在安装好 Runner 的服务器上进行配置，这里参考 [Registering Runners](http://docs.gitlab.com/runner/register/index.html) 以 Linux 为例描述一下配置过程：
+
+    sudo gitlab-runner register
+
+Please enter the gitlab-ci coordinator URL (e.g. https://gitlab.com ):
+
+    http://gitlab.your-company.com
+
+Enter the token you obtained to register the Runner:
+
+    输入上面提到的页面里获取的 token
+
+Please enter the gitlab-ci description for this runner: 后续可在 gitlab 界面中修改
+
+    [hostame]: 比如输入 192.x.x.9Shell 作为 runner 的描述，暗示会使用 192.x.x.9 上的 Shell 作为运行环境，或是 192.x.x.9Docker ，或是其它可以适当描述的字符
+
+Please enter the gitlab-ci tags for this runner (comma separated): 可以为空，如果不为空或后续在 gitlab 界面中修改的话，则使得 `.gitlab-ci.yml` 中的某个 job 有了这样的能力 —— 如果 job 中存在 tag 关键字时那就只有相同 tag 的 Runner 才允许运行这个 job
+
+Whether to run untagged jobs [true/false]: 如果上面一条不为空，则会出现此条，后续可在 gitlab 界面中修改
+
+    [false]: 当 `.gitlab-ci.yml` 中的某个 job 中不存在 tag 关键字时，是否允许当前这个被上一条 tag 过的 Runner 运行这个 job
+
+Whether to lock Runner to current project [true/false]: 后续可在 gitlab 界面中修改
+
+    [false]: 后续在 gitlab 界面中修改使之按需（单向）转变为 specific Runner 即可
+
+Registering runner... succeeded                     runner=上面 token 的前 8 个字符
+
+Please enter the executor: docker-ssh, shell, virtualbox, kubernetes, docker, parallels, ssh, docker+machine, docker-ssh+machine:
+
+    选择其中之一，常用的有 shell 或者是 docker ，可以输入 shell 并回车后， 当前的 Runner 就配置好了。
+
+如果上一条输入的是 docker ，则还会出现下一条：
+
+Please enter the Docker image (eg. ruby:2.1):
+
+    可以输入某个合适的 docker 镜像名比如比较流行的体积很小的 alpine:latest 并回车后， 当前的 Runner 就配置好了。
+
+此时，使用 `sudo gitlab-runner list` 命令就能看到已注册的 runner 列表了。更多命令使用方法详见 [GitLab Runner Commands](http://docs.gitlab.com/runner/commands/README.html) 。
+
+[Executors](http://docs.gitlab.com/runner/executors/README.html) 中介绍了各个 excutor 的异同。
+
+## Shell executor
+Shell executor 相对其它 executor 来说比较容易理解和操作，在初期可以拿来熟悉 job 的运行方式。
+
+在执行 job 的 script 中的命令时所需的各种依赖，比如 npm 命令本身需要安装到 /home/gitlab-runner 这个用户能够访问的路径中，可能比较麻烦，而且难以保证各个 Runner 上安装的各个软件的版本都相同，所以后期需要使用 Docker executor 。
+
+## Docker executor
+如果想用 Docker executor ，则在使用 Runner 之前请先安装 docker ：
+
+curl -sSL https://get.docker.com/ | sh
+
+至于实际使用的 docker 镜像，虽说可以在使用默认的比如 alpine:latest 或是 `.gitlab-ci.yml` 文件里指定的 image: node:latest 时，在  `.gitlab-ci.yml` 文件里另外安装一些必须的工具，就像下面做的那样：
+```
+before_script:
+  - apt-get update -qq && apt-get install -qq rsync sshpass
+```
+但是 `apt-get` 有时也会碰到 `Could not resolve 'cdn-fastly.deb.debian.org'` 这样的网络问题，再考虑到 latest 所代表的意义是经常要从国内访问不太稳定的 DockerHub 上 pull 最新版本的镜像，所以最好是自己创建一个合适的特定版本镜像来长久使用。
+
+### 一些 docker 常见错误的解决
+如果 `Pipelines ➔ Jobs` 中的命令行打印出 `System error: open /sys/fs/cgroup/cpu,cpuacct/init.scope/system.slice/` 这样的错误，则需要：
+```
+sudo vi /lib/systemd/system/docker.service
+...
+[Service]
+ExecStart=/usr/bin/docker -d -H fd:// --exec-opt native.cgroupdriver=cgroupfs
+...
+
+然后再通过如下方式来使能上述配置：
+$ sudo systemctl daemon-reload
+$ sudo service docker stop
+$ sudo service docker start
+```
+
+如果 docker pull 时碰到 timeout ，那是因为墙引起的 DockerHub 网络不稳定，多试几次就好了，或者换到国内的源比如 DaoCloud
+
+## VirtualBox executor
+可以用来在虚拟机中的 macOS 中编译 iOS APP ？
+
+# 持续部署 CD
+按照 [Introduction to environments and deployments](https://docs.gitlab.com/ce/ci/environments.html) 一文我们可以进行持续部署。
+
+Project 的 `Pipelines ➔ Environments` 页面中的那个 `New environment` 不建议使用，而是在 job 中来建立。
+
+在比如下面的 job 中：
+```
+deploy_staging:
+  stage: deploy
+  script:
+    - echo "Deploy to staging server"
+  environment:
+    name: staging
+    url: https://staging.example.com
+  only:
+    - master
+```
+我们设定了 environment 是 staging ，这样当这个 job 被 Runner 执行后，我们就会在 Project 的 `Pipelines ➔ Environments` 中看到一个叫做 staging 的 environment 中的部署历史记录，在历史记录多于一个时，会看到旧的历史记录上的按钮变成了 Rollback ，如果网站足够简单就可以方便地点击该按钮进行部署回滚。
+
+这里的 url 会在 gitlab 的许多网页中出现，当上面的 script 中比如用 rsync 命令真正地去部署后，这些网页中的这些 url 就能真正点击进入了。
+
+一般在 rsync 中会用到部署目标服务器的用户名和密码，这些需要保密的变量名字需要设置在 `Settings ➔ Pipelines` 页面中的 `Secret variables` 处。在 `Settings ➔ Members` 中可以添加其它用户作为 Guest 、 Reporter 、 Developer 、 Master 中的某个角色，而除了 Master 以外，其它角色都不能访问 `Settings ➔ Pipelines` 页面。另外，如果担心 `Pipelines ➔ Jobs` 中的命令行打印信息透露一些细节，还可以在 `Settings ➔ Pipelines` 页面中去掉 `Public pipelines` 的勾选。
+
+比如在 `Secret variables` 中添加了 DEPLOY_USER 和 DEPLOY_PASSWORD 之后，就可以如 [Variables](https://docs.gitlab.com/ce/ci/variables/README.html) 中所说，在 job 中的 script 里写成如下形式：
+```
+  script:
+    - sshpass -p $DEPLOY_PASSWORD rsync -avuz build/ -e 'ssh -oStrictHostKeyChecking=no' $DEPLOY_USER@112.113.114.115:/var/www/abc.your-company.com/
+```
