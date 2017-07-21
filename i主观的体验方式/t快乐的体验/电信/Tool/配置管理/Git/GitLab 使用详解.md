@@ -84,7 +84,7 @@ gitlab 用的 web 服务程序是 nginx ，如果占用 80 端口的其它程序
 作为内部使用的 Git 仓库，安全是非常重要的，因此要及时用 root 账户进入比如 [http://192.x.x.7:8788/admin/application_settings](http://192.x.x.7:8788/admin/application_settings) 进行仓库可见程度、用户注册是否发送确认邮件等等设置。
 
 # 配置
-由于 gitlab-ce 内含了 redis 、 nginx 等等各种第三方软件包（被安装在 `/opt/gitlab/embedded/` ），所以可以按需在 `/etc/gitlab/gitlab.rb` 中进行配置，详见 [https://docs.gitlab.com/omnibus/settings/configuration.html](https://docs.gitlab.com/omnibus/settings/configuration.html) 。由于 gitlab 每个月 22 日都会升级，所以每次升级后需要 `sudo gitlab-ctl diff-config` 看看是否有最新的配置需要人工添加到 `/etc/gitlab/gitlab.rb` 中。
+由于 gitlab-ce 内含了 redis 、 nginx 等等各种第三方软件包（被安装在 `/opt/gitlab/embedded/` ），所以可以按需在 `/etc/gitlab/gitlab.rb` 中进行配置，详见 [https://docs.gitlab.com/omnibus/settings/configuration.html](https://docs.gitlab.com/omnibus/settings/configuration.html) 。由于 gitlab 每个月 22 日都会升级，所以每次 [Updating GitLab via omnibus-gitlab](https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/update/README.md) 升级后需要 `sudo gitlab-ctl diff-config` 看看是否有最新的配置需要人工添加到 `/etc/gitlab/gitlab.rb` 中。
 
 # 启停
 每次修改配置后，需要 `sudo gitlab-ctl reconfigure` 来启动。
@@ -152,6 +152,8 @@ gitlab 用的 web 服务程序是 nginx ，如果占用 80 端口的其它程序
 # 持续集成 CI
 让 gitlab 能够在新 commit （网页上直接修改文件内容而形成的 commit） 或 push 的事件时自动触发持续集成动作，有两个前提条件：将持续集成的具体动作比如“测试”、“部署”等 job 写在 Project 根目录中的 `.gitlab-ci.yml` 文件里；在 Project 的 gitlab 网页里配置好在另外一台服务器中运行的 Runner 以便让 Runner 去运行这些 job 。
 
+如果在 commit 的注释中包含 `[ci skip]` 或 `[skip ci]` ，无论大小写，则该 commit 不会触发 CI 。
+
 ## 创建 .gitlab-ci.yml 文件
 参照 [Getting started with GitLab CI](https://docs.gitlab.com/ce/ci/quick_start/README.html) 和 [Configuration of your jobs with .gitlab-ci.yml](https://docs.gitlab.com/ce/ci/yaml/README.html) 两篇文章，简单来说，除了 stages 、 cache 等关键字外，其它顶行书写的都是 job 。如果 job 中没有描述 stage 字段的，则这个 job 的 stage 默认为 test 。如果存在有 stages 的比如：
 
@@ -178,6 +180,9 @@ cache:
 在 gitlab 的 Project 页面上有 `Set up CI` 按钮可以方便地直接跳转到 Repository 页面并且自动点击了 `+` 按钮、自动选择了 `.gitlab-ci.yml` 这个 Template ，只需要再人工选择一下 `Apply a GitLab CI Yaml template` 并进行修改即可。
 
 `.gitlab-ci.yml` 的语法是否书写正确， 可以在 http://gitlab.your-company.com/ci/lint 中进行验证，而不用等到 Runner 报来错误再去修改。
+
+### 下载 artifacts
+job 中的 artifacts 关键字除了用于在 stages 之间传递中间产物之外，也可以被从 gitlab 网页上下载，这倒是方便了最终产物比如 `.apk` 文件的下载，详见 [Introduction to job artifacts](https://docs.gitlab.com/ce/user/project/pipelines/job_artifacts.html) 。注意，如果使用了 artifacts 关键字，则要记得在里面用上 expire_in 关键字比如 `expire_in: 1 week` 以免 artifacts 一直被保存在 gitlab 的用户数据里而占用越来越多的硬盘空间。
 
 ## 配置 Runner
 Runner 最好是安装在与 Gitlab 不同的服务器上，因为 Runner 会消耗大量内存资源，而 Gitlab 如果没有足够内存的话会很卡顿。
@@ -228,12 +233,12 @@ Please enter the Docker image (eg. ruby:2.1):
 
 [Executors](http://docs.gitlab.com/runner/executors/README.html) 中介绍了各个 excutor 的异同。
 
-## Shell executor
+### Shell executor
 Shell executor 相对其它 executor 来说比较容易理解和操作，在初期可以拿来熟悉 job 的运行方式。
 
 在执行 job 的 script 中的命令时所需的各种依赖，比如 npm 命令本身需要安装到 /home/gitlab-runner 这个用户能够访问的路径中，可能比较麻烦，而且难以保证各个 Runner 上安装的各个软件的版本都相同，所以后期需要使用 Docker executor 。
 
-## Docker executor
+### Docker executor
 如果想用 Docker executor ，则在使用 Runner 之前请先安装 docker ：
 
 curl -sSL https://get.docker.com/ | sh
@@ -243,10 +248,63 @@ curl -sSL https://get.docker.com/ | sh
 before_script:
   - apt-get update -qq && apt-get install -qq rsync sshpass
 ```
-但是 `apt-get` 有时也会碰到 `Could not resolve 'cdn-fastly.deb.debian.org'` 这样的网络问题，再考虑到 latest 所代表的意义是经常要从国内访问不太稳定的 DockerHub 上 pull 最新版本的镜像，所以最好是自己创建一个合适的特定版本镜像来长久使用。
+但是 `apt-get` 有时也会碰到 `Could not resolve 'cdn-fastly.deb.debian.org'` 这样的网络问题，再考虑到 latest 所代表的意义是经常要从国内访问不太稳定的 DockerHub 上 pull 最新版本的镜像，所以最好是自己编译一个合适的特定版本镜像来长久使用，比如 [flyskywhy/rn-nodejs:v6.11.1](https://hub.docker.com/r/flyskywhy/rn-nodejs/tags/) 。
 
-### 一些 docker 常见错误的解决
-如果 `Pipelines ➔ Jobs` 中的命令行打印出 `System error: open /sys/fs/cgroup/cpu,cpuacct/init.scope/system.slice/` 这样的错误，则需要：
+#### 为 Docker executor 配置 DNS
+当然，严格来说，上面 `apt-get` 碰到的网络问题，与第一次使用 `Docker executor` 运行 job 时极可能会遇到的 `fatal: unable to access 'http://gitlab-ci-token:xxxxxxxxxxxxxxxxxxxx@gitlab.your-company.com/path/to/your/project.git/': Couldn't resolve host 'gitlab.your-company.com'` 属于同一个问题，解决方法是按照 [GitLab CI Runner Advanced configuration](https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/blob/master/docs/configuration/advanced-configuration.md#the-runnersdocker-section) 中的描述，修改 `/etc/gitlab-runner/config.toml` 文件，在 `[runners.docker]` 小节中添加 `dns = ["114.114.114.114"]` ，或者是添加 `extra_hosts = ["gitlab.your-company.com:192.x.x.7"]` ，然后运行 `sudo gitlab-runner verify` 确认没有修改出错误，最后在 gitlab 上再次运行 job 即可。
+
+#### 把容器提交为 docker 镜像
+用 `docker run -i -t your-name/your-repo /bin/bash` 命令把镜像变成容器运行后，在其中进行了一些修改，就可以用 `docker commit` 命令将该容器转换成 docker 镜像。只不过这样的镜像只能被 docker 管理，如果需要同时也被 git 管理的，则可以使用下面的 Dockerfile 。
+
+#### 从 Dockerfile 编译为 docker 镜像
+##### 编写 Dockerfile
+可以参考一些现有的 Dockerfile 比如 [docker-rn-nodejs_Dockerfile](https://github.com/flyskywhy/docker-rn-nodejs/blob/master/Dockerfile) 及 [Docker镜像构建文件Dockerfile及相关命令介绍](https://itbilu.com/linux/docker/VyhM5wPuz.html) 一文来编写适合自己项目的 Dockerfile 。
+
+##### 手动从 Dockerfile 编译 docker 镜像
+可以使用 `docker build -t your-name/your-repo:repo-tag .` 这样的命令来把当前目录中的 Dockerfile 编译成一个 docker 镜像（会被自动自动保存到 `/var/lib/docker/` 中），此时在 `.gitlab-ci.yml` 文件中写上 `image: your-name/your-repo:repo-tag` 后， Gitlab CI 就已经能使用该镜像了。后续还可以用 `docker push your-name/your-repo:repo-tag` 命令上传到 DockerHub 上。
+
+##### 自动从 Dockerfile 编译 docker 镜像
+还有更自动、方便的方法——让 DockerHub 自动把 GitHub 上的 Dockerfile 拉过去编译，我们只需要 `docker pull` 去使用镜像即可，这同时也避免了因为国内网络问题导致的 `docker build` 或 `docker push` 偶尔会失败几次。
+
+自动编译 docker 镜像的方法是，按照 [Configure automated builds on Docker Hub](https://docs.docker.com/docker-hub/builds/#link-to-a-hosted-repository-service) 中所说，在登录后的 [Docker Hub](https://hub.docker.com) 网站的 `Profile > Settings > Linked Accounts & Services` 中选择 `Github` ，然后选择 `Public and Private` ，然后自动跳转到 GitHub 网站确认后，就可以在 DockerHub 网站的 `Create > Create Automated Build` 中选择包含 Dockerfile 的某个 GitHub repository 来创建可自动编译的 DockerHub repository 。今后只要在该 GitHub repository 中进行了 commit 或 push 的操作， DockerHub 就会自动编译出相应的 docker 镜像。
+
+#### 为 Docker executor 配置缓存
+`/etc/gitlab-runner/config.toml` 文件里 `[runners.docker]` 小节中默认存在
+
+    volumes = ["/cache"]
+
+的配置，既是说在容器之间需要缓存的数据是放在容器内的 /cache 卷中，具体对应宿主机上的位置则可以在容器运行时通过 `docker ps` 得到 `容器id` 再通过 `docker inspect 容器id` 得知：
+
+    "/cache": "/var/lib/docker/volumes/08869e6d033a076de6c675e77c491f487434454d8a1939e8da36f803bab6a1ec/_data"
+
+其中存放的实际上就是在 `.gitlab-ci.yml` 文件中所写的
+```
+cache:
+  paths:
+    - node_modules/
+
+```
+这个 `node_modules/` 会被自动压缩为 /cache/your-name/your-project/default/cache.zip ，并在下一个容器中解压缩，如此来实现 `.gitlab-ci.yml` 文件中的 `cache` 功能。
+
+由于 docker 有自己的策略来决定何时删除那个 cache.zip ，为了避免偶尔可能因之让我们项目中的 `node_modules/` 重新去下载，同时为了完全避免每次在容器中下载 `~/.npm/` ，参考 [Optimizing Docker-Based CI Runners With Shared Package Caches](https://www.colinodell.com/blog/201704/optimizing-dockerbased-ci-runners-shared-package-caches) 一文，我们修改 `/etc/gitlab-runner/config.toml` 文件内容：
+
+    volumes = ["/srv/cache:/cache:rw"]
+
+并在 `.gitlab-ci.yml` 文件中编写如下内容：
+```
+before_script:
+  - export YARN_CACHE_FOLDER=/cache/yarn
+  - export NPM_CONFIG_CACHE=/cache/npm
+  - export bower_storage__packages=/cache/bower
+```
+即可。
+
+此种配置下用 `docker inspect 容器id` 就会看到：
+
+    "/cache": "/srv/cache"
+
+#### 一些 docker 常见错误的解决
+如果 Gitlab 的 `Pipelines ➔ Jobs` 中的命令行打印出 `System error: open /sys/fs/cgroup/cpu,cpuacct/init.scope/system.slice/` 这样的错误，则需要：
 ```
 sudo vi /lib/systemd/system/docker.service
 ...
@@ -262,8 +320,11 @@ $ sudo service docker start
 
 如果 docker pull 时碰到 timeout ，那是因为墙引起的 DockerHub 网络不稳定，多试几次就好了，或者换到国内的源比如 DaoCloud
 
-## VirtualBox executor
+### VirtualBox executor
 可以用来在虚拟机中的 macOS 中编译 iOS APP ？
+
+### 将 Runner 运行在 docker 中
+按照 [Run GitLab Runner in a container](http://docs.gitlab.com/runner/install/docker.html) 所说，如果你的项目的确有这个需求，你甚至能将 Runner 本身运行在 docker 中！
 
 # 持续部署 CD
 按照 [Introduction to environments and deployments](https://docs.gitlab.com/ce/ci/environments.html) 一文我们可以进行持续部署。
@@ -291,5 +352,9 @@ deploy_staging:
 比如在 `Secret variables` 中添加了 DEPLOY_USER 和 DEPLOY_PASSWORD 之后，就可以如 [Variables](https://docs.gitlab.com/ce/ci/variables/README.html) 中所说，在 job 中的 script 里写成如下形式：
 ```
   script:
-    - sshpass -p $DEPLOY_PASSWORD rsync -avuz build/ -e 'ssh -oStrictHostKeyChecking=no' $DEPLOY_USER@112.113.114.115:/var/www/abc.your-company.com/
+    - sshpass -p $DEPLOY_PASSWORD rsync -avuzq build/ -e 'ssh -oStrictHostKeyChecking=no' $DEPLOY_USER@112.113.114.115:~/your-project/
+    - sshpass -p $DEPLOY_PASSWORD ssh -o StrictHostKeyChecking=no $DEPLOY_USER@112.113.114.115 ". .profile && cd ~/your-project/ && pm2 restart pm2.config.js"
 ```
+
+## 直接编译为 docker 镜像并进行部署
+目前业界有一种趋势：直接将应用代码编译为一个 docker 镜像，然后运行这个镜像中的应用代码的测试脚本，然后把这个测试通过的镜像 push 到（自己私有的） Docker Registry 中，最后把这个镜像从 Docker Registry 中部署到生产服务器上。不过正如 [Using Docker Build](https://docs.gitlab.com/ce/ci/docker/using_docker_build.html) 中所说，三种实现该目标的方法各有利弊，需要权衡选择。另外根据 [Spotify 的容器使用情况](http://www.linuxeden.com/a/9864) 中所说，如果使用这种方式，还需要承担 docker 自身可能出现的一些问题。总的来说，请根据项目实际需要，权衡是否选择此种部署方式。
