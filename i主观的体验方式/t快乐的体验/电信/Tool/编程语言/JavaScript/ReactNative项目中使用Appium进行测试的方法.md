@@ -39,3 +39,6 @@ Li Zheng <flyskywhy@gmail.com>
 
 # 用例编写
 编写时可关注 [react-native-e2etest](https://github.com/garthenweb/react-native-e2etest) 中关于 `accessibilityLabel vs. testID` 哪个更合适的讨论。
+
+## 编写 Page Object 模式的测试用例
+参考 [https://github.com/chrisprice/react-app-webdriver/tree/master/e2e](https://github.com/chrisprice/react-app-webdriver/tree/master/e2e) 中 pageObjects 和 specs 的写法。
