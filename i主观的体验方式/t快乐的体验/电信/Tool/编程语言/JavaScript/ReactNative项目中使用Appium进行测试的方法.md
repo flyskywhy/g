@@ -24,6 +24,7 @@ Li Zheng <flyskywhy@gmail.com>
 安装 Appium 运行时所需的 adb ：
 
     ~/tools/android-sdk/tools/bin/sdkmanager platform-tools
+    ~/tools/android-sdk/tools/bin/sdkmanager "build-tools;26.0.1"
 
 ## 图形界面
 除了命令行方式，也可以看看 Appium 的 desktop application 图形界面的方式是否足够适用，详见 https://github.com/appium/appium-desktop （Windows 版的 Appium 图形界面程序可以在 https://github.com/appium/appium-desktop/releases 下载）。
