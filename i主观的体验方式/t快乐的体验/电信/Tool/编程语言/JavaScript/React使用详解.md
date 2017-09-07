@@ -60,7 +60,7 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
     sudo apt install lib32stdc++6 lib32z1
 
 ## debug 在线运行 Android
-用如下命令自动编译 apk 并运行：
+在 react-native 项目目录比如 `AwesomeProject/` 中用如下命令自动编译 apk 并运行：
 
     react-native run-android
 
