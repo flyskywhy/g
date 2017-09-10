@@ -6,7 +6,7 @@ React 并不是简单地在 Javascript 中嵌入 HTML ，而是对 UI （包括 
 本文的工具安装以 Linux 为例，其它平台详见 [开始使用React Native - react native 中文网](http://reactnative.cn/docs/0.27/getting-started.html)
 
 ## 安装 node.js 及其自带的包下载工具 npm
-从 [nodejs 官网](nodejs.org) 下载安装。
+从 [nodejs 官网](https://nodejs.org) 下载安装。
 
 如果是 Linux 用户，需要手动将 node 安装位置的 `bin` 目录添加到 `$PATH` 中。
 
@@ -53,7 +53,7 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
     react-native init --version 0.31.0 AwesomeProject
 
 ## 配置 Android 开发环境
-从 [https://developer.android.google.cn](https://developer.android.google.cn/studio/index.html) 下载 sdk-tools-linux 成为比如 `~/tools/android-sdk/` ，在 `~/.bashrc` 中添加 `export ANDROID_HOME=~/tools/android-sdk` 。后续在编译各种 APP 时 `~/tools/android-sdk/tools/bin/sdkmanager` 会视需要自动下载比如 `~/tools/android-sdk/platforms/android-26/` 等。
+从 [https://developer.android.google.cn/studio/index.html](https://developer.android.google.cn/studio/index.html) 下载 sdk-tools-linux 成为比如 `~/tools/android-sdk/` ，在 `~/.bashrc` 中添加 `export ANDROID_HOME=~/tools/android-sdk` 。后续在编译各种 APP 时 `~/tools/android-sdk/tools/bin/sdkmanager` 会视需要自动下载比如 `~/tools/android-sdk/platforms/android-26/` 等。
 
 为了让 android-sdk 中 32 位的 aapt (比如 `~/tools/android-sdk/build-tools/26.0.0/aapt` ) 能够在 64 位的 Linux 中运行，还要确保已经运行过如下命令：
 
@@ -107,7 +107,7 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
 更多用法参见 [React-Native 离线打包](http://alihub.org/14659907331638.html) 。
 
 ## release 在线更新
-参见 [React-Native 集成CodePush](http://alihub.org/14665598323437.html) 。
+参见 [React Native CodePush实践小结](https://segmentfault.com/a/1190000009642563) 。
 
 ## 安装 react-dom
 安装后续要安装的 react-web 的 [package.json](https://github.com/taobaofed/react-web/blob/master/package.json) 中的 `peerDependencies` 里的 `react` 和 `react-dom`，因为 react-web 相当于是 `react` 和 `react-dom` 这两个宿主的插件，想要装插件就要先装宿主。由于上面 `react-native init` 已经自动安装了 react ，所以现在只需安装 react-dom ，如果后续某个新版的 react-web 也许也能像现在 react-native 自动安装 react 一样去安装 react-dom，则此处可省：
@@ -137,7 +137,9 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
 打包完成后，文件会存放在 web/output/ 目录下面。
 
 ## Redux
-[还在纠结 Flux 或 Relay，或许 Redux 更适合你](https://segmentfault.com/a/1190000003099895)[Redux 中文文档 ](http://cn.redux.js.org/)
+[还在纠结 Flux 或 Relay，或许 Redux 更适合你](https://segmentfault.com/a/1190000003099895)
+
+[Redux 中文文档 ](http://cn.redux.js.org/)
 
     npm install --save redux react-redux
     npm install --save-dev redux-devtools
