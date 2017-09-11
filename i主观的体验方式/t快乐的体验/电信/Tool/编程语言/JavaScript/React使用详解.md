@@ -18,7 +18,7 @@ React 并不是简单地在 Javascript 中嵌入 HTML ，而是对 UI （包括 
 ## 安装 watchman
 watchman 是由 Facebook 提供的监视文件系统变更的工具。安装此工具可以提高开发时的性能（ React Native 的 packager 可以快速捕捉文件的变化从而实现实时刷新）
 ### 安装依赖
-    sudo apt-get install autoconf automake python-dev
+    sudo apt-get install autoconf automake python-dev libtool pkg-config libssl-dev
 ### 安装 watchman, 如果出错, 查看安装依赖的详细文档
     git clone https://github.com/facebook/watchman.git
     cd watchman
@@ -53,11 +53,25 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
     react-native init --version 0.31.0 AwesomeProject
 
 ## 配置 Android 开发环境
-从 [https://developer.android.google.cn/studio/index.html](https://developer.android.google.cn/studio/index.html) 下载 sdk-tools-linux 成为比如 `~/tools/android-sdk/` ，在 `~/.bashrc` 中添加 `export ANDROID_HOME=~/tools/android-sdk` 。后续在编译各种 APP 时 `~/tools/android-sdk/tools/bin/sdkmanager` 会视需要自动下载比如 `~/tools/android-sdk/platforms/android-26/` 等。
+从 [https://developer.android.google.cn/studio/index.html](https://developer.android.google.cn/studio/index.html) 下载 sdk-tools-linux 成为比如 `~/tools/android-sdk/` ，在 `~/.bashrc` 中添加 `export ANDROID_HOME=~/tools/android-sdk` 。后续在编译各种 APP 时 `~/tools/android-sdk/tools/bin/sdkmanager` 会视需要自动下载比如 `~/tools/android-sdk/platforms/android-26/` 等，如果在自动下载时出现 "You have not accepted the license agreements of the following SDK components" 的错误，则需手动运行一下 `~/tools/android-sdk/tools/bin/sdkmanager --licenses` 。
 
 为了让 android-sdk 中 32 位的 aapt (比如 `~/tools/android-sdk/build-tools/26.0.0/aapt` ) 能够在 64 位的 Linux 中运行，还要确保已经运行过如下命令：
 
     sudo apt install lib32stdc++6 lib32z1
+
+如果没有装过 jdk 的话，还需要：
+
+    sudo apt install default-jdk
+
+如果 `echo $SHELL` 发现是 dash 的话，后续编译时会报 `aapt: Syntax error: newline unexpected (expecting ")"` 的错误，所以还需换成 bash：
+
+    sudo dpkg-reconfigure dash
+
+如果是 Win10 中的 WSL ，后续编译时会报 `aapt: cannot execute binary file: Exec format error` 的错误，这是由于 [64 位的 Win10 只支持 64 位而不支持 32 位的 Linux 二进制可执行文件](https://wpdev.uservoice.com/forums/266908-command-prompt-console-bash-on-ubuntu-on-windo/suggestions/13377507-please-add-32-bit-elf-support-to-the-kernel) ，解决方法是先
+
+    sudo apt install qemu-user
+
+然后以 `~/tools/android-sdk/build-tools/23.0.1/aapt` 为例，把 aapt 重命名为 aapt-32 ，最后原地新建可执行脚本文件 aapt ，脚本内容为 `qemu-i386 ~/tools/android-sdk/build-tools/23.0.1/aapt-32 $*` 即可。
 
 ## debug 在线运行 Android
 在 react-native 项目目录比如 `AwesomeProject/` 中用如下命令自动编译 apk 并运行：
@@ -68,7 +82,12 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
 
     react-native start
 
+这样，当 js 代码修改后，将 Android 真机摇一摇，就能 Reload 过来最新修改的 js 代码了。
+
 如果出现错误提示 “increase the fs.inotify.max_user_watches sysctl” ，则可按 [Increasing the amount of inotify watchers](https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers) 进行操作。
+
+如果是 Win10 中的 WSL ，由于 Windows 的防火墙无法自动在 WSL 中的 Linux 开启端口时弹出对话框让用户选择是否允许，所以只有 Win10 本机才能访问该端口。为了让其它主机比如 Android 真机摇一摇后 `Dev Setting | Debug server host & port for device` 设置能够成功 Reload 到 js 代码，需要手动在防火墙中开启 native packager server 所监听的 8081 端口，方法是在 `控制面板 | Windows Defender 防火墙 | 高级安全 Windows Defender 防火墙 | 入站规则 | 新建规则` 中选择 `端口 | 8081 | 允许连接 ` ，最后填写名称比如为 `Allow localhost port 8081` 以及填写描述比如为 `port forwarding to allow external machine to access Windows 10's Windows Subsystem Linux servers` 即可。
+
 
 ## release 离线打包
 ### 生成签名库,拷贝至 android/app/
