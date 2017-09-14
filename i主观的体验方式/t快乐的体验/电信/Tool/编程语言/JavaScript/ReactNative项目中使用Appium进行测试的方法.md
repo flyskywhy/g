@@ -39,7 +39,15 @@ Li Zheng <flyskywhy@gmail.com>
 4、用 `npm run test:e2e:android` 启动 Appium 客户端，其会自动安装 apk 并测试 `__tests__/` 目录中所有的 `*.e2e.js` 文件。
 
 # 用例编写
-编写时可关注 [react-native-e2etest](https://github.com/garthenweb/react-native-e2etest) 中关于 `accessibilityLabel vs. testID` 哪个更合适的讨论。
+因为 [testID 不支持 Android](https://github.com/facebook/react-native/pull/9942)，所以在组件上添加 accessibilityLabel 属性更合适。
+
+### 不适合添加 accessibilityLabel 属性的几种组件
+* 用来引用其它自定义组件的引用组件
+* Touchable 组件的子组件的最外一层组件
+
+有时候用 driver.hasElementByAccessibilityId() 获取不到已经设过的 accessibilityLabel 属性，此时如果用 driver.source().then(console.log) 调试打印或是用 `android-sdk/tools/bin/uiautomatorviewer` 工具查看，就会发现整个页面的确没有那个属性值，这一般是由于上面所说的不适合添加 accessibilityLabel 属性的几种组件引起的。
+
+用 driver.source().then(console.log) 有一个额外的好处，就是真实地反映了测试时的即时情况，比如用 uiautomatorviewer 看到存在 accessibilityLabel 所对应的 content-desc ，但是实际测试时获取不到，用了 driver.source().then(console.log) 后才发现原来是没有及时将测试时自动安装运行的 APP 所自动弹出的“APP 需要使用您的位置权限”对话框给关闭，导致 driver.source() 抓取到的只是该对话框页面，而该对话框中是没有那个 accessibilityLabel 的。
 
 ## 编写 Page Object 模式的测试用例
 参考 [https://github.com/chrisprice/react-app-webdriver/tree/master/e2e](https://github.com/chrisprice/react-app-webdriver/tree/master/e2e) 中 pageObjects 和 specs 的写法。
