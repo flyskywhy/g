@@ -5,6 +5,12 @@ Li Zheng <flyskywhy@gmail.com>
 ## 安装 Sublime Text
 Sublime Text 在 [www.sublimetext.com](www.sublimetext.com) 上可以免费下载，而且运行时只会偶尔提示一下注册，并不影响免费使用。
 
+在 Ubuntu 上还可以用如下简便的方法进行安装：
+
+    sudo add-apt-repository ppa:webupd8team/sublime-text-3
+    sudo apt-get update
+    sudo apt-get install sublime-text-installer
+
 ## 自定义设置
 在`Preferences | Settings - Default`中看到 JSON 格式所列出的某条想要修改的条目，只需再到`Preferences | Settings - User`中也按照 JSON 格式添加这一条条目即可。
 
