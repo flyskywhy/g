@@ -39,7 +39,7 @@ echo export PULSE_SERVER=tcp:localhost >> ~/.bashrc
 新建 `%AppData%\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\start_pulseaudio.vbe` 文件，文件内容为：
 
     set ws=wscript.createobject("wscript.shell")
-    ws.run "C:\Users\YOUR_NAME\AppData\Roaming\PulseAudio\bin\pulseaudio.exe --exit-idle-time=-1",0 
+    ws.run "C:\Users\YOUR_NAME\AppData\Roaming\PulseAudio\bin\pulseaudio.exe --exit-idle-time=-1",0
 
 记得替换这里的 YOUR_NAME 。
 
@@ -50,3 +50,11 @@ echo export PULSE_SERVER=tcp:localhost >> ~/.bashrc
 
 ## Windows 防火墙
 由于 Windows 的防火墙无法自动在 WSL 中的 Linux 开启端口时弹出对话框让用户选择是否允许，所以在 Ubuntu 中开启的服务，只有 Ubuntu 或 Win10 本机才能访问该服务的端口，其它主机也来访问的方法参见 [React使用详解](../../Tool/编程语言/JavaScript/React使用详解.md) 中 packager server 的例子。
+
+## 中文字体支持
+虽然默认的命令行界面用比如 `ls` 命令可以看到中文，但是在图形软件比如 gitk 中只能看到方块，此时就需要安装中文字体：
+
+    sudo apt install ttf-wqy-zenhei ttf-wqy-microhei wkhtmltopdf
+
+## 文件编辑
+虽然在 Ubuntu 开启的时候，用 Windows 中的文本编辑器可以直接编辑 Ubuntu 中的文件比如 `C:\Users\YOUR_NAME\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_77rhkp7fndgsc\LocalState\rootfs\home\YOUR_NAME\.bashrc` ，文件的 Linux 权限也不会被改变，但是当 Ubuntu 重启后就会发现，该文件的 Linux 权限已经变成了 000 ，所以更合适的方式是使用 Ubuntu 中的文本编辑器比如占用资源较小的 geany 或是更全能的 [Sublime Text](../../Tool/文档编辑/SublimeText/SublimeText使用详解.md) 。
