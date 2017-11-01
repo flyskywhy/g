@@ -81,7 +81,7 @@ gitlab 用的 web 服务程序是 nginx ，如果占用 80 端口的其它程序
     Notify.test_email('destination_email@address.com', 'Message Subject', 'Message Body').deliver_now
 
 # 安全
-作为内部使用的 Git 仓库，安全是非常重要的，因此要及时用 root 账户进入比如 [http://192.x.x.7:8788/admin/application_settings](http://192.x.x.7:8788/admin/application_settings) 进行仓库可见程度、用户注册是否发送确认邮件等等设置。
+作为内部使用的 Git 仓库，安全是非常重要的，因此要及时用 root 账户进入比如 [http://192.x.x.7:8788/admin/application_settings](http://192.x.x.7:8788/admin/application_settings) 进行分支保护程度、仓库可见程度、用户注册是否发送确认邮件等等默认全局设置。后续特定 Project 的分支保护程度和仓库可见程度可分别到 `Settings > Repository > Protected Branches` 和 ` Settings > General` 中去设置，比如纯文档类的仓库，就没必要进行 Merge Request 了，每个开发人员无需 Fork 到自己名下，而是直接在原仓库的 gitlab 网页上修改，这种情况下只要到 `Settings > Repository > Protected Branches` 中 `Unprotect` ，并且在 Group 的 `Members` 或 Project 的 `Settings > Members` 中显式地将允许修改的开发人员至少添加为 Developer 即可。
 
 # 配置
 由于 gitlab-ce 内含了 redis 、 nginx 等等各种第三方软件包（被安装在 `/opt/gitlab/embedded/` ），所以可以按需在 `/etc/gitlab/gitlab.rb` 中进行配置，详见 [https://docs.gitlab.com/omnibus/settings/configuration.html](https://docs.gitlab.com/omnibus/settings/configuration.html) 。由于 gitlab 每个月 22 日都会升级，所以每次 [Updating GitLab via omnibus-gitlab](https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/update/README.md) 升级后需要 `sudo gitlab-ctl diff-config` 看看是否有最新的配置需要人工添加到 `/etc/gitlab/gitlab.rb` 中。
@@ -358,3 +358,20 @@ deploy_staging:
 
 ## 直接编译为 docker 镜像并进行部署
 目前业界有一种趋势：直接将应用代码编译为一个 docker 镜像，然后运行这个镜像中的应用代码的测试脚本，然后把这个测试通过的镜像 push 到（自己私有的） Docker Registry 中，最后把这个镜像从 Docker Registry 中部署到生产服务器上。不过正如 [Using Docker Build](https://docs.gitlab.com/ce/ci/docker/using_docker_build.html) 中所说，三种实现该目标的方法各有利弊，需要权衡选择。另外根据 [Spotify 的容器使用情况](http://www.linuxeden.com/a/9864) 中所说，如果使用这种方式，还需要承担 docker 自身可能出现的一些问题。总的来说，请根据项目实际需要，权衡是否选择此种部署方式。
+
+# https
+gitlab 默认是 http 的，如果想开启 https ，首先需要比如到 [阿里云免费申请免费SSL证书](http://www.cnblogs.com/joshua317/p/6179311.html) ，然后参考 [NGINX settings](https://docs.gitlab.com/omnibus/settings/nginx.html) 将获得的证书复制并重命名，比如：
+
+    sudo mkdir -p /etc/gitlab/ssl
+    sudo chmod 700 /etc/gitlab/ssl
+    sudo cp 123456789012345.key /etc/gitlab/ssl/gitlab.your-company.com.key
+    sudo cp 123456789012345.pem /etc/gitlab/ssl/gitlab.your-company.com.crt
+
+再搜索并修改 `/etc/gitlab/gitlab.rb` 中相应的条目：
+
+    external_url 'http://gitlab.your-company.com'
+    nginx['redirect_http_to_https'] = true
+
+最后 `sudo gitlab-ctl reconfigure` 即可。
+
+最后的最后，如果之前配置过 Runner ，则还需到 Runner 的服务器上将 `/etc/gitlab-runner/config.toml` 文件里的 url 修改为 https 的并 `sudo gitlab-runner restart` 即可。
