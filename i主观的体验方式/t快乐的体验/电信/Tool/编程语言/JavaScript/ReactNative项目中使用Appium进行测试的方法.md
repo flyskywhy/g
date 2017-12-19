@@ -8,7 +8,7 @@ Li Zheng <flyskywhy@gmail.com>
 * 测试服务端连接 Android 、 iOS 或 Web 以运行 RN 程序
 
 ## 环境搭建
-    npm install --save-dev webdriver-manager codeceptjs-webdriverio mocha
+    npm install --save-dev webdriver-manager codeceptjs webdriverio mocha
 
 参考 [noder-react-native](https://github.com/flyskywhy/noder-react-native) 的 package.json ，在 scripts 一节中添加如下内容：
 
@@ -33,11 +33,9 @@ Li Zheng <flyskywhy@gmail.com>
 
     npm run e2e-update-server-web
 
-为了让 Web 也能像 Android 和 iOS 那样用 `~` 来定位同一个 accessibilityLabel 而无需修改测试用例，需参照 [Increase ~ considerable speed in Appium and support ~ with aria-label in WebDriverIO](https://github.com/Codeception/CodeceptJS/pull/728) 这个 Pull Request 对前面下载好的 codeceptjs-webdriverio 打补丁，参见 [noder-react-native](https://github.com/flyskywhy/noder-react-native) 的 package.json 中的 `"patch-codeceptjs-webdriverio": "wget https://raw.githubusercontent.com/flyskywhy/CodeceptJS/master/lib/helper/WebDriverIO.js -O node_modules/codeceptjs-webdriverio/node_modules/codeceptjs/lib/helper/WebDriverIO.js"` 以及 [noder-react-native](https://github.com/flyskywhy/noder-react-native) 的 `e2e/helpers/reactweb_helper.js`。
+使用 [CodeceptJS 命令行自动生成示例文件](http://codecept.io/commands/) ，了解 CodeceptJS 所需的测试用例代码的文件结构，然后参考 [noder-react-native](https://github.com/flyskywhy/noder-react-native) 完善自己所需的测试用例代码的文件内容，还可参考更复杂的 [https://github.com/faikfaisal/Centricity-Automation](https://github.com/faikfaisal/Centricity-Automation) 以及 [https://github.com/flyskywhy/codeceptjs4game](https://github.com/flyskywhy/codeceptjs4game) 。
 
-使用 [CodeceptJS 命令行自动生成示例文件](http://codecept.io/commands/) ，了解 CodeceptJS 所需的测试用例代码的文件结构，然后参考 [noder-react-native](https://github.com/flyskywhy/noder-react-native) 完善自己所需的测试用例代码的文件内容，还可参考更复杂的 [https://github.com/faikfaisal/Centricity-Automation](https://github.com/faikfaisal/Centricity-Automation) 以及 [https://github.com/timestampx/4game](https://github.com/timestampx/4game) 。
-
-使用比如 [noder-react-native](https://github.com/flyskywhy/noder-react-native) 中的 `codecept.conf.js` 配置文件，配合上面的 `package.json` 和 `e2e/helpers/reactweb_helper.js` 就可以很容易地切换 Android 、 iOS 和 Web 分别进行测试。
+使用比如 [noder-react-native](https://github.com/flyskywhy/noder-react-native) 中的 `codecept.conf.js` 配置文件，配合上面的 `package.json` 就可以很容易地切换 Android 、 iOS 和 Web 分别进行测试。
 
 ### Android
 
@@ -75,7 +73,7 @@ Li Zheng <flyskywhy@gmail.com>
 
 
 ## 用例编写
-因为 [testID 不支持 Android](https://github.com/facebook/react-native/pull/9942) 以及统一 Android 、 iOS 和 Web 的测试用例的需要，所以在组件上添加 accessibilityLabel 属性最合适。
+因为 [testID 不支持 Android](https://github.com/facebook/react-native/pull/9942) 以及统一 Android 、 iOS 和 Web 的测试用例的需要，所以在产品组件中添加 accessibilityLabel 属性最合适，然后在测试用例中用 `~` 来定位该组件。
 
 ### 不适合添加 accessibilityLabel 属性的几种组件
 * 用来引用其它自定义组件的引用组件
@@ -86,7 +84,7 @@ Li Zheng <flyskywhy@gmail.com>
 用 `I.grabSource()` 有一个额外的好处，就是真实地反映了测试时的即时情况，比如用 uiautomatorviewer 看到存在 accessibilityLabel 所对应的 content-desc ，但是实际测试时抓取不到，用了 `I.grabSource()` 后才发现原来是没有及时将测试时自动安装运行的 APP 所自动弹出的“APP 需要使用您的位置权限”对话框给关闭，导致 `I.grabSource()` 抓取到的只是该对话框页面，而该对话框中是没有那个 accessibilityLabel 的。
 
 ### 编写 Page Object 和 Step Object 模式的测试用例
-参照 [CodeceptJS 对 Page Object 和 Step Object 模式的说明](http://codecept.io/pageobjects/) ，另可参考 [noder-react-native](https://github.com/flyskywhy/noder-react-native) 及更复杂的 [https://github.com/faikfaisal/Centricity-Automation](https://github.com/faikfaisal/Centricity-Automation) 和 [https://github.com/timestampx/4game](https://github.com/timestampx/4game) 。
+参照 [CodeceptJS 对 Page Object 和 Step Object 模式的说明](http://codecept.io/pageobjects/) ，另可参考 [noder-react-native](https://github.com/flyskywhy/noder-react-native) 及更复杂的 [https://github.com/faikfaisal/Centricity-Automation](https://github.com/faikfaisal/Centricity-Automation) 和 [https://github.com/flyskywhy/codeceptjs4game](https://github.com/flyskywhy/codeceptjs4game) 。
 
 ## 疑难杂症
 ### 开始 Android 上的测试时抓取不到肯定存在的属性
