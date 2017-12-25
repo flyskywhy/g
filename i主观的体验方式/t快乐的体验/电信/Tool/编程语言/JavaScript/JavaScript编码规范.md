@@ -136,3 +136,5 @@ Optional render methods like renderNavigation() or renderProfilePicture()
 render
 ```
 eslint rules: [react/sort-comp](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/sort-comp.md)
+
+从 react-native 0.44.0 开始使用的 react 16 ，采用了比线程还要精细的 fiber （纤程或者说协程），据说大大提高了性能，不过呢，参考 [React Fiber是什么](https://zhuanlan.zhihu.com/p/26027085) 中所说“只剩下componentWillMount和componentWillUpdate这两个函数往往包含副作用，所以当使用React Fiber的时候一定要重点看这两个函数的实现”，因此编写代码时也要注意保证这两个函数被重复调用时不会产生副作用。
