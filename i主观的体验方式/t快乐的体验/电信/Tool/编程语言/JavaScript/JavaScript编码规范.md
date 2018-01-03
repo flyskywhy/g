@@ -145,3 +145,6 @@ eslint rules: [react/sort-comp](https://github.com/yannickcr/eslint-plugin-react
 不应在 render() 中调用比如 this.setState({foo: bar}) ，而只是在 render() 中使用别的地方设置好的数据比如 this.state.foo ，否则会出现 “Warning: Cannot update during an existing state transition (such as within `render` or another component's constructor). Render methods should be a pure function of props and state; constructor side-effects are an anti-pattern, but can be moved to `componentWillMount`.”
 
 还有就是要注意 [在React组件unmounted之后setState的报错处理](http://www.cnblogs.com/libin-1/p/6667442.html)
+
+### addListener
+设置监听器去监听事件比如 addListener() 的时间点需要在触发事件之前。这个倒不是 React 所独有而是所有编程语言或框架都应如此。这里以一个 react-native 的用于管理阿里云 oss 中文件的第三方组件的一个提交点为例子 [解决 iOS 无法上传的问题，虽然有些编译出来的应用能够上传，但只是凑巧罢了，因为设置监听时间按正常流程必须要 早于触发事件](https://github.com/flyskywhy/react-native-aliyun-oss/commit/eb68565636f4e0276cdd8a234a44d962e46481ed)
