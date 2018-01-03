@@ -94,6 +94,7 @@ Array 是可以 .length 的，所以使用 for( of ) 或者 for(;;) 皆可。
 上面的 * 1 也可以用 / 1 代替，或者用 parseInt() 也是另一种标准做法。
 
 ## React
+### 方法顺序
 继承 React.Component 的类的方法遵循下面的顺序：
 ```
 constructor
@@ -111,7 +112,7 @@ getter methods for render like getSelectReason() or getFooterContent()
 Optional render methods like renderNavigation() or renderProfilePicture()
 render
 ```
-使用 React.createClass 时，方法顺序如下：
+使用 require('create-react-class').createClass 时，方法顺序如下：
 ```
 displayName
 propTypes
@@ -137,4 +138,10 @@ render
 ```
 eslint rules: [react/sort-comp](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/sort-comp.md)
 
+### fiber
 从 react-native 0.44.0 开始使用的 react 16 ，采用了比线程还要精细的 fiber （纤程或者说协程），据说大大提高了性能，不过呢，参考 [React Fiber是什么](https://zhuanlan.zhihu.com/p/26027085) 中所说“只剩下componentWillMount和componentWillUpdate这两个函数往往包含副作用，所以当使用React Fiber的时候一定要重点看这两个函数的实现”，因此编写代码时也要注意保证这两个函数被重复调用时不会产生副作用。
+
+### setState
+不应在 render() 中调用比如 this.setState({foo: bar}) ，而只是在 render() 中使用别的地方设置好的数据比如 this.state.foo ，否则会出现 “Warning: Cannot update during an existing state transition (such as within `render` or another component's constructor). Render methods should be a pure function of props and state; constructor side-effects are an anti-pattern, but can be moved to `componentWillMount`.”
+
+还有就是要注意 [在React组件unmounted之后setState的报错处理](http://www.cnblogs.com/libin-1/p/6667442.html)
