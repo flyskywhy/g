@@ -148,3 +148,18 @@ eslint rules: [react/sort-comp](https://github.com/yannickcr/eslint-plugin-react
 
 ### addListener
 设置监听器去监听事件比如 addListener() 的时间点需要在触发事件之前。这个倒不是 React 所独有而是所有编程语言或框架都应如此。这里以一个 react-native 的用于管理阿里云 oss 中文件的第三方组件的一个提交点为例子 [解决 iOS 无法上传的问题，虽然有些编译出来的应用能够上传，但只是凑巧罢了，因为设置监听时间按正常流程必须要 早于触发事件](https://github.com/flyskywhy/react-native-aliyun-oss/commit/eb68565636f4e0276cdd8a234a44d962e46481ed)
+
+### Keyboard
+当键盘出现时，可以调整一下页面布局以更美观。参考 [Comment.js](https://github.com/soliury/noder-react-native/blob/master/src/layouts/Comment.js) 中如下语句调整组件高度的方式：
+```
+    Keyboard.addListener('keyboardDidShow', this.updateKeyboardSpace.bind(this))
+...
+  updateKeyboardSpace (e) {
+    LayoutAnimation.configureNext(animations.keyboard.layout.spring)
+    this.commentsView && this.commentsView.setNativeProps({
+      style: {
+        height: commentsHeight - e.endCoordinates.height
+      }
+    })
+  }
+```
