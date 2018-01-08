@@ -5,6 +5,10 @@ Li Zheng <flyskywhy@gmail.com>
 ## 变量
 申明变量时必须加 var (或 let)关键字。虽然 JavaScript 允许不加 var 关键字而成为全局变量，但这经常会引发 BUG 。
 
+对于不需要变动的变量或者对象，统一使用 const 关键字，而不是 let (或 var)，let (或 var)因为可以修改，如果在其他地方无意中修改了该变量或者对象而导致 BUG ，需要花大量时间查找 BUG ， const 因为不能修改所以没有这个烦恼。
+
+需要变动的变量或者对象，建议使用 let 代替 var 。
+
 ## 对象
 使用对象展开运算符 ... 复制对象:
 ```
@@ -138,8 +142,12 @@ render
 ```
 eslint rules: [react/sort-comp](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/sort-comp.md)
 
-### fiber
-从 react-native 0.44.0 开始使用的 react 16 ，采用了比线程还要精细的 fiber （纤程或者说协程），据说大大提高了性能，不过呢，参考 [React Fiber是什么](https://zhuanlan.zhihu.com/p/26027085) 中所说“只剩下componentWillMount和componentWillUpdate这两个函数往往包含副作用，所以当使用React Fiber的时候一定要重点看这两个函数的实现”，因此编写代码时也要注意保证这两个函数被重复调用时不会产生副作用。
+### Fiber 架构
+从 react-native 0.44.0 开始使用了 react 16 ，计算机系统架构中 Fiber 是比线程还要精细的纤程(或者说协程)， react 16 中的 Fiber 和系统架构中的 Fiber 不一样，指的是对渲染过程精细的调整，类似于操作系统中进程调度的分片，据说大大提高了性能，不过 Fiber 会导致 render 之前的生命周期可能被调用数次，参考 [React Fiber是什么](https://zhuanlan.zhihu.com/p/26027085) 中所说“只剩下componentWillMount和componentWillUpdate这两个函数往往包含副作用，所以当使用React Fiber的时候一定要重点看这两个函数的实现”，因此编写代码时也要注意保证这两个函数被重复调用时不会产生副作用。
+
+Fiber 架构是为了解决之前 React 存在的问题而提出来：
+* 问题1，之前 React 渲染是一个同步的动作，当组件庞大时，渲染时间比较长，因为是同步的，无法被打断，所以在这过程中的其他操作都是没有反应的。
+* 问题2，之前 React 所有的渲染没有优先级可言，导致 React 逮住哪个组件就渲染哪个。
 
 ### setState
 不应在 render() 中调用比如 this.setState({foo: bar}) ，而只是在 render() 中使用别的地方设置好的数据比如 this.state.foo ，否则会出现 “Warning: Cannot update during an existing state transition (such as within `render` or another component's constructor). Render methods should be a pure function of props and state; constructor side-effects are an anti-pattern, but can be moved to `componentWillMount`.”
@@ -162,4 +170,123 @@ eslint rules: [react/sort-comp](https://github.com/yannickcr/eslint-plugin-react
       }
     })
   }
+```
+### Touchable 系列组件
+使用 Touchable 系列组件，如果进行 setState 时发现卡顿严重或者需要进行大量掉帧操作，可以使用以下方式解决卡顿问题：
+```
+    onPress =　() => {
+        requestAnimationFrame(() => {
+            // todo
+        });
+    }
+```
+### 无状态组件
+无状态组件是一个 render 方法，并没有组件类的实例过程，也没有实例返回。没有状态，没有生命周期，只有简单接受 props 渲染成 DOM 结构，有简单、便捷、高效等诸多优点，如果可能，尽量使用无状态组件。
+
+构造方法1：
+```
+    const HiTitle = (props) => (
+        <Text>
+            {props.title}
+        </Text>
+    )
+```
+构造方法2：
+```
+    const HiTitle = (props) => {
+        const {
+            title
+        } = props;
+        return (
+            <Text>
+                {title}
+            </Text
+        );
+    }
+```
+无状态组件既然可以接收 props ，那么也就可以设置 propTypes 和 defaultProps
+```
+    HiTitle.propTypes = {title: PropTypes.string}
+    HiTitle.defaultProps = {title: 'stateless component'}
+```
+使用：
+```
+    <HiTitle />
+```
+### react-v16 render 可以返回数组和字符串
+* 返回数组
+
+例子：
+```
+        const RenderMultiple = () => [
+            <Text> 11111</Text>,
+            <Text> 22222</Text>,
+            <Text> 33333</Text>
+        ];
+```
+使用：
+```
+        <RenderMultiple />
+```
+* 返回字符串
+
+例子:
+```
+        const RenderString = () => 'Hello world';
+```
+使用：
+```
+        <Text>
+            <RenderString />
+        </Text>
+```
+* 返回字符串数组
+
+例子:
+```
+        const RenderArrayOfString = () => [
+          'A',
+          'B',
+          'C'
+        ];
+```
+调用:
+```
+        <Text>
+            <RenderArrayOfString />
+        </Text>
+```
+* 返回数组的数组(二维数组)
+
+例子:
+```
+        const RenderArrayOfArray = () => [
+          [
+            <Text>S1</Text>,
+            <Text>S2</Text>,
+          ],
+          [
+            <Text>What</Text>,
+            <Text>Ever</Text>,
+          ]
+        ];
+```
+调用:
+```
+        <RenderArrayOfArray />
+```
+* 如果返回数组时报警告说需要一个不相等的 key ，则要么在 props 中添加 key ，要么通过以下代码避免这个警告
+
+例子:
+```
+        const Wrap = (props) => props.children;
+        const WrapContainer = () => (
+        <Wrap>
+           <Text>hello</Text>
+           <Text>world</Text>
+        </Wrap>
+```
+使用:
+```
+        <WrapContainer />
 ```
