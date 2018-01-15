@@ -321,7 +321,7 @@ $ sudo service docker start
 如果 docker pull 时碰到 timeout ，那是因为墙引起的 DockerHub 网络不稳定，多试几次就好了，或者换到国内的源比如 DaoCloud
 
 ### VirtualBox executor
-可以用来在虚拟机中的 macOS 中编译 iOS APP ？
+可以用来在虚拟机中的 macOS 中编译 iOS APP ，参见 [ReactNative项目中命令行编译iOS版的方法](../../编程语言/JavaScript/ReactNative项目中命令行编译iOS版的方法.md) 。实际使用中发现用 `Shell executor` 连接持续开启中的 macOS 虚拟机也是挺方便的。
 
 ### 将 Runner 运行在 docker 中
 按照 [Run GitLab Runner in a container](http://docs.gitlab.com/runner/install/docker.html) 所说，如果你的项目的确有这个需求，你甚至能将 Runner 本身运行在 docker 中！
