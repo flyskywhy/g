@@ -97,6 +97,13 @@ Array 是可以 .length 的，所以使用 for( of ) 或者 for(;;) 皆可。
 
 上面的 * 1 也可以用 / 1 代替，或者用 parseInt() 也是另一种标准做法。
 
+## npm
+避免将 package-lock.json 放入 git 仓库中，而仍然通过去掉 package.json 中的 ^ 或 ~ 符号的方式来固定版本，原因如下：
+
+* node8.x 自带的 npm （比如 npm5.5.1）存在无法配合 package-lock.json 完成 `npm install` 的情况，参见 [NPM Cannot read property '0' of undefined](https://stackoverflow.com/questions/46619949/npm-cannot-read-property-0-of-undefined) 。
+* 有的项目成员会使用 npm 自带的仓库，有的会使用淘宝的镜像仓库，导致 package-lock.json 这个同时也记录着仓库地址的巨大文件实际上难以解决合并冲突，而且会使 ~/.npm 目录中存在大量重复的缓存文件而白白占用硬盘空间。
+* 不使用 yarn 及其 yarn.lock 的原因，是因为每次运行 yarn 命令就会将 node_modules 干干净净地重置一遍，的确很 lock ，但是实际项目开发过程中项目成员常常会实验性地修改 node_modules 中的某个第三方组件，有时也会用 `npm postinstall` 对一些第三方组件打补丁，而且有时因为中国网络环境的原因，需要手动到第三方组件中添加一些自动安装过程中没有从比如亚马逊网站上下载的压缩包，所以 yarn 的这个“干净”功能反而会带来很多繁琐的重复操作。
+
 ## React
 ### 方法顺序
 继承 React.Component 的类的方法遵循下面的顺序：
