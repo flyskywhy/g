@@ -375,3 +375,36 @@ gitlab 默认是 http 的，如果想开启 https ，首先需要比如到 [阿�
 最后 `sudo gitlab-ctl reconfigure` 即可。
 
 最后的最后，如果之前配置过 Runner ，则还需到 Runner 的服务器上将 `/etc/gitlab-runner/config.toml` 文件里的 url 修改为 https 的并 `sudo gitlab-runner restart` 即可。
+
+# npm install
+如果托管在 gitlab 中的仓库想要被 `npm install` 安装，比如 `npm install git+https://gitlab.your-company.com/github/flyskywhy/react-web.git#5856028` ，则需要在 gitlab 网页上设置该仓库 `Settings | General | Project Visibility` 为 `Public` 。否则会报例如如下错误：
+
+    npm ERR! fatal: Authentication failed for 'https://gitlab.your-company.com/github/flyskywhy/react-web.git/'
+
+# 403 Forbidden
+如果未经授权访问 gitlab 上的仓库超过默认的 10 次（ `/etc/gitlab/gitlab.rb` 中 maxretry 为 10 ），比如前述 `npm install` 出错超过 10 次，则会无法访问 gitlab 一小时。解决的方法是临时修改 `/etc/gitlab/gitlab.rb` 中的
+```
+# gitlab_rails['rack_attack_git_basic_auth'] = {
+    # Rack Attack IP banning enabled
+#   'enabled' => true,
+    # Whitelist requests from 127.0.0.1 for web proxies (NGINX/Apache) with incorrect headers
+#   'ip_whitelist' => ["127.0.0.1"],
+    # Limit the number of Git HTTP authentication attempts per IP
+#   'maxretry' => 10,
+    # Reset the auth attempt counter per IP after 60 seconds
+#   'findtime' => 60,
+    # Ban an IP for one hour (3600s) after too many auth attempts
+#   'bantime' => 3600
+# }
+```
+为
+```
+ gitlab_rails['rack_attack_git_basic_auth'] = {
+   'enabled' => false,
+#   'ip_whitelist' => ["127.0.0.1"],
+#   'maxretry' => 10,
+#   'findtime' => 60,
+#   'bantime' => 3600
+ }
+```
+然后 `sudo gitlab-ctl reconfigure` ，确认可以访问 gitlab 了，再修改回来后 `sudo gitlab-ctl reconfigure` 即可。
