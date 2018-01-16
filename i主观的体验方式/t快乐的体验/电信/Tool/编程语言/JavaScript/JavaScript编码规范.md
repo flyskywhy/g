@@ -218,58 +218,58 @@ Fiber 架构是为了解决之前 React 存在的问题而提出来：
 
 例子：
 ```
-        const RenderMultiple = () => [
-            <Text> 11111</Text>,
-            <Text> 22222</Text>,
-            <Text> 33333</Text>
-        ];
+    const RenderMultiple = () => [
+        <Text> 11111</Text>,
+        <Text> 22222</Text>,
+        <Text> 33333</Text>
+    ];
 ```
 使用：
 ```
-        <RenderMultiple />
+    <RenderMultiple />
 ```
 * 返回字符串
 
 例子:
 ```
-        const RenderString = () => 'Hello world';
+    const RenderString = () => 'Hello world';
 ```
 使用：
 ```
-        <Text>
-            <RenderString />
-        </Text>
+    <Text>
+        <RenderString />
+    </Text>
 ```
 * 返回字符串数组
 
 例子:
 ```
-        const RenderArrayOfString = () => [
-          'A',
-          'B',
-          'C'
-        ];
+    const RenderArrayOfString = () => [
+      'A',
+      'B',
+      'C'
+    ];
 ```
 调用:
 ```
-        <Text>
-            <RenderArrayOfString />
-        </Text>
+    <Text>
+        <RenderArrayOfString />
+    </Text>
 ```
 * 返回数组的数组(二维数组)
 
 例子:
 ```
-        const RenderArrayOfArray = () => [
-          [
-            <Text>S1</Text>,
-            <Text>S2</Text>,
-          ],
-          [
-            <Text>What</Text>,
-            <Text>Ever</Text>,
-          ]
-        ];
+    const RenderArrayOfArray = () => [
+      [
+        <Text>S1</Text>,
+        <Text>S2</Text>,
+      ],
+      [
+        <Text>What</Text>,
+        <Text>Ever</Text>,
+      ]
+    ];
 ```
 调用:
 ```
@@ -279,14 +279,14 @@ Fiber 架构是为了解决之前 React 存在的问题而提出来：
 
 例子:
 ```
-        const Wrap = (props) => props.children;
-        const WrapContainer = () => (
-        <Wrap>
-           <Text>hello</Text>
-           <Text>world</Text>
-        </Wrap>
+    const Wrap = (props) => props.children;
+    const WrapContainer = () => (
+    <Wrap>
+       <Text>hello</Text>
+       <Text>world</Text>
+    </Wrap>
 ```
 使用:
 ```
-        <WrapContainer />
+    <WrapContainer />
 ```
