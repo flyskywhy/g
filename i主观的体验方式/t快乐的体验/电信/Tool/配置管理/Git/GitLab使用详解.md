@@ -83,8 +83,35 @@ gitlab 用的 web 服务程序是 nginx ，如果占用 80 端口的其它程序
 # 安全
 作为内部使用的 Git 仓库，安全是非常重要的，因此要及时用 root 账户进入比如 [http://192.x.x.7:8788/admin/application_settings](http://192.x.x.7:8788/admin/application_settings) 进行分支保护程度、仓库可见程度、用户注册是否发送确认邮件等等默认全局设置。后续特定 Project 的分支保护程度和仓库可见程度可分别到 `Settings > Repository > Protected Branches` 和 ` Settings > General` 中去设置，比如纯文档类的仓库，就没必要进行 Merge Request 了，每个开发人员无需 Fork 到自己名下，而是直接在原仓库的 gitlab 网页上修改，这种情况下只要到 `Settings > Repository > Protected Branches` 中 `Unprotect` ，并且在 Group 的 `Members` 或 Project 的 `Settings > Members` 中显式地将允许修改的开发人员至少添加为 Developer 即可。
 
+# 备份恢复迁移
+参考了 [Gitlab配置、备份、升级、迁移](http://www.cnblogs.com/lidong94/p/7161717.html) 一文，备份方法是：
+
+    sudo gitlab-rake gitlab:backup:create
+
+其会在 `/var/opt/gitlab/backups` 目录下创建一个名称类似为 `1516244351_2018_01_18_9.3.2_gitlab_backup.tar` 的压缩包。
+
+恢复方法例如：
+
+    sudo gitlab-rake gitlab:backup:restore BACKUP=1516244351
+
+迁移如同备份与恢复的步骤一样，只需要将老服务器 `/var/opt/gitlab/backups` 目录下的备份文件复制到新服务器上的 `/var/opt/gitlab/backups` 即可，但是需要注意的是新服务器上的 gitlab 的版本必须与创建备份时的 gitlab 版本号相同。
+
+# 升级
+gitlab 公司每个月 22 日都会发布升级包，参考 [Updating GitLab via omnibus-gitlab](https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/update/README.md) 和 [Upgrading without downtime](https://docs.gitlab.com/ce/update/README.html#upgrading-without-downtime) ，只要安装 gitlab 时用的是 PostgreSQL ，然后每次只升级一个中间的 minor 版本号，比如从 gitlab 9.3.2 升级到 9.4.0 或是 9.4.7 之类的，而不是直接升级到 9.5.0，那么我们的 gitlab 就可以做到无需关停（当然在运行 `gitlab-ctl reconfigure` 的几十秒内会无法访问）就能升级。
+
+在 [APT/YUM repository for GitLab Community Edition packages])https://packages.gitlab.com/gitlab/gitlab-ce) 上确认自己想升级的版本号，比如 9.4.0-ce.0 ，然后具体升级流程如下：
+
+    sudo apt-get update
+    sudo gitlab-rake gitlab:backup:create    # 进行备份操作，非必需
+    sudo touch /etc/gitlab/skip-auto-migrations
+    sudo apt-get install gitlab-ce=9.4.0-ce.0
+    sudo SKIP_POST_DEPLOYMENT_MIGRATIONS=true gitlab-ctl reconfigure
+    sudo gitlab-rake db:migrate
+
 # 配置
-由于 gitlab-ce 内含了 redis 、 nginx 等等各种第三方软件包（被安装在 `/opt/gitlab/embedded/` ），所以可以按需在 `/etc/gitlab/gitlab.rb` 中进行配置，详见 [https://docs.gitlab.com/omnibus/settings/configuration.html](https://docs.gitlab.com/omnibus/settings/configuration.html) 。由于 gitlab 每个月 22 日都会升级，所以每次 [Updating GitLab via omnibus-gitlab](https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/update/README.md) 升级后需要 `sudo gitlab-ctl diff-config` 看看是否有最新的配置需要人工添加到 `/etc/gitlab/gitlab.rb` 中。
+gitlab-ce 内含了 redis 、 nginx 等等各种第三方软件包（被安装在 `/opt/gitlab/embedded/` ），可以按需在 `/etc/gitlab/gitlab.rb` 中进行配置，详见 [https://docs.gitlab.com/omnibus/settings/configuration.html](https://docs.gitlab.com/omnibus/settings/configuration.html) 。
+
+由 [Checking for newer configuration options on upgrade](https://docs.gitlab.com/omnibus/package-information/README.html#checking-for-newer-configuration-options-on-upgrade) 可知，在首次安装 gitlab 时会自动生成 `/etc/gitlab/gitlab.rb` 文件，后续升级 gitlab 时则不会自动修改该文件，这是为了避免升级过程不小心覆盖用户配置。这样也是能正常运行升级后的 gitlab 的。可以通过 `sudo gitlab-ctl diff-config` 来查看自己的配置与原始版本 `/opt/gitlab/etc/gitlab.rb.template` 的区别，如果追求完美的，可以将两者手工合并为新的 `/etc/gitlab/gitlab.rb` 。
 
 # 启停
 每次修改配置后，需要 `sudo gitlab-ctl reconfigure` 来启动。
