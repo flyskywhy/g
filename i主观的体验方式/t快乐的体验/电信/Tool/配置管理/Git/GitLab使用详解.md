@@ -99,7 +99,7 @@ gitlab 用的 web 服务程序是 nginx ，如果占用 80 端口的其它程序
 # 升级
 gitlab 公司每个月 22 日都会发布升级包，参考 [Updating GitLab via omnibus-gitlab](https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/update/README.md) 和 [Upgrading without downtime](https://docs.gitlab.com/ce/update/README.html#upgrading-without-downtime) ，只要安装 gitlab 时用的是 PostgreSQL ，然后每次只升级一个中间的 minor 版本号，比如从 gitlab 9.3.2 升级到 9.4.0 或是 9.4.7 之类的，而不是直接升级到 9.5.0，那么我们的 gitlab 就可以做到无需关停（当然在运行 `gitlab-ctl reconfigure` 的几十秒内会无法访问）就能升级。
 
-在 [APT/YUM repository for GitLab Community Edition packages])https://packages.gitlab.com/gitlab/gitlab-ce) 上确认自己想升级的版本号，比如 9.4.0-ce.0 ，然后具体升级流程如下：
+在 [APT/YUM repository for GitLab Community Edition packages](https://packages.gitlab.com/gitlab/gitlab-ce) 上确认自己想升级的版本号，比如 9.4.0-ce.0 ，然后具体升级流程如下：
 
     sudo apt-get update
     sudo gitlab-rake gitlab:backup:create    # 进行备份操作，非必需
