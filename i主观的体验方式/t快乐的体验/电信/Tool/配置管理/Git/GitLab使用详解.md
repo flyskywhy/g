@@ -345,7 +345,9 @@ $ sudo service docker stop
 $ sudo service docker start
 ```
 
-如果 docker pull 时碰到 timeout ，那是因为墙引起的 DockerHub 网络不稳定，多试几次就好了，或者换到国内的源比如 DaoCloud
+如果 docker pull 时碰到 timeout ，那是因为墙引起的 DockerHub 网络不稳定，多试几次就好了，或者换到国内的源比如 DaoCloud ，或者直接按照 [How pull policies work](https://docs.gitlab.com/runner/executors/docker.html#how-pull-policies-work) 中所说，在 `/etc/gitlab-runner/config.toml` 文件里 `[runners.docker]` 小节中添加
+
+    pull_policy = "never"
 
 ### VirtualBox executor
 可以用来在虚拟机中的 macOS 中编译 iOS APP ，参见 [ReactNative项目中命令行编译iOS版的方法](../../编程语言/JavaScript/ReactNative项目中命令行编译iOS版的方法.md) 。实际使用中发现用 `Shell executor` 连接持续开启中的 macOS 虚拟机也是挺方便的。
