@@ -51,6 +51,13 @@ echo export PULSE_SERVER=tcp:localhost >> ~/.bashrc
 ## Windows 防火墙
 由于 Windows 的防火墙无法自动在 WSL 中的 Linux 开启端口时弹出对话框让用户选择是否允许，所以在 Ubuntu 中开启的服务，只有 Ubuntu 或 Win10 本机才能访问该服务的端口，其它主机也来访问的方法参见 [React使用详解](../../Tool/编程语言/JavaScript/React使用详解.md) 中 packager server 的例子。
 
+## 腾讯 WeGame 导致无法监听端口
+如果安装了腾讯 WeGame 且发现 Ubuntu 中服务的监听端口（就算在本机也）不起作用，则按照 [这位自称 WeGame 开发团队人员所说](https://github.com/Microsoft/WSL/issues/1554#issuecomment-356542961) ，需做如下操作：
+
+    下载安装最新版 [wegame](https://wegame.com)
+    在 wegame 的安装目录比如 `C:\Program Files\WeGame` 中新建一个空文件 `UseNewDriver.cfg`
+    删除 `system32/drivers/QMTgpNetFlow764.sys` 并重启电脑
+
 ## 中文字体支持
 虽然默认的命令行界面用比如 `ls` 命令可以看到中文，但是在图形软件比如 gitk 中只能看到方块，此时就需要安装中文字体：
 
