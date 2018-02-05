@@ -13,7 +13,7 @@ Li Zheng <flyskywhy@gmail.com>
 参考 [noder-react-native](https://github.com/flyskywhy/noder-react-native) 的 package.json ，在 scripts 一节中添加如下内容：
 
     "e2e-update-server-web": "webdriver-manager update --versions.standalone=3.7.1 --versions.gecko=v0.18.0",
-    "e2e-server-web": "webdriver-manager start --versions.standalone=3.7.1 --versions.gecko=v0.18.0",
+    "e2e-server-web": "touch node_modules/webdriver-manager/selenium/standalone-response.xml; touch node_modules/webdriver-manager/selenium/chrome-response.xml; webdriver-manager start --versions.standalone=3.7.1 --versions.gecko=v0.18.0",
     "e2e-web": "codeceptjs run",
     "e2e-server-native": "appium",
     "e2e-android": "codeceptjs run --profile=android",
