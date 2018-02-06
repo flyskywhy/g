@@ -297,3 +297,50 @@ Fiber 架构是为了解决之前 React 存在的问题而提出来：
 ```
     <WrapContainer />
 ```
+
+### shouldComponentUpdate
+自定义 Test组件
+```
+    调用情况 1 ： <Test style={styles.test}/>
+    调用情况 2 ： <Test style={{backgroundColor: 'red', width: 20, height: 20}}/>
+    调用情况 3 ： <Test style={[{backgroundColor: 'red'}, {width: 20, height: 20}]}/>
+    调用情况 4 ： const style = {backgroundColor: 'red', width: 20, height: 20}; 写在 render 方法内部， <Test style={styles}/>
+    调用情况 5 ： const style = {backgroundColor: 'red', width: 20, height: 20}; 写在 class 类外部， <Test style={styles}/>
+    调用情况 6 ： const this.style = {backgroundColor: 'red', width: 20, height: 20}; 写在 render 方法内部， <Test style={this.styles}/>
+    调用情况 7 ： const this.style = {backgroundColor: 'red', width: 20, height: 20}; 写在 constructor 方法内部， <Test style={this.style}/>
+```
+情景 1 ： Test 组件继承自 PureComponent
+```
+    调用情况 1 ：父组件重新 render，不会触发 Test 组件重新 render
+    调用情况 2 ：父组件重新 render，会触发 Test 组件重新 render
+    调用情况 3 ：父组件重新 render，会触发 Test 组件重新 render
+    调用情况 4 ：父组件重新 render，会触发 Test 组件重新 render
+    调用情况 5 ：父组件重新 render，不会触发 Test 组件重新 render
+    调用情况 6 ：父组件重新 render，会触发 Test 组件重新 render
+    调用情况 7 ：父组件重新 render，不会触发 Test 组件重新 render
+```
+情景 2 ： Test 组件继承自 Component
+```
+    上述 7 种调用情况，父组件重新 render，都会触发 Test 组件重新 render
+```
+情景 3 ： Test 组件继承自 BaseComponent
+```
+import React, {
+    Component
+} from 'react';
+import Immutable from 'immutable';
+
+class BaseComponent extends Component {
+
+    shouldComponentUpdate(nextProps, nextState = {}) {
+        return !Immutable.is(Immutable.fromJS(this.props), Immutable.fromJS(nextProps))
+        || !Immutable.is(Immutable.fromJS(this.state), Immutable.fromJS(nextState));
+    }
+}
+
+export default BaseComponent;
+```
+```
+    上述 7 种调用情况，父组件重新 render，都不会触发 Test 组件重新 render
+```
+总结： shouldComponentUpdate 返回 true ，表示该组件需要重新 render ，反之不需要。 PureComponent 中重写了 shouldComponentUpdate ，内部实现是一个浅比较——普通数据类型比较内容、 object 类型数据比较地址。 BaseComponent 中重写了 shouldComponentUpdate ，利用 Immutable 实现每个字段值的比较。
