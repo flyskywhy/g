@@ -207,7 +207,7 @@ Fiber 架构是为了解决之前 React 存在的问题而提出来：
         return (
             <Text>
                 {title}
-            </Text
+            </Text>
         );
     }
 ```
