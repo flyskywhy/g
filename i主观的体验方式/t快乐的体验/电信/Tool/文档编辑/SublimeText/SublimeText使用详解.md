@@ -58,7 +58,7 @@ Nodejs 代码会包含一个自动下载的包含了许多许多文件的 node_m
 ## 在 Package Control 中安装 SublimeLinter-contrib-eslint
 由于 eslint 相比 jshint 多出了对最新代码格式比如 React 的支持，所以推荐安装 eslint 。
 
-安装好 SublimeLinter-contrib-eslint 之后，还需如下操作：
+安装好 SublimeLinter-contrib-eslint 之后，如果是还不存在规则文件 `.eslintrc` 的新项目，则还需如下操作：
 
 ### 实际项目中使用的复杂规则文件
 在源代码目录中安装 eslint 可执行文件：
@@ -72,7 +72,9 @@ Nodejs 代码会包含一个自动下载的包含了许多许多文件的 node_m
 
     npm install -g eslint
 
-然后在`Tools | SublimeLinter`临时把`Lint Mode`设定为`Load/save`，这样做以后，就可以在`Preferences | Package Settings | SublimeLinter | Settings - User`中看到一个完整的配置参数，在这些参数中的 `paths` 处设定好 eslint 可执行文件的所在路径比如在 `windows` 处添加 `"D:\\node\\bin"` ，最后把`Lint Mode`改回为`Background`。
+如果不存在 `/usr/bin/node` ，则还需比如
+
+    sudo ln -s ~/.nvm/v8.9.3/bin/node /usr/bin/node
 
 ### 简单规则文件示例
 在源代码目录中安装 eslint 可执行文件：
