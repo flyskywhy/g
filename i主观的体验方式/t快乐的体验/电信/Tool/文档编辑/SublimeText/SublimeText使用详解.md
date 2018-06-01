@@ -3,7 +3,7 @@ Li Zheng <flyskywhy@gmail.com>
 # Sublime Text 使用详解
 
 ## 安装 Sublime Text
-Sublime Text 在 [www.sublimetext.com](www.sublimetext.com) 上可以免费下载，而且运行时只会偶尔提示一下注册，并不影响免费使用。
+Sublime Text 在 [www.sublimetext.com](http://www.sublimetext.com) 上可以免费下载，而且运行时只会偶尔提示一下注册，并不影响免费使用。
 
 在 Ubuntu 上还可以用如下简便的方法进行安装：
 
