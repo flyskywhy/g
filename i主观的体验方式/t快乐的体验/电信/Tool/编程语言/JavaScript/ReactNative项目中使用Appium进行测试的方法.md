@@ -27,7 +27,7 @@ Li Zheng <flyskywhy@gmail.com>
 
     npm install -g appium
 
-如果因为在中国而无法完成这个命令，可考虑 [node_modules-appium](https://github.com/flyskywhy/node_modules-appium) 。
+如果因为在中国而无法完成这个命令，可考虑 `git clone https://github.com/flyskywhy/node_modules-appium` ，然后把 clone 下来的 `node_modules-appium/` 移动到 node 安装目录成为 `lib/node_modules/appium/` ，再进入 node 安装目录的 `bin` 中运行 `ln -s ../lib/node_modules/appium/build/lib/main.js appium` 。
 
 运行如下命令以安装 Selenium
 
@@ -56,7 +56,7 @@ Li Zheng <flyskywhy@gmail.com>
 ### 图形界面
 除了命令行方式，也可以看看 Appium 的 desktop application 图形界面的方式是否足够适用，详见 https://github.com/appium/appium-desktop （Windows 版的 Appium 图形界面程序可以在 https://github.com/appium/appium-desktop/releases 下载）。
 
-## 启动
+## 本地测试
 ### Android
 1、用比如 [noder-react-native](https://github.com/flyskywhy/noder-react-native) 的 package.json 中的 `npm run android` 编译出 apk 并连接 Android 真机或启动 Android 模拟器，以及视情况而定的 `npm start` ；
 
@@ -71,6 +71,20 @@ Li Zheng <flyskywhy@gmail.com>
 
 3、用 `npm run e2e-web` 启动 CodeceptJS 客户端，其会自动用电脑上的浏览器打开 `codecept.conf.js` 中的 `helpers.WebDriverIO.url` 并测试 `tests` 所指定的测试用例文件。
 
+## 远程测试
+Appium 支持远程测试，这样就可以让一台电脑连着一台手机作为 Appium 服务端，然后另一台电脑（一般是持续集成 CI 系统）作为 CodeceptJS 客户端。具体操作也很简洁：
+
+在手机系统设置的开发者选项中关闭“监控 ADB 安装应用”，以免每次换一个 apk 时需要手动点击手机屏幕上的“安装”按钮。
+
+在服务端的项目目录中运行一次 `mkdir -p android/app/build/outputs/apk/`，然后运行 `npm run e2e-server-native` 即可。
+
+在客户端的项目目录的 `android/app/build/outputs/apk/` 中放置待测试的 `app-release.apk` （请确保 `codecept.conf.js` 中写的也是 `app-release.apk` ），然后运行 `package.json` 中的这个 script 以便将 apk 复制到服务端：
+
+    "e2e-android-remote-prepare": "sshpass -p 服务端登录密码 scp -o StrictHostKeyChecking=no ./android/app/build/outputs/apk/app-release.apk 服务端登录帐号@服务端地址:~/项目目录/android/app/build/outputs/apk/app-release.apk"
+
+最后运行这个 script 进行测试：
+
+    "e2e-android-remote": "codeceptjs run --profile=android --override '{\"helpers\": {\"Appium\": {\"host\": \"服务端地址\"}}}'",
 
 ## 用例编写
 因为 [testID 不支持 Android](https://github.com/facebook/react-native/pull/9942) 以及统一 Android 、 iOS 和 Web 的测试用例的需要，所以在产品组件中添加 accessibilityLabel 属性最合适，然后在测试用例中用 `~` 来定位该组件。
