@@ -78,13 +78,17 @@ Appium 支持远程测试，这样就可以让一台电脑连着一台手机作�
 
 在服务端的项目目录中运行一次 `mkdir -p android/app/build/outputs/apk/`，然后运行 `npm run e2e-server-native` 即可。
 
-在客户端的项目目录的 `android/app/build/outputs/apk/` 中放置待测试的 `app-release.apk` （请确保 `codecept.conf.js` 中写的也是 `app-release.apk` ），然后运行 `package.json` 中的这个 script 以便将 apk 复制到服务端：
+在客户端的项目目录的 `./android/app/build/outputs/apk/` 中放置待测试的 `app-release.apk` ，然后运行 `package.json` 中的这个 script 以便将 apk 复制为服务端的 `./android/app/build/outputs/apk/app-release.apk` （因为稍后客户端在 `e2e-android-remote` 中会向服务端发送写在客户端 `codecept.conf.js` 中的 `./android/app/build/outputs/apk/app-release.apk` 这个信息，然后服务端会根据这个信息在服务端找这个文件 ） ：
 
     "e2e-android-remote-prepare": "sshpass -p 服务端登录密码 scp -o StrictHostKeyChecking=no ./android/app/build/outputs/apk/app-release.apk 服务端登录帐号@服务端地址:~/项目目录/android/app/build/outputs/apk/app-release.apk"
 
 最后运行这个 script 进行测试：
 
     "e2e-android-remote": "codeceptjs run --profile=android --override '{\"helpers\": {\"Appium\": {\"host\": \"服务端地址\"}}}'",
+
+哦……好吧，为了照顾 Windows 用户，这个 script 也可以调整为：
+
+    "e2e-android-remote": "codeceptjs run --profile=android --override \"{\\\"helpers\\\": {\\\"Appium\\\": {\\\"host\\\": \\\"服务端地址\\\"}}}\"",
 
 ## 用例编写
 因为 [testID 不支持 Android](https://github.com/facebook/react-native/pull/9942) 以及统一 Android 、 iOS 和 Web 的测试用例的需要，所以在产品组件中添加 accessibilityLabel 属性最合适，然后在测试用例中用 `~` 来定位该组件。
