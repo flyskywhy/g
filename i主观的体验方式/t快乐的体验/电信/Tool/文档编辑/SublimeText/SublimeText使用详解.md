@@ -55,28 +55,21 @@ Nodejs 代码会包含一个自动下载的包含了许多许多文件的 node_m
 ## 在 Package Control 中安装 SublimeLinter
 这是使用各种语言的 lint 工具前需要安装的基础插件。
 
-## 在 Package Control 中安装 SublimeLinter-contrib-eslint
+## 在 Package Control 中安装 SublimeLinter-eslint
 由于 eslint 相比 jshint 多出了对最新代码格式比如 React 的支持，所以推荐安装 eslint 。
 
-安装好 SublimeLinter-contrib-eslint 之后，如果是还不存在规则文件 `.eslintrc` 的新项目，则还需如下操作：
+安装好 SublimeLinter-eslint 之后，如果是还不存在规则文件 `.eslintrc` 的新项目，则还需如下添加复杂/简单规则文件的操作：
 
-### 实际项目中使用的复杂规则文件
+* 实际项目中使用的复杂规则文件
+
 在源代码目录中安装 eslint 可执行文件：
 
     npm install --save-dev babel-eslint eslint eslint-plugin-react
 
 从 https://github.com/flyskywhy/noder-react-native 中复制 `.eslintrc` 文件到源代码目录。
 
-### 解决规则文件没起作用的问题
-这可能是 eslint 的一个 BUG ，解决的方法是再额外全局安装一下 eslint
+* 简单规则文件示例
 
-    npm install -g eslint
-
-如果不存在 `/usr/bin/node` ，则还需比如
-
-    sudo ln -s ~/.nvm/v8.9.3/bin/node /usr/bin/node
-
-### 简单规则文件示例
 在源代码目录中安装 eslint 可执行文件：
 
     npm install --save-dev eslint eslint-plugin-jsx-a11y eslint-config-airbnb eslint-plugin-import eslint-plugin-react
@@ -93,20 +86,14 @@ Nodejs 代码会包含一个自动下载的包含了许多许多文件的 node_m
 
 这里选择 AirBnB 是因为 airbnb 的 [react 开发代码规范](https://github.com/airbnb/javascript/tree/master/react) 得到了许多开发者的点赞。
 
-## 在 Package Control 中安装 SublimeLinter-jshint
-安装好 SublimeLinter-jshint 之后，还需如下操作：
+### 解决规则文件没起作用的问题
+这可能是 eslint 的一个 BUG ，解决的方法是再额外全局安装一下 eslint
 
-安装 jshint 可执行文件：
+    npm install -g eslint
 
-    npm install -g jshint
+如果不存在 `/usr/bin/node` ，则还需
 
-在源代码目录中建立`.jshintrc`文件，文件内容示例：
-
-    {
-        "esversion": 6
-    }
-
-然后如前所述在 `paths` 处设定好 jshint 可执行文件的所在路径。
+    sudo ln -s `which node` /usr/bin/node
 
 ## 在 Package Control 中安装 Color Highlighter
 这样就可以直观地在 `.css` 文件中 `color:` 的十六进制数值上通过左键单击看到颜色，还可以在右键菜单中选择颜色。
