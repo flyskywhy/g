@@ -1,18 +1,18 @@
 Li Zheng <flyskywhy@gmail.com>
 
-# Gitlab 自动部署 nodejs 应用到阿里云 Kubernetes 集群中
+# gitlab 自动部署 nodejs 应用到阿里云 Kubernetes 集群中
 使用 ECS 部署的基本步骤：将程序复制到 ECS 某个目录中然后发命令给 ECS 启动程序。
 
 使用 K8S 部署的基本步骤：将程序制作为 docker 镜像并复制到阿里云镜像仓库中然后发命令给阿里云 Kubernetes 去取镜像并运行。
 
-考虑到 Gitlab 免费版 DevOps 自动部署模块最近新增的 Kubernetes 功能只支持一个 Kubernetes 集群，而任何版本的 Gitlab 中对 Kubernetes 的一些额外支持如 Kubernetes 应用市场等功能，与商业收费的阿里云 Kubernetes 产品中的功能重复，所以抛开 Gitlab 自带的 Kubernetes 功能，直接使用 kubectrl 命令行工具来连接 Gitlab 自动部署脚本和阿里云 Kubernetes 产品的方法最为低耦合、低费用，这里低耦合的意思是在保证 CI/CD 基本流程不变的情况下，随时切换其中的 ECS 或 K8S 部署，参见下图：
+考虑到 gitlab 免费版 DevOps 自动部署模块最近新增的 Kubernetes 功能只支持一个 Kubernetes 集群，而任何版本的 gitlab 中对 Kubernetes 的一些额外支持如 Kubernetes 应用市场等功能，与商业收费的阿里云 Kubernetes 产品中的功能重复，所以抛开 gitlab 自带的 Kubernetes 功能，直接使用 kubectrl 命令行工具来连接 gitlab 自动部署脚本和阿里云 Kubernetes 产品的方法最为低耦合、低费用，这里低耦合的意思是在保证 CI/CD 基本流程不变的情况下，随时切换其中的 ECS 或 K8S 部署，参见下图：
 ```
                   阿里云全站加速产品            负载均衡到 ECS 或 docker 中的
 浏览器 <======> 判断是否访问静态文件 <===n===> nginx 判断是否访问静态文件 <===n===> ECS 或 docker 中的后端进程
    ^                       |                     ^            ^                          ^
    |                      y|                     |           y|                          |
    |                       ⌄                     |            ⌄                          |
-   =======y======= CDN 是否已有缓存 <===n===========     阿里云 OSS 中的前端文件 <=== 运行 Gitlab 自动部署脚本
+   =======y======= CDN 是否已有缓存 <===n===========     阿里云 OSS 中的前端文件 <=== 运行 gitlab 自动部署脚本
 ```
 ## 在阿里云中开启容器仓库
 如果是用阿里云子帐号来操作容器仓库的，需要添加 [仓库访问控制](https://help.aliyun.com/document_detail/67992.html) 中描述的权限。
@@ -30,7 +30,7 @@ Li Zheng <flyskywhy@gmail.com>
 
 这里 "/srv/cache:/cache:rw" 意义详见 [GitLab使用详解](GitLab使用详解.md) ， "/var/run/docker.sock:/var/run/docker.sock" 意义在于让 docker container 内运行的 docker-cli 命令能够使用 container 外的主机的 docker 环境。
 
-在 Gitlab 自动部署脚本 `.gitlab-ci.yml` 文件中编写如下内容（其中为了加快部署速度和加密 JS 源代码，使用了 [nodec](https://github.com/pmq20/node-packer) 来将 `index.js` `node_modules/` 等等编译为单独一个可执行文件，选择 nodec 的原因见这里的讨论 [How to make exe files from a node.js app](https://stackoverflow.com/questions/8173232/how-to-make-exe-files-from-a-node-js-app)）：
+在 gitlab 自动部署脚本 `.gitlab-ci.yml` 文件中编写如下内容（其中为了加快部署速度和加密 JS 源代码，使用了 [nodec](https://github.com/pmq20/node-packer) 来将 `index.js` `node_modules/` 等等编译为单独一个可执行文件，选择 nodec 的原因见这里的讨论 [How to make exe files from a node.js app](https://stackoverflow.com/questions/8173232/how-to-make-exe-files-from-a-node-js-app)）：
 ```
 image: flyskywhy/java-nodejs:v8.3.0
 
@@ -117,7 +117,7 @@ server {
 
 参考 [Nginx Proxy_Pass to CDN vs hitting CDN directly. Pro's, Con's, Is it slower or are there negative effects on the server](https://stackoverflow.com/questions/9543068/nginx-proxy-pass-to-cdn-vs-hitting-cdn-directly-pros-cons-is-it-slower-or-a) 一文，为了避免前端静态文件从 oss 取出后还要流经占用 nginx 的资源来提供给浏览器，后续还会使用阿里云的 [全站加速](https://help.aliyun.com/product/64812.html) 来对静态资源进行 CDN 。 nginx 配合全站加速的好处是前后端访问的是同一个域名，而如果后端愿意开启跨域访问 CORS 功能来实现前后端访问不同域名需求的，则不使用 nginx 和全站加速而仅仅简单使用裸后端和普通 CDN 即可，这里不再赘述。
 
-前端静态文件由 Gitlab 自动部署脚本 `.gitlab-ci.yml` 自动生成并上传到 oss 中：
+前端静态文件由 gitlab 自动部署脚本 `.gitlab-ci.yml` 自动生成并上传到 oss 中：
 ```
 deploy-k8s-frontend:
   stage: deploy
