@@ -30,7 +30,7 @@ Li Zheng <flyskywhy@gmail.com>
 
 这里 "/srv/cache:/cache:rw" 意义详见 [GitLab使用详解](GitLab使用详解.md) ， "/var/run/docker.sock:/var/run/docker.sock" 意义在于让 docker container 内运行的 docker-cli 命令能够使用 container 外的主机的 docker 环境。
 
-在 gitlab 自动部署脚本 `.gitlab-ci.yml` 文件中编写如下内容（其中为了加快部署速度和加密 JS 源代码，使用了 [nodec](https://github.com/pmq20/node-packer) 来将 `index.js` `node_modules/` 等等编译为单独一个可执行文件，选择 nodec 的原因见这里的讨论 [How to make exe files from a node.js app](https://stackoverflow.com/questions/8173232/how-to-make-exe-files-from-a-node-js-app)）：
+在 gitlab 自动部署脚本 `.gitlab-ci.yml` 文件中编写如下内容（其中为了加快部署速度和加密 JS 源代码，使用了 [nodec](https://github.com/pmq20/node-packer) 来将 `index.js` `node_modules/` 等等编译为单独一个可执行文件，参见 [nodec 使用详解](../../编程语言/JavaScript/nodec使用详解.md)）：
 ```
 image: flyskywhy/java-nodejs:v8.3.0
 
@@ -41,11 +41,12 @@ deploy-k8s-backend:
     paths:
       - node_modules/
   tags:
-    - docker # 下面的 nodec 需要 3GB 左右的内存，所以这里使用了在足够内存的电脑上的 tags 叫做 docker 的一个 Gitlab Runner 来运行此自动部署脚本
+    - docker # 下面的 nodec 需要 10GB 左右的内存和 10GB 左右的交换空间，所以这里使用了在足够内存和交换空间的电脑上的 tags 叫做 docker 的一个 Gitlab Runner 来运行此自动部署脚本
   before_script:
     - export NPM_CONFIG_CACHE=/cache/npm
-    - sed -i -e '/    "react/d' -e '/    "redux/d' -e '/    "rmc-/d' package.json # 去除前端依赖，以加快npm update 速度
-    - sed -i -e "s/^{.*/{\"gitSha\":\"`git rev-parse --short HEAD`\",/" package.json # 如果 nodejs 应用中想要 git 哈希值的话可以这样做，因为 nodec 编译出来的版本是不包含 .git/ 的
+    - rm -fr __tests__ android app index.android.js index.ios.js index.web.js ios # 删除后端运行时不需要的文件，以减小 nodec 最终生成的可执行文件大小
+    - sed -i -e '/    "react/d' -e '/    "redux/d' -e '/    "rmc-/d' package.json # 去除前端依赖，以加快 npm update 速度
+    - sed -i -e "s/^{.*/{\"gitSha\":\"`git rev-parse --short HEAD`\",/" package.json # 如果 nodejs 应用中想要 git 哈希值的话可以这样做，因为 nodec 最终生成的可执行文件内部是不包含 .git/ 的
     - npm update --production
     - npm run postinstall
   script:
