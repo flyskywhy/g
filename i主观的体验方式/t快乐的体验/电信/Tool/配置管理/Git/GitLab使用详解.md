@@ -275,7 +275,7 @@ curl -sSL https://get.docker.com/ | sh
 before_script:
   - apt-get update -qq && apt-get install -qq rsync sshpass
 ```
-但是 `apt-get` 有时也会碰到 `Could not resolve 'cdn-fastly.deb.debian.org'` 这样的网络问题，再考虑到 latest 所代表的意义是经常要从国内访问不太稳定的 DockerHub 上 pull 最新版本的镜像，所以最好是自己编译一个合适的特定版本镜像来长久使用，比如 [flyskywhy/rn-nodejs:v6.11.1](https://hub.docker.com/r/flyskywhy/rn-nodejs/tags/) 。
+但是 `apt-get` 有时也会碰到 `Could not resolve 'cdn-fastly.deb.debian.org'` 这样的网络问题，再考虑到 latest 所代表的意义是经常要从国内访问不太稳定的 DockerHub 上 pull 最新版本的镜像，所以最好是自己编译一个合适的特定版本镜像来长久使用，比如 [flyskywhy/java-nodejs:v8.3.0](https://hub.docker.com/r/flyskywhy/java-nodejs/tags/) 。
 
 #### 为 Docker executor 配置 DNS
 当然，严格来说，上面 `apt-get` 碰到的网络问题，与第一次使用 `Docker executor` 运行 job 时极可能会遇到的 `fatal: unable to access 'http://gitlab-ci-token:xxxxxxxxxxxxxxxxxxxx@gitlab.your-company.com/path/to/your/project.git/': Couldn't resolve host 'gitlab.your-company.com'` 属于同一个问题，解决方法是按照 [GitLab CI Runner Advanced configuration](https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/blob/master/docs/configuration/advanced-configuration.md#the-runnersdocker-section) 中的描述，修改 `/etc/gitlab-runner/config.toml` 文件，在 `[runners.docker]` 小节中添加 `dns = ["114.114.114.114"]` ，或者是添加 `extra_hosts = ["gitlab.your-company.com:192.x.x.7"]` ，然后运行 `sudo gitlab-runner verify` 确认没有修改出错误，最后在 gitlab 上再次运行 job 即可。
@@ -285,7 +285,7 @@ before_script:
 
 #### 从 Dockerfile 编译为 docker 镜像
 ##### 编写 Dockerfile
-可以参考一些现有的 Dockerfile 比如 [docker-rn-nodejs_Dockerfile](https://github.com/flyskywhy/docker-rn-nodejs/blob/master/Dockerfile) 及 [Docker镜像构建文件Dockerfile及相关命令介绍](https://itbilu.com/linux/docker/VyhM5wPuz.html) 一文来编写适合自己项目的 Dockerfile 。
+可以参考一些现有的 Dockerfile 比如 [docker-java-nodejs_Dockerfile](https://github.com/flyskywhy/docker-java-nodejs/blob/master/Dockerfile) 及 [Docker镜像构建文件Dockerfile及相关命令介绍](https://itbilu.com/linux/docker/VyhM5wPuz.html) 一文来编写适合自己项目的 Dockerfile 。
 
 ##### 手动从 Dockerfile 编译 docker 镜像
 可以使用 `docker build -t your-name/your-repo:repo-tag .` 这样的命令来把当前目录中的 Dockerfile 编译成一个 docker 镜像（会被自动自动保存到 `/var/lib/docker/` 中），此时在 `.gitlab-ci.yml` 文件中写上 `image: your-name/your-repo:repo-tag` 后， Gitlab CI 就已经能使用该镜像了。后续还可以用 `docker push your-name/your-repo:repo-tag` 命令上传到 DockerHub 上。
@@ -386,7 +386,7 @@ deploy_staging:
 ```
 
 ## 直接编译为 docker 镜像并进行部署
-目前业界有一种趋势：直接将应用代码编译为一个 docker 镜像，然后运行这个镜像中的应用代码的测试脚本，然后把这个测试通过的镜像 push 到（自己私有的） Docker Registry 中，最后把这个镜像从 Docker Registry 中部署到生产服务器上。不过正如 [Using Docker Build](https://docs.gitlab.com/ce/ci/docker/using_docker_build.html) 中所说，三种实现该目标的方法各有利弊，需要权衡选择。另外根据 [Spotify 的容器使用情况](http://www.linuxeden.com/a/9864) 中所说，如果使用这种方式，还需要承担 docker 自身可能出现的一些问题。总的来说，请根据项目实际需要，权衡是否选择此种部署方式。
+目前业界有一种趋势：直接将应用代码编译为一个 docker 镜像，然后运行这个镜像中的应用代码的测试脚本，然后把这个测试通过的镜像 push 到（自己私有的） Docker Registry 中，最后把这个镜像从 Docker Registry 中部署到生产服务器上。不过正如 [Using Docker Build](https://docs.gitlab.com/ce/ci/docker/using_docker_build.html) 中所说，三种实现该目标的方法各有利弊，需要权衡选择。另外根据 [Spotify 的容器使用情况](http://www.linuxeden.com/a/9864) 中所说，如果使用这种方式，还需要承担 docker 自身可能出现的一些问题。总的来说，请根据项目实际需要，权衡是否选择此种部署方式。具体操作可以参考 [GitLab自动部署nodejs应用到阿里云Kubernetes集群中](GitLab自动部署nodejs应用到阿里云Kubernetes集群中.md) 一文。
 
 # https
 gitlab 默认是 http 的，如果想开启 https ，首先需要比如到 [阿里云免费申请免费SSL证书](http://www.cnblogs.com/joshua317/p/6179311.html) ，然后参考 [NGINX settings](https://docs.gitlab.com/omnibus/settings/nginx.html) 将获得的证书复制并重命名，比如：
