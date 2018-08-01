@@ -28,6 +28,10 @@ Li Zheng <flyskywhy@gmail.com>
 
 将里面的 swapfile 改为 swap16g
 
+如果里面没有 swapfile 的，则添加格式为：
+```
+/swap16g                                 none            swap sw              0       0
+```
 ## 关闭和删除原来的 swapfile
 
     sudo swapoff /swapfile
