@@ -71,7 +71,7 @@ Li Zheng <flyskywhy@gmail.com>
 
 3、用 `npm run e2e-web` 启动 CodeceptJS 客户端，其会自动用电脑上的浏览器打开 `codecept.conf.js` 中的 `helpers.WebDriverIO.url` 并测试 `tests` 所指定的测试用例文件。
 
-## 远程测试
+## 远程测试 Android
 Appium 支持远程测试，这样就可以让一台电脑连着一台手机作为 Appium 服务端，然后另一台电脑（一般是持续集成 CI 系统）作为 CodeceptJS 客户端。具体操作也很简洁：
 
 在手机系统设置的开发者选项中关闭“监控 ADB 安装应用”，以免每次换一个 apk 时需要手动点击手机屏幕上的“安装”按钮。
@@ -90,6 +90,23 @@ Appium 支持远程测试，这样就可以让一台电脑连着一台手机作�
 
     "e2e-android-remote": "codeceptjs run --profile=android --override \"{\\\"helpers\\\": {\\\"Appium\\\": {\\\"host\\\": \\\"服务端地址\\\"}}}\"",
 
+## CI/CD 测试 Web
+给 `e2e-server-web` 添加 `--quiet` 以免打印信息太多，添加 `--detach` 以让 selenium 在后台继续运行；用 `e2e-web-headless` 来让 [flyskywhy/java-nodejs:v8.3.0](https://hub.docker.com/r/flyskywhy/java-nodejs/tags/) docker 镜像中的 google-chrome 浏览器运行在无界面模式下：
+
+    "e2e-server-web": "touch node_modules/webdriver-manager/selenium/standalone-response.xml; touch node_modules/webdriver-manager/selenium/chrome-response.xml; webdriver-manager start --quiet --detach --versions.standalone=3.7.1 --versions.gecko=v0.18.0 --versions.chrome=2.32",
+    "e2e-web-headless": "codeceptjs run --override \"{\\\"helpers\\\": {\\\"WebDriverIO\\\": {\\\"desiredCapabilities\\\": {\\\"chromeOptions\\\": {\\\"args\\\": [\\\"--no-sandbox\\\", \\\"--headless\\\", \\\"--disable-gpu\\\", \\\"--window-size=800,600\\\"]}}}}}\"",
+
+然后在比如 [GitLab使用详解](../../配置管理/Git/GitLab使用详解.md) 中所说的 .gitlab-ci.yml 中用如下脚本测试：
+```
+image: flyskywhy/java-nodejs:v8.3.0
+...
+    - cp -a /cache/opt/selenium node_modules/webdriver-manager/ #避免每次 `npm run e2e-update-server-web` 从网上下载比较慢
+    - npm run web 2>/dev/null &
+    - sleep 60
+    - npm run e2e-server-web &
+    - sleep 30
+    - npm run e2e-web-headless
+```
 ## 用例编写
 因为 [testID 不支持 Android](https://github.com/facebook/react-native/pull/9942) 以及统一 Android 、 iOS 和 Web 的测试用例的需要，所以在产品组件中添加 accessibilityLabel 属性最合适，然后在测试用例中用 `~` 来定位该组件。
 
