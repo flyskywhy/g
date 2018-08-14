@@ -17,12 +17,12 @@ Sublime Text 在 [www.sublimetext.com](http://www.sublimetext.com) 上可以免�
 ### 设置等宽字体
 在 Linux 下的 Sublime Text 如果不是等宽字体的，则添加
 
-    "font_face": "DejaVu Sans Mono"，
+    "font_face": "DejaVu Sans Mono",
 
 ### 转换 tab 为 space
 如果需要转换，则添加
 
-    "translate_tabs_to_spaces": true，
+    "translate_tabs_to_spaces": true,
 
 ### 设置换行符为 LF
 Sublime Text 默认新文件的换行符为系统相关，这样 Windows 下的话就是 CRLF 了。为了可能的 bash 脚本批量处理时不出问题以及减小文件体积，设为 LF 更合适，方法为添加
