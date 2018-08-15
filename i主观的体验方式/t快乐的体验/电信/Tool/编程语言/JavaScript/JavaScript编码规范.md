@@ -20,6 +20,9 @@ const copy = Object.assign(original, { c: 3 });
 const original = { a: 1, b: 2 };
 const copy = { ...original, c: 3 };
 ```
+值得注意的是，不要在函数定义时在参数中直接使用空对象如 `function foobar({}) {}` ，否则有可能出现 `undefined is not a function(evaluating 'babel Helpers.objectDestructuringEmpty(_ref5)')` ，解决的办法是修改为：
+
+    function foobar(query = {}) {}
 
 ## 数组
 使用数组展开运算符 ... 复制数组:
