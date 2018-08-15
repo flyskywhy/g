@@ -24,7 +24,7 @@ Li Zheng <flyskywhy@gmail.com>
 ## 每新增一个域名后就需操作一次的阿里云配置
 在 [域名服务](https://dc.console.aliyun.com) 中点击 `yc.com` 的 `SSL证书` 对 `www.yc.com` 域名进行申请。
 
-在 [CDN](https://cdn.console.aliyun.com) 的 `域名管理` 中 `添加域名` ， `加速域名` 设为 `www.yc.com` ， `业务类型` 设为 `图片小文件` ， `源站类型` 设为 `www.yourcompany.com` 的 IP 地址和端口号。这里如果设为源站域名 `www.yourcompany.com` 则需要一天时间审核且可能被审核为“加速域名无法正常访问或内容不含有任何实质信息”而不被通过。如果 `www.yc.com` 未在政府机构备过案，则 CDN 会弹出对话框提示先去备案（备案申请通过需要至少一星期时间）。
+在 [CDN](https://cdn.console.aliyun.com) 的 `域名管理` 中 `添加域名` ， `加速域名` 设为 `www.yc.com` ， `业务类型` 设为 `图片小文件` ， `源站类型` 设为 `www.yourcompany.com` 的 IP 地址和端口号。这里如果设为源站域名 `www.yourcompany.com` 则需要一天时间审核且可能被审核为“加速域名无法正常访问或内容不含有任何实质信息”而不被通过（然后可按 [域名准入标准](https://help.aliyun.com/document_detail/27114.html) 所述去开一个工单解决该问题）。如果 `www.yc.com` 未在政府机构备过案，则 CDN 会弹出对话框提示先去备案（备案申请通过需要至少一星期时间）。
 
 在 [云解析DNS](https://dns.console.aliyun.com) 中点击 `yc.com` 的 `解析设置` ，在 `添加记录` 的对话框中， `记录类型` 选择 `CNAME` ， `主机记录` 为 `www` ， `记录值` 为上面 `域名管理` 中 `www.yc.com` 的 CNAME 。引申含义：结合上面 CDN 中的设置， CDN 说只有当传过来的域名为 `www.yc.com` 时才允许访问那个 CNAME ，以防止恶意网站经常过来蹭 CNAME ，然后 DNS 说我就是货真价实的 `www.yc.com` 。
 
