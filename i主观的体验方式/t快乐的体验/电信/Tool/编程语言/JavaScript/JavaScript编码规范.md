@@ -62,7 +62,7 @@ if ([0]) {
 ```
 
 ## 循环体
-循环体 for( in ) 的性能损失是 for( of ) 或者 for(;;) 的 10 倍，所以尽量使用 for( of ) ，如果需要 index 的才使用 for(;;) 。
+循环体 for( in ) 的性能损失是 for( of ) 或者 for(;;) 的 10 倍，性能最好的是 for(;;) ，基本上 for( of ) 和 for(;;) 的性能比是 2:3 的样子，考虑到 for( of ) 写起来比 for(;;) 方便因而不容易手误，所以尽量使用 for( of ) ，如果需要 index 的才使用 for(;;) 。
 
 Object 无法 .length ，所以不能改成相应的 for(;;) ，只能用 for( in ) 。
 
