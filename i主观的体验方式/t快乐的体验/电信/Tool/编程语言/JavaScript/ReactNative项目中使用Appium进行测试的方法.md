@@ -91,9 +91,9 @@ Appium 支持远程测试，这样就可以让一台电脑连着一台手机作�
     "e2e-android-remote": "codeceptjs run --profile=android --override \"{\\\"helpers\\\": {\\\"Appium\\\": {\\\"host\\\": \\\"服务端地址\\\"}}}\"",
 
 ## CI/CD 测试 Web
-给 `e2e-server-web` 添加 `--quiet` 以免打印信息太多，添加 `--detach` 以让 selenium 在后台继续运行；用 `e2e-web-headless` 来让 [flyskywhy/java-nodejs:v8.3.0](https://hub.docker.com/r/flyskywhy/java-nodejs/tags/) docker 镜像中的 google-chrome 浏览器运行在无界面模式下：
+添加 `--detach` 以让 selenium 在后台继续运行；用 `e2e-web-headless` 来让 [flyskywhy/java-nodejs:v8.3.0](https://hub.docker.com/r/flyskywhy/java-nodejs/tags/) docker 镜像中的 google-chrome 浏览器运行在无界面模式下：
 
-    "e2e-server-web": "touch node_modules/webdriver-manager/selenium/standalone-response.xml; touch node_modules/webdriver-manager/selenium/chrome-response.xml; webdriver-manager start --quiet --detach --versions.standalone=3.7.1 --versions.gecko=v0.18.0 --versions.chrome=2.32",
+    "e2e-server-web": "touch node_modules/webdriver-manager/selenium/standalone-response.xml; touch node_modules/webdriver-manager/selenium/chrome-response.xml; webdriver-manager start --detach --versions.standalone=3.7.1 --versions.gecko=v0.18.0 --versions.chrome=2.32",
     "e2e-web-headless": "codeceptjs run --override \"{\\\"helpers\\\": {\\\"WebDriverIO\\\": {\\\"desiredCapabilities\\\": {\\\"chromeOptions\\\": {\\\"args\\\": [\\\"--no-sandbox\\\", \\\"--headless\\\", \\\"--disable-gpu\\\", \\\"--window-size=800,600\\\"]}}}}}\"",
 
 然后在比如 [GitLab使用详解](../../配置管理/Git/GitLab使用详解.md) 中所说的 .gitlab-ci.yml 中用如下脚本测试：
@@ -101,12 +101,15 @@ Appium 支持远程测试，这样就可以让一台电脑连着一台手机作�
 image: flyskywhy/java-nodejs:v8.3.0
 ...
     - cp -a /cache/opt/selenium node_modules/webdriver-manager/ #避免每次 `npm run e2e-update-server-web` 从网上下载比较慢
+    - sed -i "s/inherit/ignore/" node_modules/webdriver-manager/built/lib/cmds/start.js #通过 patch 来减少 webdriver-manager 的打印信息，在 `--quiet` 还有 bug 的情况下，参考自 https://github.com/angular/webdriver-manager/issues/204
     - npm run web 2>/dev/null &
     - sleep 60
     - npm run e2e-server-web &
     - sleep 30
     - npm run e2e-web-headless
 ```
+需要注意的是，估计是 chrome 的 headless 运行速度太快了所以比如登录页面手机号会填写不完整而导致测试失败，所以最好在每个页面加载确认的地方（比如 `https://github.com/flyskywhy/noder-react-native/blob/master/e2e/pages/Home.js` 中的 `ensureOpen()` 里）加上一句 `I.wait(1);` 。
+
 ## 用例编写
 因为 [testID 不支持 Android](https://github.com/facebook/react-native/pull/9942) 以及统一 Android 、 iOS 和 Web 的测试用例的需要，所以在产品组件中添加 accessibilityLabel 属性最合适，然后在测试用例中用 `~` 来定位该组件。
 
