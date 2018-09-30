@@ -7,13 +7,15 @@ Li Zheng <flyskywhy@gmail.com>
 
 考虑到 gitlab 免费版 DevOps 自动部署模块最近新增的 Kubernetes 功能只支持一个 Kubernetes 集群，而任何版本的 gitlab 中对 Kubernetes 的一些额外支持如 Kubernetes 应用市场等功能，与商业收费的阿里云 Kubernetes 产品中的功能重复，所以抛开 gitlab 自带的 Kubernetes 功能，直接使用 kubectrl 命令行工具来连接 gitlab 自动部署脚本和阿里云 Kubernetes 产品的方法最为低耦合、低费用，这里低耦合的意思是在保证 CI/CD 基本流程不变的情况下，随时切换其中的 ECS 或 K8S 部署，参见下图：
 ```
-                  阿里云全站加速产品            负载均衡到 ECS 或 docker 中的
-浏览器 <======> 判断是否访问静态文件 <===n===> nginx 判断是否访问静态文件 <===n===> ECS 或 docker 中的后端进程
-   ^                       |                     ^            ^                          ^
-   |                      y|                     |           y|                          |
-   |                       ⌄                     |            ⌄                          |
-   =======y======= CDN 是否已有缓存 <===n===========     阿里云 OSS 中的前端文件 <=== 运行 gitlab 自动部署脚本
+                                                  负载均衡到 ECS 或 docker 中的
+浏览器 <======> 阿里云 CDN 判断是否访问静态文件 <===n===> nginx 判断是否访问静态文件 <===n===> ECS 或 docker 中的后端进程
+   ^                       |                             ^            ^                          ^
+   |                      y|                             |           y|                          |
+   |                       ⌄                             |            ⌄                          |
+   =======y======= CDN 是否已有缓存 <===n===================     阿里云 OSS 中的前端文件 <=== 运行 gitlab 自动部署脚本
 ```
+图中可以看到对于静态文件的判断，阿里云 CDN 和 nginx 是有重复操作的，后文会提到使用跨域访问来优化的方法。
+
 ## 在阿里云中开启容器仓库
 如果是用阿里云子帐号来操作容器仓库的，需要添加 [仓库访问控制](https://help.aliyun.com/document_detail/67992.html) 中描述的权限。
 
@@ -116,9 +118,10 @@ server {
 ```
 上面 `nginx.conf` 起到了前后端分流的作用：对于后端的访问比如 `www.YourProject.com/api/some-api/` ，在经过后续会提到的 Kubernetes 部署后，进入了此处 `ip地址:8010` 里的 `nginx.conf` 中的 `location /` 而被分流向后端服务 nodeapp 开启的 1234 端口；同理，对于前端的访问比如 `www.YourProject.com` 最终会在 `nginx.conf` 中变成对 `/index.html` 的访问而被分流向保存着前端静态文件的网盘比如此处的 oss 地址。
 
-参考 [Nginx Proxy_Pass to CDN vs hitting CDN directly. Pro's, Con's, Is it slower or are there negative effects on the server](https://stackoverflow.com/questions/9543068/nginx-proxy-pass-to-cdn-vs-hitting-cdn-directly-pros-cons-is-it-slower-or-a) 一文，为了避免前端静态文件从 oss 取出后还要流经占用 nginx 的资源来提供给浏览器，后续还会使用阿里云的 [全站加速](https://help.aliyun.com/product/64812.html) 来对静态资源进行 CDN 。 nginx 配合全站加速的好处是前后端访问的是同一个域名，而如果后端愿意开启跨域访问 CORS 功能来实现前后端访问不同域名需求的，则不使用 nginx 和全站加速而仅仅简单使用裸后端和普通 CDN 即可，这里不再赘述。
+参考 [Nginx Proxy_Pass to CDN vs hitting CDN directly. Pro's, Con's, Is it slower or are there negative effects on the server](https://stackoverflow.com/questions/9543068/nginx-proxy-pass-to-cdn-vs-hitting-cdn-directly-pros-cons-is-it-slower-or-a) 一文，为了避免前端静态文件从 oss 取出后还要流经占用 nginx 的资源来提供给浏览器，以及通过 CDN 来访问其回源的负载均衡提供的后端 API 性能相比直接通过负载均衡来访问会差 6 倍甚至可能会出错的问题，则可以抛开本文提供的前后端访问同一域名带来的无需考虑跨域访问 CORS 限制的好处，而另外再参考 [前端 CDN 网址跨域访问后端 nodejs 应用负载均衡网址的方法](前端CDN网址跨域访问后端nodejs应用负载均衡网址的方法.md) 一文。
 
-前端静态文件由 gitlab 自动部署脚本 `.gitlab-ci.yml` 自动生成并上传到 oss 中：
+## 部署前端静态文件到 OSS 中
+前端静态文件由 gitlab 自动部署脚本 `.gitlab-ci.yml` 自动生成并上传到 OSS 中：
 ```
 deploy-k8s-frontend:
   stage: deploy
@@ -141,8 +144,10 @@ deploy-k8s-frontend:
   only:
     - k8s-frontend
 ```
+还需对部署了前端文件的 OSS 进行配置：进入 [对象存储 OSS](https://oss.console.aliyun.com) 的 `YourProject-web-release` 的 `基础设置 | 静态页面` ，设置 `默认首页` 为 `index.html` ；如果不想让用户见到 OSS 提供的默认的代替 404 的网页 “This XML file does not appear to have any style information associated with it” ，则还可以设置 `默认 404 页` 。
+
 ## 部署后端镜像到 Kubernetes 中
-阿里云 Kubernetes 的使用费用是比较昂贵的，因为无论是手动组建 Kubernetes 的这篇 [在阿里云上部署生产级别Kubernetes集群](https://www.kubernetes.org.cn/1667.html) 文章 ，还是在阿里云里购买 Kubernetes 时的自动配置，所需的 ECS （电脑主机）都至少是 3 台用于 Master 以及 1 台用于真正部署上百个 docker 容器的 Worker 。因为只用 1 台 Worker 体现不出来 Kubernetes 的意义，所以阿里云购买时的标配是 3Master+3Worker 。因为 Master 的配置在购买后无法更改，为了以后性能考虑，只能在购买时一步到位使用它默认的 `4核8G(ecs.n4.xlarge)` 配置。例如以 6 台 ECS 共 10元/小时 的费用来推算， 3Master+3Worker 的费用为 9万元/年 左右。从 [阿里云 Kubernetes VS 自建 Kubernetes](https://help.aliyun.com/document_detail/69575.html) 这篇文章可以看出， Kubernetes 的趋势是慢慢变成云服务商的一个产品，就像数据库、 CDN 等产品那样，因此自己购买 6 台服务器再请专业运维人员（10万/年？）创建、维护、升级 Kubernetes 的性价比低于直接使用阿里云 Kubernetes 。好消息是现在有比阿里云 Kubernetes 性价比更高的产品——阿里云 Serverless Kubernetes ——据说是不用购买 ECS 而是按需付费，现正免费申请试用中。
+阿里云 Kubernetes 的使用费用是比较昂贵的，因为无论是手动组建 Kubernetes 的这篇 [在阿里云上部署生产级别Kubernetes集群](https://www.kubernetes.org.cn/1667.html) 文章 ，还是在阿里云里购买 Kubernetes 时的自动配置，所需的 ECS （电脑主机）都至少是 3 台用于 Master 以及 1 台用于真正部署上百个 docker 容器的 Worker 。因为只用 1 台 Worker 体现不出来 Kubernetes 的意义，所以阿里云购买时的标配是 3Master+3Worker 。因为 Master 的配置在购买后无法更改，为了以后性能考虑，只能在购买时一步到位使用它默认的 `4核8G(ecs.n4.xlarge)` 配置。例如以 6 台 ECS 共 10元/小时 的费用来推算， 3Master+3Worker 的费用为 9万元/年 左右。从 [阿里云 Kubernetes VS 自建 Kubernetes](https://help.aliyun.com/document_detail/69575.html) 这篇文章可以看出， Kubernetes 的趋势是慢慢变成云服务商的一个产品，就像数据库、 CDN 等产品那样，因此自己购买 6 台服务器再请专业运维人员（10万/年？）创建、维护、升级 Kubernetes 的性价比低于直接使用阿里云 Kubernetes 。好消息是现在有比阿里云 Kubernetes 性价比更高的产品——阿里云 Serverless Kubernetes ——不用购买 ECS 而是按需付费。
 
 ### 阿里云 Kubernetes
 [创建Kubernetes集群](https://help.aliyun.com/document_detail/53752.html) 时， Pod 和 Service 的网段可以参考如下设置：
@@ -164,10 +169,137 @@ Service 网络 CIDR： 10.1.0.0/16 ，如此设置比较容易管理，今后如
 参考撰写 [deployment.yaml](https://code.aliyun.com/CodePipeline/nodejs-demo/blob/master/deployment.yaml) ，然后参考 [Kubernetes集群中使用阿里云 SLB 实现四层金丝雀发布](https://help.aliyun.com/document_detail/73980.html) 图形化部署在阿里云中的工作原理，再参考 [Connecting Applications with Services](https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/) 、 [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) 、 [Services](https://kubernetes.io/docs/concepts/services-networking/service/) 这些文章编写适合自己项目的 `deployment.yaml` ，然后在自动部署脚本中配置好 [通过 kubectl 连接 Kubernetes 集群](https://help.aliyun.com/document_detail/53755.html) 后（配置的含义见 [配置对多集群的访问](https://kubernetes.io/cn/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) 一文），按照 [配置最佳实践](https://k8smeetup.github.io/docs/concepts/configuration/overview/) 所说用 `kubectl create -f ./deployment.yaml` 运行后端镜像，或是不使用 `deployment.yaml` 而是直接象 [Use a Service to Access an Application in a Cluster](https://kubernetes.io/docs/tasks/access-application-cluster/service-access-application-cluster/) 那样用 `kubectl run` 、 `kubectl expose` 、 `kubectl set` 命令行来启动/更新 deployment 和 service （此处可参考 [Kubernetes kubectl 与 Docker 命令关系](http://docs.kubernetes.org.cn/70.html) 一文）。
 
 ### 阿里云 Serverless Kubernetes
-待写
+在 [容器服务 - Kubernetes](https://cs.console.aliyun.com) 中 “创建Serverless Kubernetes” 后， [通过 kubectl 连接 Kubernetes 集群](https://help.aliyun.com/document_detail/71483.html) ，然后参考 [Serverless Kubernetes Examples](https://github.com/AliyunContainerService/serverless-k8s-examples) 编写适合自己项目的 `deployment.yaml` 。
 
-## 对部署了前端文件的 OSS 进行配置
-进入阿里云控制台 OSS 的 `YourProject-web-release` 的 `基础设置 | 静态页面` ，设置 `默认首页` 为 `index.html` ；如果不想让用户见到 OSS 提供的默认的代替 404 的网页 “This XML file does not appear to have any style information associated with it” ，则还可以设置 `默认 404 页` 。
+[使用镜像创建应用](https://help.aliyun.com/document_detail/86383.html) 时的 `应用配置` 页面中的 `Init Container` 对应 yaml 写法见 [Init 容器](https://kubernetes.io/cn/docs/concepts/workloads/pods/init-containers/) ； `存活检查` 和 `就绪检查` 对应 yaml 写法见 [Pod 的生命周期](https://kubernetes.io/cn/docs/concepts/workloads/pods/pod-lifecycle/) 。
 
-### 用 CDN 加速前端文件访问
-在阿里云全站加速产品中按照前面的 `nginx.conf` 来 [设置静态文件类型](https://help.aliyun.com/document_detail/65096.html) 。
+由于更新 service 时会出现 `spec.clusterIP: Invalid value: "": field is immutable` 这个已知 k8s 的 BUG ，所以将 `deployment.yaml` 拆分为 deploy.yaml 和 svc.yaml 会更方便。
+
+示例 deploy.yaml 如下：
+```
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      # 如果使用的是阿里云以外的私有容器镜像仓库，则需要 imagePullSecrets ，此处 `docker-registrykey-私有容器镜像仓库`
+      # 来自于命令 `kubectl create secret docker-registry docker-registrykey-私有容器镜像仓库 --docker-server=私有容器镜像仓库地址 --docker-username=私有容器镜像仓库用户名 --docker-password=私有容器镜像仓库密码`
+      # imagePullSecrets:
+      #   - name: docker-registrykey-私有容器
+      containers:
+        - name: nginx
+          image: registry-vpc.cn-shanghai.aliyuncs.com/你的命名空间/私有容器镜像:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          # 注意，如果直接在阿里云控制台容器服务更新“部署”会导致环境变量为空
+          # env:
+          #   - name: DEMO_GREETING
+          #     value: "Hello from the environment"
+          #   - name: NODE_ENV
+          #     valueFrom:
+          #       configMapKeyRef:
+          #         name: config-some
+          #         key: NODE_ENV
+          #   - name: SERVER_PORT
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: secret-some
+          #         key: SERVER_PORT
+          envFrom:
+            - configMapRef:
+                name: config-some
+            - secretRef:
+                name: secret-some
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: nginx-autoscaler
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1beta2
+    kind: Deployment
+    name: nginx-deployment
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: memory
+      targetAverageUtilization: 50
+  - type: Resource
+    resource:
+      name: cpu
+      targetAverageUtilization: 50
+  - type: Pods
+    pods:
+      metricName: packets-per-second
+      targetAverageValue: 1k
+```
+上面的 `nginx-autoscaler` 参考自 [Pod水平自动伸缩（Horizontal Pod Autoscaling）演练](https://k8smeetup.github.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) 及 [K8S集群基于heapster的HPA测试](http://blog.51cto.com/ylw6006/2113848) 。
+
+示例 svc.yaml 如下：
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  annotations:
+    # service.beta.kubernetes.io/alicloud-loadbalancer-protocol-port: "http:80"
+
+    # 在阿里云“SSL证书”中购买证书后推送到负载均衡，然后在负载均衡页面的证书管理中可以得到下面所需的证书ID
+    service.beta.kubernetes.io/alicloud-loadbalancer-cert-id: ${证书ID}
+    service.beta.kubernetes.io/alicloud-loadbalancer-protocol-port: "https:443"
+
+    # 先使用上面的配置 kubectl create 创建一个新 SLB 实例，然后为了避免今后 kubectl replace --force
+    # 或 kubectl delete 时自动删除该 SLB 实例，需要到阿里云控制台负载均衡页面将该 SLB 的“名称”修改掉，
+    # 将“标签”删除掉，然后 kubectl delete 时就不会删除该 SLB 实例了。
+    # 最后，为了后续一直使用该 SLB 实例比如 lb-bp1hfycf39bbeb019pg7m ，可以注释掉上面的注解，而使用下面的注解
+    # service.beta.kubernetes.io/alicloud-loadbalancer-id: lb-bp1hfycf39bbeb019pg7m
+spec:
+  ports:
+    - port: 443
+      protocol: TCP
+  selector:
+    app: nginx
+  type: LoadBalancer
+```
+在唯一一次手工 `kubectl create -f svc.yaml` 创建一个新 SLB 实例后就按 `svc.yaml` 中的注释修改该文件以给自动部署脚本调用了。
+
+这是我自己摸索出来在 Serverless Kubernetes 中 https 的最佳实践：
+
+1. 因为 `kubectl replace -f service.yaml` 或是阿里云控制台界面中更新 service 时会出现 `spec.clusterIP: Invalid value: "": field is immutable` 这个已知 k8s 的 BUG ，所以唯一更新 service 的方法就是 `kubectl replace -f service.yaml` 删除 service 再 `kubectl create -f service.yaml` 重建 service （实际上 relpace 时加上 `--force` 参数也是做了删除再重建的操作）。
+
+2. 使用 `service.beta.kubernetes.io/alicloud-loadbalancer-cert-id: ${证书ID}` 及 `service.beta.kubernetes.io/alicloud-loadbalancer-protocol-port: "https:443"` 和 `spec.ports.port=443` 的配置 `kubectl create -f service.yaml` 创建一个 service 及其关联的新 SLB 实例比如叫 `lb-bp1hfycf39bbeb019pg7m` 。参考 [Alibaba Cloud Provider简介](https://yq.aliyun.com/articles/626066) 。
+
+3. 为了避免 `kubectl delete` 时自动删除那个 SLB 实例，需要先到 [负载均衡](https://slb.console.aliyun.com) 将该 SLB 的 `名称` 修改掉，将 `标签` 删除掉，然后执行 `kubectl delete -f service.yaml` ，此时就只删除了 service 而没有删除那个 SLB 实例。
+
+4. 使用 `service.beta.kubernetes.io/alicloud-loadbalancer-id: lb-bp1hfycf39bbeb019pg7m` 和 `spec.ports.port=443` 的配置 `kubectl create -f service.yaml` 创建一个关联到那个已有 SLB 实例的 service 。
+
+5. 在上述步骤 2 完成时， [负载均衡](https://slb.console.aliyun.com) 中看到端口为 `HTTPS:443` ，此时在 [云解析DNS](https://dns.console.aliyun.com) 中点击 `yourcompany.com` 的 `解析设置` ，在 `添加记录` 的对话框中， `记录类型` 选择 `A` ， `主机记录` 为 `www` ， `记录值` 为那个 SLB 实例的 IP 地址，就能够用浏览器访问 `https://www.yourcompany.com` 。在上述步骤 4 完成时， [负载均衡](https://slb.console.aliyun.com) 中看到端口为 `TCP:443` ，此时无法用浏览器访问 `https://www.yourcompany.com` ，在这个问题阿里云暂时没有解决前，还需继续下面的步骤。
+
+6. `kubectl delete -f service.yaml` ，然后使用 `service.beta.kubernetes.io/alicloud-loadbalancer-id: lb-bp1hfycf39bbeb019pg7m` 和 `spec.ports.port=80` 的配置 `kubectl create -f service.yaml` 创建一个关联到那个已有 SLB 实例的 service 。此时 [负载均衡](https://slb.console.aliyun.com) 中看到端口为 `TCP:80` 。
+
+7. 在 [CDN](https://cdn.console.aliyun.com) 的 `域名管理` 中 `添加域名` ， `加速域名` 设为 `www.yourcompany.com` ， `业务类型` 设为 `图片小文件` ， `源站信息` 设为那个 SLB 实例的 IP 地址和 80 端口。把 [云解析DNS](https://dns.console.aliyun.com) 中 `主机记录` 为 `www` 的 `记录类型` 改为 `CNAME` ， `记录值` 改为 CDN `域名管理` 中 `www.yourcompany.com` 的 CNAME 。在 CDN 中配置好 HTTPS 证书。此时就能用浏览器访问 `http://www.yourcompany.com` 或 `https://www.yourcompany.com` 了。
+
+## 让其他阿里云产品能够访问 Kubernetes pod
+把专有网络 VPC（Virtual Private Cloud）的 [路由表](https://vpcnext.console.aliyun.com/vpc/cn-shanghai/route-tables) 中的 `目标网段` 添加到相关阿里云产品比如 [云数据库RDS](https://rdsnext.console.aliyun.com) 、 [云数据库MongoDB](https://mongodb.console.aliyun.com) 等等的白名单中，这样使用着 VPC 地址的 pod 就可以正常访问这些产品了。
+
+## 让 Kubernetes pod 能够访问外网
+如果想让 pod 能够访问外网，需要开通 [NAT网关](https://vpcnext.console.aliyun.com/nat/cn-shanghai/nats) ，并购买一个 [弹性公网IP](https://ip.console.aliyun.com) 绑定到 NAT 的 SNAT 上。
+
+## log
+从这篇文章 [全面提升，阿里云Docker/Kubernetes(K8S) 日志解决方案与选型对比](https://blog.csdn.net/zhoushuntian/article/details/79400747) 看，阿里云 [logtail 产品](https://sls.console.aliyun.com)比 logstash 更适合 k8s 容器环境，而且这样就不用费心去做含有 rsyslogd 程序的 docker 镜像了。
