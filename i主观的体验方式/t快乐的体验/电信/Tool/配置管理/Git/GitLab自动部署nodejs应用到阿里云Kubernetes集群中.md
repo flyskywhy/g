@@ -17,9 +17,9 @@ Li Zheng <flyskywhy@gmail.com>
 图中可以看到对于静态文件的判断，阿里云 CDN 和 nginx 是有重复操作的，后文会提到使用跨域访问来优化的方法。
 
 ## 在阿里云中开启容器仓库
-如果是用阿里云子帐号来操作容器仓库的，需要添加 [仓库访问控制](https://help.aliyun.com/document_detail/67992.html) 中描述的权限。
+如果是用阿里云子账号来操作容器仓库的，需要添加 [仓库访问控制](https://help.aliyun.com/document_detail/67992.html) 中描述的权限。
 
-用阿里云主帐号或子帐号进入阿里云 [容器镜像服务](https://cr.console.aliyun.com/) 的镜像列表页面，点击“修改Registry登录密码”按钮，以创建今后使用 `docker login` 命令时的密码。
+用阿里云主账号或子账号进入阿里云 [容器镜像服务](https://cr.console.aliyun.com/) 的镜像列表页面，点击“修改Registry登录密码”按钮，以创建今后使用 `docker login` 命令时的密码。
 
 进入阿里云 [容器镜像服务](https://cr.console.aliyun.com/) 的命名空间管理页面，点击“创建命名空间”按钮，用公司名或人名作为命名空间，以便今后在比如阿里云容器 registry 的公网地址 `registry.cn-hangzhou.aliyuncs.com/你的命名空间/你的容器名称` 中与其他人的容器加以区分。
 
@@ -302,4 +302,51 @@ spec:
 如果想让 pod 能够访问外网，需要开通 [NAT网关](https://vpcnext.console.aliyun.com/nat/cn-shanghai/nats) ，并购买一个 [弹性公网IP](https://ip.console.aliyun.com) 绑定到 NAT 的 SNAT 上。
 
 ## log
-从这篇文章 [全面提升，阿里云Docker/Kubernetes(K8S) 日志解决方案与选型对比](https://blog.csdn.net/zhoushuntian/article/details/79400747) 看，阿里云 [logtail 产品](https://sls.console.aliyun.com)比 logstash 更适合 k8s 容器环境，而且这样就不用费心去做含有 rsyslogd 程序的 docker 镜像了。
+从这篇文章 [全面提升，阿里云Docker/Kubernetes(K8S) 日志解决方案与选型对比](https://blog.csdn.net/zhoushuntian/article/details/79400747) 看，阿里云 logtail 产品 [日志服务](https://sls.console.aliyun.com)比 logstash 更适合 k8s 容器环境，而且这样就不用费心去做含有 rsyslogd 程序的 docker 镜像了。
+
+本文主要讲解 Serverless Kubernetes 的 log 方法。
+
+### 阿里云 Kubernetes 的 log
+详阅 [Kubernetes日志采集](https://help.aliyun.com/document_detail/66654.html) ，这里不再赘述。
+
+### 阿里云 Serverless Kubernetes 的 log
+因为经阿里云客服工单核实，阿里云日志服务不支持采集 Serverless Kubernetes 的[容器-标准输出](https://help.aliyun.com/document_detail/66658.html)，所以这里只能记录下 [通过阿里云日志服务采集日志](https://help.aliyun.com/document_detail/71502.html) 对文本 [采集方式](https://help.aliyun.com/document_detail/28981.html) 的实践过程。
+
+步骤 1 [操作Project](https://help.aliyun.com/document_detail/48984.html) 创建 YourProject 项目。
+
+步骤 2 [操作Logstore](https://help.aliyun.com/document_detail/48990.html) 创建 dev 日志库。
+
+步骤 3 以机器组名称 dev [创建机器组](https://help.aliyun.com/document_detail/28966.html) ，并将用户自定义标识设为 YourProject-dev ，该用户自定义标识后面将会被配置到 YAML 环境变量 ALIYUN_LOGTAIL_USER_DEFINED_ID 中。
+
+步骤 4 创建 Logtail 配置，数据类型选择 `Docker文件` ，配置名称填写 `dev-access` ，日志路径填写 `/ecilogs` 和 `access.log` ，应用到 dev 机器组。
+
+步骤 5 创建 nginx 应用
+
+在上面的 deploy.yaml 中的 spec.template.spec 里修改为如下配置：
+```
+      containers:
+        - name: ilogtail
+          image: registry.cn-hangzhou.aliyuncs.com/acs/ilogtail:0.13.4-eb42407
+          env:
+            - name: ALIYUN_REGION_ID
+              value: ${https://help.aliyun.com/document_detail/40654.html 中描述的 k8s 集群所在的地域ID}
+            - name: ALIYUN_LOGTAIL_USER_ID
+              value: "${https://account.console.aliyun.com 中所示的阿里云账号ID（不是账号名，而且因为ID是一串数字，而这里需要的是字符串，所以记得加双引号）}"
+            - name: ALIYUN_LOGTAIL_USER_DEFINED_ID
+              value: YourProject-dev
+          volumeMounts:
+            - name: app-log
+              mountPath: /ecilogs
+              readOnly: true
+        - name: nginx
+...
+            - secretRef:
+                name: secret-some
+          volumeMounts:
+            - name: app-log
+              mountPath: /log
+      volumes:
+        - name: app-log
+          emptyDir: {}
+
+```
