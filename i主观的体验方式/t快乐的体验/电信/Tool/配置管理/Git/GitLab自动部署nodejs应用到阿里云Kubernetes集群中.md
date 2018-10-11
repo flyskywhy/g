@@ -264,36 +264,26 @@ metadata:
     service.beta.kubernetes.io/alicloud-loadbalancer-cert-id: ${证书ID}
     service.beta.kubernetes.io/alicloud-loadbalancer-protocol-port: "https:443"
 
-    # 先使用上面的配置 kubectl create 创建一个新 SLB 实例，然后为了避免今后 kubectl replace --force
+    # 先注释掉本行注解后 kubectl create 创建一个新 SLB 实例，然后为了避免今后 kubectl replace --force
     # 或 kubectl delete 时自动删除该 SLB 实例，需要到阿里云控制台负载均衡页面将该 SLB 的“名称”修改掉，
     # 将“标签”删除掉，然后 kubectl delete 时就不会删除该 SLB 实例了。
-    # 最后，为了后续一直使用该 SLB 实例比如 lb-bp1hfycf39bbeb019pg7m ，可以注释掉上面的注解，而使用下面的注解
+    # 最后，为了后续一直使用该新建的 SLB 实例比如 lb-bp1hfycf39bbeb019pg7m ，就再同时开启使用下面的注解
     # service.beta.kubernetes.io/alicloud-loadbalancer-id: lb-bp1hfycf39bbeb019pg7m
 spec:
   ports:
+    - port: 80
+      name: http-port
+      targetPort: 80
+      protocol: TCP
     - port: 443
+      name: https-port
+      targetPort: 80
       protocol: TCP
   selector:
     app: nginx
   type: LoadBalancer
 ```
 在唯一一次手工 `kubectl create -f svc.yaml` 创建一个新 SLB 实例后就按 `svc.yaml` 中的注释修改该文件以给自动部署脚本调用了。
-
-这是我自己摸索出来在 Serverless Kubernetes 中 https 的最佳实践：
-
-1. 因为 `kubectl replace -f service.yaml` 或是阿里云控制台界面中更新 service 时会出现 `spec.clusterIP: Invalid value: "": field is immutable` 这个已知 k8s 的 BUG ，所以唯一更新 service 的方法就是 `kubectl replace -f service.yaml` 删除 service 再 `kubectl create -f service.yaml` 重建 service （实际上 relpace 时加上 `--force` 参数也是做了删除再重建的操作）。
-
-2. 使用 `service.beta.kubernetes.io/alicloud-loadbalancer-cert-id: ${证书ID}` 及 `service.beta.kubernetes.io/alicloud-loadbalancer-protocol-port: "https:443"` 和 `spec.ports.port=443` 的配置 `kubectl create -f service.yaml` 创建一个 service 及其关联的新 SLB 实例比如叫 `lb-bp1hfycf39bbeb019pg7m` 。参考 [Alibaba Cloud Provider简介](https://yq.aliyun.com/articles/626066) 。
-
-3. 为了避免 `kubectl delete` 时自动删除那个 SLB 实例，需要先到 [负载均衡](https://slb.console.aliyun.com) 将该 SLB 的 `名称` 修改掉，将 `标签` 删除掉，然后执行 `kubectl delete -f service.yaml` ，此时就只删除了 service 而没有删除那个 SLB 实例。
-
-4. 使用 `service.beta.kubernetes.io/alicloud-loadbalancer-id: lb-bp1hfycf39bbeb019pg7m` 和 `spec.ports.port=443` 的配置 `kubectl create -f service.yaml` 创建一个关联到那个已有 SLB 实例的 service 。
-
-5. 在上述步骤 2 完成时， [负载均衡](https://slb.console.aliyun.com) 中看到端口为 `HTTPS:443` ，此时在 [云解析DNS](https://dns.console.aliyun.com) 中点击 `yourcompany.com` 的 `解析设置` ，在 `添加记录` 的对话框中， `记录类型` 选择 `A` ， `主机记录` 为 `www` ， `记录值` 为那个 SLB 实例的 IP 地址，就能够用浏览器访问 `https://www.yourcompany.com` 。在上述步骤 4 完成时， [负载均衡](https://slb.console.aliyun.com) 中看到端口为 `TCP:443` ，此时无法用浏览器访问 `https://www.yourcompany.com` ，在这个问题阿里云暂时没有解决前，还需继续下面的步骤。
-
-6. `kubectl delete -f service.yaml` ，然后使用 `service.beta.kubernetes.io/alicloud-loadbalancer-id: lb-bp1hfycf39bbeb019pg7m` 和 `spec.ports.port=80` 的配置 `kubectl create -f service.yaml` 创建一个关联到那个已有 SLB 实例的 service 。此时 [负载均衡](https://slb.console.aliyun.com) 中看到端口为 `TCP:80` 。
-
-7. 在 [CDN](https://cdn.console.aliyun.com) 的 `域名管理` 中 `添加域名` ， `加速域名` 设为 `www.yourcompany.com` ， `业务类型` 设为 `图片小文件` ， `源站信息` 设为那个 SLB 实例的 IP 地址和 80 端口。把 [云解析DNS](https://dns.console.aliyun.com) 中 `主机记录` 为 `www` 的 `记录类型` 改为 `CNAME` ， `记录值` 改为 CDN `域名管理` 中 `www.yourcompany.com` 的 CNAME 。在 CDN 中配置好 HTTPS 证书。此时就能用浏览器访问 `http://www.yourcompany.com` 或 `https://www.yourcompany.com` 了。
 
 ## 让其他阿里云产品能够访问 Kubernetes pod
 把专有网络 VPC（Virtual Private Cloud）的 [路由表](https://vpcnext.console.aliyun.com/vpc/cn-shanghai/route-tables) 中的 `目标网段` 添加到相关阿里云产品比如 [云数据库RDS](https://rdsnext.console.aliyun.com) 、 [云数据库MongoDB](https://mongodb.console.aliyun.com) 等等的白名单中，这样使用着 VPC 地址的 pod 就可以正常访问这些产品了。
