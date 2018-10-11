@@ -314,15 +314,13 @@ spec:
 
 步骤 1 [操作Project](https://help.aliyun.com/document_detail/48984.html) 创建 YourProject 项目。
 
-步骤 2 [操作Logstore](https://help.aliyun.com/document_detail/48990.html) 创建 dev 日志库。
+步骤 2 [操作Logstore](https://help.aliyun.com/document_detail/48990.html) 创建 dev-access 日志库。
 
 步骤 3 以机器组名称 dev [创建机器组](https://help.aliyun.com/document_detail/28966.html) ，并将用户自定义标识设为 YourProject-dev ，该用户自定义标识后面将会被配置到 YAML 环境变量 ALIYUN_LOGTAIL_USER_DEFINED_ID 中。
 
-步骤 4 创建 Logtail 配置，数据类型选择 `Docker文件` ，配置名称填写 `dev-access` ，日志路径填写 `/ecilogs` 和 `access.log` ，应用到 dev 机器组。
+步骤 4 创建 Logtail 配置，数据类型选择 `Docker文件` ；下一步，配置名称填写 `dev-access` ，日志路径填写 `/ecilogs` 和 `access.log` ，模式可以先选择 `极简模式` 使得日志内容展示原始的一行 log ，如果你的 log 是 JSON 格式的话，稍后可以再回来修改为 `JSON模式` ，然后你就会看到新的日志内容变成了多行的 kev-value 格式；下一步，应用到 dev 机器组。
 
-步骤 5 创建 nginx 应用
-
-在上面的 deploy.yaml 中的 spec.template.spec 里修改为如下配置：
+步骤 5 在上面的 deploy.yaml 中的 spec.template.spec 里修改为如下配置：
 ```
       containers:
         - name: ilogtail
@@ -350,3 +348,5 @@ spec:
           emptyDir: {}
 
 ```
+
+现在，在日志库中点击 dev-access 的 `查询` ，就可以看到日志内容了。
