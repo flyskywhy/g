@@ -118,7 +118,7 @@ server {
 ```
 上面 `nginx.conf` 起到了前后端分流的作用：对于后端的访问比如 `www.YourProject.com/api/some-api/` ，在经过后续会提到的 Kubernetes 部署后，进入了此处 `ip地址:8010` 里的 `nginx.conf` 中的 `location /` 而被分流向后端服务 nodeapp 开启的 1234 端口；同理，对于前端的访问比如 `www.YourProject.com` 最终会在 `nginx.conf` 中变成对 `/index.html` 的访问而被分流向保存着前端静态文件的网盘比如此处的 oss 地址。
 
-参考 [Nginx Proxy_Pass to CDN vs hitting CDN directly. Pro's, Con's, Is it slower or are there negative effects on the server](https://stackoverflow.com/questions/9543068/nginx-proxy-pass-to-cdn-vs-hitting-cdn-directly-pros-cons-is-it-slower-or-a) 一文，为了避免前端静态文件从 oss 取出后还要流经占用 nginx 的资源来提供给浏览器，以及通过 CDN 来访问其回源的负载均衡提供的后端 API 性能相比直接通过负载均衡来访问会差 6 倍甚至可能会出错的问题，则可以抛开本文提供的前后端访问同一域名带来的无需考虑跨域访问 CORS 限制的好处，而另外再参考 [前端 CDN 网址跨域访问后端 nodejs 应用负载均衡网址的方法](前端CDN网址跨域访问后端nodejs应用负载均衡网址的方法.md) 一文。
+参考 [Nginx Proxy_Pass to CDN vs hitting CDN directly. Pro's, Con's, Is it slower or are there negative effects on the server](https://stackoverflow.com/questions/9543068/nginx-proxy-pass-to-cdn-vs-hitting-cdn-directly-pros-cons-is-it-slower-or-a) 一文，为了避免前端静态文件从 oss 取出后还要流经占用 nginx 的资源来提供给浏览器，以及通过 CDN 来访问其回源的负载均衡提供的后端 API 性能相比直接通过负载均衡来访问会差 6 倍甚至可能会出错的问题，则可以抛开本文提供的前后端访问同一域名带来的无需考虑跨域访问 CORS 限制而让编码、调试更方便的优点，再去另外参考 [前端 CDN 网址跨域访问后端 nodejs 应用负载均衡网址的方法](前端CDN网址跨域访问后端nodejs应用负载均衡网址的方法.md) 一文。
 
 ## 部署前端静态文件到 OSS 中
 前端静态文件由 gitlab 自动部署脚本 `.gitlab-ci.yml` 自动生成并上传到 OSS 中：
@@ -180,29 +180,29 @@ Service 网络 CIDR： 10.1.0.0/16 ，如此设置比较容易管理，今后如
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: nodeapp-deployment
   labels:
-    app: nginx
+    app: nodeapp
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: nginx
+      app: nodeapp
   template:
     metadata:
       labels:
-        app: nginx
+        app: nodeapp
     spec:
       # 如果使用的是阿里云以外的私有容器镜像仓库，则需要 imagePullSecrets ，此处 `docker-registrykey-私有容器镜像仓库`
       # 来自于命令 `kubectl create secret docker-registry docker-registrykey-私有容器镜像仓库 --docker-server=私有容器镜像仓库地址 --docker-username=私有容器镜像仓库用户名 --docker-password=私有容器镜像仓库密码`
       # imagePullSecrets:
       #   - name: docker-registrykey-私有容器
       containers:
-        - name: nginx
+        - name: nodeapp
           image: registry-vpc.cn-shanghai.aliyuncs.com/你的命名空间/私有容器镜像:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 80
+            - containerPort: 8010
           # 注意，如果直接在阿里云控制台容器服务更新“部署”会导致环境变量为空
           # env:
           #   - name: DEMO_GREETING
@@ -226,12 +226,12 @@ spec:
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: nginx-autoscaler
+  name: nodeapp-autoscaler
 spec:
   scaleTargetRef:
     apiVersion: apps/v1beta2
     kind: Deployment
-    name: nginx-deployment
+    name: nodeapp-deployment
   minReplicas: 1
   maxReplicas: 5
   metrics:
@@ -248,7 +248,7 @@ spec:
       metricName: packets-per-second
       targetAverageValue: 1k
 ```
-上面的 `nginx-autoscaler` 参考自 [Pod水平自动伸缩（Horizontal Pod Autoscaling）演练](https://k8smeetup.github.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) 及 [K8S集群基于heapster的HPA测试](http://blog.51cto.com/ylw6006/2113848) 。
+上面的 `nodeapp-autoscaler` 参考自 [Pod水平自动伸缩（Horizontal Pod Autoscaling）演练](https://k8smeetup.github.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) 及 [K8S集群基于heapster的HPA测试](http://blog.51cto.com/ylw6006/2113848) 。
 
 示例 svc.yaml 如下：
 
@@ -256,7 +256,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-service
+  name: nodeapp-service
   annotations:
     # service.beta.kubernetes.io/alicloud-loadbalancer-protocol-port: "http:80"
 
@@ -273,14 +273,14 @@ spec:
   ports:
     - port: 80
       name: http-port
-      targetPort: 80
+      targetPort: 8010
       protocol: TCP
     - port: 443
       name: https-port
-      targetPort: 80
+      targetPort: 8010
       protocol: TCP
   selector:
-    app: nginx
+    app: nodeapp
   type: LoadBalancer
 ```
 在唯一一次手工 `kubectl create -f svc.yaml` 创建一个新 SLB 实例后就按 `svc.yaml` 中的注释修改该文件以给自动部署脚本调用了。
@@ -326,7 +326,7 @@ spec:
             - name: app-log
               mountPath: /ecilogs
               readOnly: true
-        - name: nginx
+        - name: nodeapp
 ...
             - secretRef:
                 name: secret-some

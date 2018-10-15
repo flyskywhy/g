@@ -11,7 +11,7 @@ Li Zheng <flyskywhy@gmail.com>
 | www-get-cfg-nocdn | 899.66         | 11.02     | 起：2018-09-28 09:21:28 止：2018-09-28 09:24:28 |
 | www-get-cfg-cdn   | 149.25         | 68.68     | 起：2018-09-28 09:13:09 止：2018-09-28 09:16:09 |
 
-另外，如果 nodejs 应用提供了文件下载服务，则当文件较大时，在使用阿里云 [CDN](https://cdn.console.aliyun.com) 的情况下，就有非常大的概率下载失败，此种应用则只能让前后端使用不用域名使得后端不使用 CDN 。
+另外，如果 nodejs 应用提供了文件下载服务，则当文件较大时，在使用阿里云 [CDN](https://cdn.console.aliyun.com) 的情况下，就有非常大的概率下载失败，此种应用则只能让前后端使用不用域名使得后端不使用 CDN 。而为了不在跨域时出现比如 [不要再问我跨域的问题了](https://segmentfault.com/a/1190000015597029) 提到的安全问题，前后端代码需要配合处理完善。
 
 ## 方法
 后端跨域设置可以在后端的 nginx.conf 或 nodejs 应用代码中设置，实际试验发现， nginx.conf 的跨域方法经常出现有一些 API 请求没有跨域成功的问题，而 nodejs 应用代码的跨域方法则全部跨域成功。
@@ -60,3 +60,21 @@ app.use(cors({
 
 ### 前端域名解析
 在 [云解析DNS](https://dns.console.aliyun.com) 中点击 `yourcompany.com` 的 `解析设置` ，在 `添加记录` 的对话框中， `记录类型` 选择 `CNAME` ， `主机记录` 为 `www` ， `记录值` 为 CDN `域名管理` 中 `www.yourcompany.com` 的 CNAME ，如此就将带有 `www.` 前缀的前端静态网页的托管服务器地址 `www.yourcompany.com` 解析到 CDN 地址。
+
+## 简化
+由于不再需要 nginx ，[gitlab 自动部署 nodejs 应用到阿里云 Kubernetes 集群中](GitLab自动部署nodejs应用到阿里云Kubernetes集群中.md) 文中的一些配置文件可以被简化。
+
+### 删除 `nginx.conf`
+
+### 简化 Dockerfile
+Dockerfile 中的 nginx 相关内容也不再需要了，可简化为：
+```
+FROM debian:stretch-slim
+
+COPY nodeapp ./
+CMD ./nodeapp
+```
+注，发现不需要显示 `EXPOSE 1234` 也能让 docker 容器开放后端服务 nodeapp 开启的 1234 端口，这样又可以让 docker 镜像少编译一个层了。
+
+### 修改 yaml
+将 `deploy.yaml` 和 `svc.yaml` 中的 8010 端口修改为后端服务 nodeapp 开启的 1234 端口。
