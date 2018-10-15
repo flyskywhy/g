@@ -389,6 +389,7 @@ deploy_staging:
 目前业界有一种趋势：直接将应用代码编译为一个 docker 镜像，然后运行这个镜像中的应用代码的测试脚本，然后把这个测试通过的镜像 push 到（自己私有的） Docker Registry 中，最后把这个镜像从 Docker Registry 中部署到生产服务器上。不过正如 [Using Docker Build](https://docs.gitlab.com/ce/ci/docker/using_docker_build.html) 中所说，三种实现该目标的方法各有利弊，需要权衡选择。另外根据 [Spotify 的容器使用情况](http://www.linuxeden.com/a/9864) 中所说，如果使用这种方式，还需要承担 docker 自身可能出现的一些问题。总的来说，请根据项目实际需要，权衡是否选择此种部署方式。具体操作可以参考 [GitLab自动部署nodejs应用到阿里云Kubernetes集群中](GitLab自动部署nodejs应用到阿里云Kubernetes集群中.md) 一文。
 
 # https
+## 首次添加 SSL 证书
 gitlab 默认是 http 的，如果想开启 https ，首先需要比如到 [阿里云免费申请免费SSL证书](http://www.cnblogs.com/joshua317/p/6179311.html) ，然后参考 [NGINX settings](https://docs.gitlab.com/omnibus/settings/nginx.html) 将获得的证书复制并重命名，比如：
 
     sudo mkdir -p /etc/gitlab/ssl
@@ -404,6 +405,10 @@ gitlab 默认是 http 的，如果想开启 https ，首先需要比如到 [阿�
 最后 `sudo gitlab-ctl reconfigure` 即可。
 
 最后的最后，如果之前配置过 Runner ，则还需到 Runner 的服务器上将 `/etc/gitlab-runner/config.toml` 文件里的 url 修改为 https 的并 `sudo gitlab-runner restart` 即可。
+
+## 以后更新 SSL 证书
+
+    sudo gitlab-ctl hup nginx
 
 # npm install
 如果托管在 gitlab 中的仓库想要被 `npm install` 安装，比如 `npm install git+https://gitlab.your-company.com/github/flyskywhy/react-web.git#5856028` ，则需要在 gitlab 网页上设置该仓库 `Settings | General | Project Visibility` 为 `Public` 。否则会报例如如下错误：
