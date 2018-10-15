@@ -407,6 +407,7 @@ gitlab 默认是 http 的，如果想开启 https ，首先需要比如到 [阿�
 最后的最后，如果之前配置过 Runner ，则还需到 Runner 的服务器上将 `/etc/gitlab-runner/config.toml` 文件里的 url 修改为 https 的并 `sudo gitlab-runner restart` 即可。
 
 ## 以后更新 SSL 证书
+复制新证书到 `/etc/gitlab/ssl/` 后，执行
 
     sudo gitlab-ctl hup nginx
 
