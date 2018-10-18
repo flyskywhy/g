@@ -71,6 +71,7 @@ Array 是可以 .length 的，所以使用 for( of ) 或者 for(;;) 皆可。
 可以使用 [无循环 JavaScript](http://www.linuxeden.com/a/3359) 一文中提到的 Array 自带的 map() 等方法来替代耦合较大的 for 语句，并提高代码可读性。
 
 ## 数字
+### 字符串转成数字的有效方法
 如 [js 字符串转换成数字的三种方法](http://blog.csdn.net/ufo2910628/article/details/40735691) 之类的文章所说，
 
     '2' - 0
@@ -101,12 +102,39 @@ Array 是可以 .length 的，所以使用 for( of ) 或者 for(;;) 皆可。
 
 上面的 * 1 也可以用 / 1 代替，或者用 parseInt() 也是另一种标准做法。
 
+### 浮点数运行不精确问题
+由 JS 浮点数内部表示导致的计算不准确现象，如：
+```
+var a = 0.14;
+a = a * 100;
+var b = 1.13;
+b = b * 100;
+var c = 0.1 + 0.2
+```
+a 、 b 和 c 的打印结果分别为
+```
+14.0000000000000002
+112.99999999999999
+0.30000000000000004
+```
+若需要比较数值是否相等，直接比较很容易出问题。最好使用 toFixed() 函数先作处理，如
+
+    a = a.toFixed(2);
+
+结果为 14.00
+
+toFixed() 括号内参数为保留的小数位数。0为整数。支持四舍五入。
+
+注： toFixed() 函数只能作用于数值型数据，字符串型数据不可调用该函数，且返回值为字符串类型数据。
+
 ## npm
 避免将 package-lock.json 放入 git 仓库中，而仍然通过去掉 package.json 中的 ^ 或 ~ 符号的方式来固定版本，原因如下：
 
 * node8.x 自带的 npm （比如 npm5.5.1）存在无法配合 package-lock.json 完成 `npm install` 的情况，参见 [NPM Cannot read property '0' of undefined](https://stackoverflow.com/questions/46619949/npm-cannot-read-property-0-of-undefined) 。
 * 有的项目成员会使用 npm 自带的仓库，有的会使用淘宝的镜像仓库，导致 package-lock.json 这个同时也记录着仓库地址的巨大文件实际上难以解决合并冲突，而且会使 ~/.npm 目录中存在大量重复的缓存文件而白白占用硬盘空间。
 * 不使用 yarn 及其 yarn.lock 的原因，是因为每次运行 yarn 命令就会将 node_modules 干干净净地重置一遍，的确很 lock ，但是实际项目开发过程中项目成员常常会实验性地修改 node_modules 中的某个第三方组件，有时也会用 `npm postinstall` 对一些第三方组件打补丁，而且有时因为中国网络环境的原因，需要手动到第三方组件中添加一些自动安装过程中没有从比如亚马逊网站上下载的压缩包，所以 yarn 的这个“干净”功能反而会带来很多繁琐的重复操作。
+
+如果在 `npm install` 时加上 `--no-package-lock` 参数，就可以直接避免生成 package-lock.json 文件。
 
 ## React
 ### 方法顺序
