@@ -1,7 +1,7 @@
 Li Zheng <flyskywhy@gmail.com>
 
 # JavaScript 精选包
-安装各种包后，JavaScript 就变得更强大。后端和前端代码一般分别使用 npm 和 bower 来安装这些包。安装 [nodejs](nodejs.org) 之后就能使用 npm 命令。`npm install bower -g`之后就能使用 bower 命令。
+安装各种包后，JavaScript 就变得更强大。安装 [nodejs](nodejs.org) 之后就能使用 npm 命令。
 
 ## sequelize
 使用NodeJS来关系型操作数据库时， Sequelize 是一个比较合适的 ORM(Object Relationship Model) 框架。参见 [Sequelize 和 MySQL 对照](https://segmentfault.com/a/1190000003987871) 一文。
@@ -31,3 +31,9 @@ Li Zheng <flyskywhy@gmail.com>
 
     unique(['a', 'b', 'c', 'c']);
     //=> ['a', 'b', 'c']
+
+## ndb
+[ndb](https://github.com/GoogleChromeLabs/ndb) 可以进行设断点、内存性能测试等操作，参见在 Chrome 70 及之后版本中 [Debug Node.js apps with ndb](https://developers.google.com/web/updates/2018/08/devtools#ndb) 。
+
+## 阿里云 Node.js 性能平台
+可参考 [Node应用内存泄漏分析方法论与实战](https://help.aliyun.com/document_detail/64011.html) 和 [Trace用户指南](https://help.aliyun.com/document_detail/72715.html) 等文章。
