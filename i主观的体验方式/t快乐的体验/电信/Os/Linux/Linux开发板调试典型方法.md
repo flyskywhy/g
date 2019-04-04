@@ -57,7 +57,7 @@ pu rtscts           No
 它获得 IP 地址后就会自动尝试通过 tftp 启动，此时当然会报错，所以 `CTRL+C` 即可，因为我们这里只是用它来获得 IP 地址而已。
 
 ### Linux 内核
-然后输入如下命令将主机上的 tftpd 目录（比如 `192.0.16.37` 上的 `/tftpboot` 目录）中的 Linux 内核文件 `zImage` 和驱动设备树文件 `imx6q-sabresd.dtb` 下载到开发板中：
+然后输入如下命令将主机上的 tftpd 目录（比如 `192.0.16.37` 上的 `/tftpboot` 目录）中的 Linux 内核文件 `zImage` 和 [ARM 设备树](https://blog.csdn.net/21cnbao/article/details/8457546) 文件 `imx6q-sabresd.dtb` 下载到开发板中：
 
     tftpboot 192.168.0.16.37:zImage
     tftpboot ${fdt_addr} 192.168.11.105:imx6q-sabresd.dtb
