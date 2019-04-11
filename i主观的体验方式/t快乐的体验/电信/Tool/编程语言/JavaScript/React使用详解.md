@@ -123,6 +123,10 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
     cd android
     ./gradlew assembleRelease
 
+如果在此过程中报出 `Out of Memory Error` 的错误，则需要在 `~/.gradle/gradle.properties` 中添加类似如下内容：
+
+    org.gradle.jvmargs=-Xmx2048m -XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8
+
 更多用法参见 [React-Native 离线打包](http://alihub.org/14659907331638.html) 。
 
 ## release 在线更新
