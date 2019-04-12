@@ -7,9 +7,9 @@ Li Zheng <flyskywhy@gmail.com>
 ## tftpd
     sudo apt-get install tftpd openbsd-inetd
 
-将 `/etc/inetd.conf` 文件中的最后一个路径设置成你希望让客户端存取文件的目录，例如下面的 `/tftpboot` （记得开放该目录的读写权限）：
+将 `/etc/inetd.conf` 文件中的最后一个路径设置成你希望让客户端存取文件的目录，例如下面的 `/tftp` （记得开放该目录的读写权限）：
 
-    tftp		dgram	udp	wait	nobody	/usr/sbin/tcpd	/usr/sbin/in.tftpd /tftpboot
+    tftp		dgram	udp	wait	nobody	/usr/sbin/tcpd	/usr/sbin/in.tftpd /tftp
 
 然后用如下语句重启 tftpd 服务：
 
@@ -57,7 +57,7 @@ pu rtscts           No
 它获得 IP 地址后就会自动尝试通过 tftp 启动，此时当然会报错，所以 `CTRL+C` 即可，因为我们这里只是用它来获得 IP 地址而已。
 
 ### Linux 内核
-然后输入如下命令将主机上的 tftpd 目录（比如 `192.0.16.37` 上的 `/tftpboot` 目录）中的 Linux 内核文件 `zImage` 和 [ARM 设备树](https://blog.csdn.net/21cnbao/article/details/8457546) 文件 `imx6q-sabresd.dtb` 下载到开发板中：
+然后输入如下命令将主机上的 tftpd 目录（比如 `192.0.16.37` 上的 `/tftp` 目录）中来自于 [天嵌 E9v3 卡片电脑下载资料](http://www.embedsky.com/index.php?g=home&m=download&a=show&id=7) 中 `Linux 4.1镜像` 里的 Linux 内核文件 `zImage` 和 [ARM 设备树](https://blog.csdn.net/21cnbao/article/details/8457546) 文件 `imx6q-sabresd.dtb` 下载到开发板中：
 
     tftpboot 192.168.0.16.37:zImage
     tftpboot ${fdt_addr} 192.168.11.105:imx6q-sabresd.dtb
@@ -85,7 +85,7 @@ pu rtscts           No
     net init
 
 ### Linux 内核
-然后输入如下命令将主机上的 tftpd 目录（比如 `192.0.16.37` 上的 `/tftpboot` 目录）中的 Linux 内核文件 `vmlinux.bin` 下载到开发板中：
+然后输入如下命令将主机上的 tftpd 目录（比如 `192.0.16.37` 上的 `/tftp` 目录）中的 Linux 内核文件 `vmlinux.bin` 下载到开发板中：
 
     load -b tftp://192.0.16.37/vmlinux.bin 0x84000000
 
