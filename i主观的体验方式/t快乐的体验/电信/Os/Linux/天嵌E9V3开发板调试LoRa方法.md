@@ -3,7 +3,7 @@
 Li Zheng <flyskywhy@gmail.com>
 
 # 准备 NFS 方式运行环境
-参考 [Linux开发板调试典型方法](https://gitlab.sys-in.com.cn/documentation/doc-common/blob/master/Os/Linux/Linux开发板调试典型方法.md) 启动 Linux。
+参考 [Linux开发板调试典型方法](Linux开发板调试典型方法.md) 启动 Linux。
 
 # 准备编译环境
 将 [天嵌 E9v3 卡片电脑下载资料](http://www.embedsky.com/index.php?g=home&m=download&a=show&id=7) 中 gcc 的 bin 目录添加进主机 Linux 的 PATH 中即可。
@@ -52,7 +52,7 @@ export CROSS_COMPILE=arm-linux-gnueabihf-
 cp config_linux .config
 make dtbs
 ```
-即可得到新的 `arch/arm/boot/dts/imx6q-sabresd.dtb` 文件。再将此文件按照 [Linux开发板调试典型方法](https://gitlab.sys-in.com.cn/documentation/doc-common/blob/master/Os/Linux/Linux开发板调试典型方法.md) 所说重新下载到板子上，然后如果发现之前的 `./spi_test  --verbose` 会报错说 `can't open device` 或者是无法 `ls /dev/spidev1.0` 了，则说明我们已经成功地更新了 device tree 。
+即可得到新的 `arch/arm/boot/dts/imx6q-sabresd.dtb` 文件。再将此文件按照 [Linux开发板调试典型方法](Linux开发板调试典型方法.md) 所说重新下载到板子上，然后如果发现之前的 `./spi_test  --verbose` 会报错说 `can't open device` 或者是无法 `ls /dev/spidev1.0` 了，则说明我们已经成功地更新了 device tree 。
 
 ## 编译 .ko 文件
 在主机 Linux 中进入 [https://github.com/starnight/LoRa/tree/file-ops](https://github.com/starnight/LoRa/tree/file-ops) 的 LoRa 目录，使用如下语句编译出 `sx1278.ko` ：
