@@ -6,7 +6,7 @@ Li Zheng <flyskywhy@gmail.com>
 参考 [Linux开发板调试典型方法](Linux开发板调试典型方法.md) 启动 Linux。
 
 # 准备编译环境
-将 [天嵌 E9v3 卡片电脑下载资料](http://www.embedsky.com/index.php?g=home&m=download&a=show&id=7) 中 gcc 的 bin 目录添加进主机 Linux 的 PATH 中即可。
+将 [天嵌 E9v3 卡片电脑下载资料](http://www.embedsky.com/index.php?g=home&m=download&a=show&id=7) 中 `TQIMX6_Linux平台工具` 里 gcc 的 bin 目录添加进主机 Linux 的 PATH 中即可。
 
 # 使用 SPI 驱动操作 SPI 管脚
 [天嵌 E9v3 卡片电脑下载资料](http://www.embedsky.com/index.php?g=home&m=download&a=show&id=7) 中， `Linux 4.1镜像` 里已经内含了 SPI 驱动，因此我们只需要按照 `配套教材集` 里的 《TQIMX6_E9硬件手册.pdf》 “扩展接口” 一章中用飞线短接 38 脚 CSPI2_MISO 和 39 脚 CSPI2_MOSI ，再用 `Linux4.1资源` 中的 `测试方法及示例代码/spi/build.sh` 在主机 Linux 中编译出 spi_test 可执行文件，就可以复制到 NFS 中进行本地 loopback 测试了。
