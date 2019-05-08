@@ -167,6 +167,8 @@ gitlab-ce 内含了 redis 、 nginx 等等各种第三方软件包（被安装�
 
     sudo mount -t nfs 192.x.x.8:/pub/gitlab /var/opt/gitlab
 
+注：此时如果提示说 `mount.nfs: access denied by server while mounting 192.x.x.8:/pub/gitlab` ，则参考 [远程挂载NFS时mount.nfs: access denied by server while mounting 一个解决办法](https://blog.51cto.com/ydw1118/1728023) 中所说，需要在 nfs 服务端的 `/etc/exports` 中 no_wdelay 后面再添加一个 insecure 选项。
+
 在**本地**启动 gitlab-ce 的运行
 
     sudo gitlab-ctl start
