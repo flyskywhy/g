@@ -41,6 +41,8 @@ Nodejs 代码会包含一个自动下载的包含了许多许多文件的 node_m
 ## 在 Sublime Text 中安装插件管理工具 Package Control
 把 [https://packagecontrol.io/installation](https://packagecontrol.io/installation) 网页上显示的 Python 语句复制下来，点击 Sublime Text 的菜单`View | Show Console`，在打开的 Console 中粘帖 Python 语句并回车，稍后根据提示重启 Sublime Text 即可使用菜单`Preferences | Package Control`来`Install Package`安装各种强大的插件了。
 
+注：可参考 [解决国内 https://packagecontrol.io 无法访问的问题](https://github.com/HBLong/channel_v3_daily) 。
+
 ## 在 Package Control 中安装 Nodejs
 这样就可以增加许多自动完成功能，比如敲入`fs`就会出现许多`fs.mkdir`等相关的函数可供选择。还有，菜单 `Tools | Snippet` 中也会多出几个代码段可供选择。
 
