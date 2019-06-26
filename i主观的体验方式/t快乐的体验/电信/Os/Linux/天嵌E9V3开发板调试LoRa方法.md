@@ -93,7 +93,7 @@ make -C $BUILDDIR M=`pwd` modules
 
 其它的打印信息可以通过 `dmesg` 命令或是 `vi /var/log/dmesg` 或是 `vi /var/log/messages` 来查看。
 
-如果之前没有正确修改过 .dtsi 的话，那些 dev_err 打印都不会出现，这是因为 kernel 如果运行 .ko 也就是驱动源码到比如 spi-sx1278.c 中 of_get_property() 语句的地方时，它没法从 .dtb 中查找到 spi-sx1278.c 的 .compatible 语句所表明的节点，也因此无法让 of_get_property() 获得节点中的 clock-frequency 内容，所以 kernel 根本就不会响应 modproble 命令而去运行 .ko ，也因此根本就不会运行到 spi-sx1278.c 中的那些 dev_err 打印语句。
+如果之前没有正确修改过 .dtsi 的话，那些 dev_err 打印都不会出现，这是因为 kernel 如果运行 .ko 也就是驱动源码到比如 spi-sx1278.c 中 of_get_property() 语句的地方时，它没法从 .dtb 中查找到 spi-sx1278.c 的 .compatible 语句所表明的节点，也因此无法让 of_get_property() 获得节点中的 clock-frequency 内容，所以 kernel 根本就不会响应 modprobe 命令而去运行 .ko ，也因此根本就不会运行到 spi-sx1278.c 中的那些 dev_err 打印语句。
 
 ## 调试 .ko 文件
 由于 `Linux4.1资源` 中的 `Linux 4.1源码/` 的由 `config_linux` 复制而成的 `.config` 里的 `CONFIG_DYNAMIC_DEBUG` 并未开启，影响到 `include/linux/printk.h` 里的宏定义行为会使得 LoRa 源码中的 pr_debug 不会打印出任何东西，所以如果想开启这些 LoRa 调试打印行为但并不想 `make zImage` 重新编译内核的话，比较取巧的方法是将 `include/linux/printk.h` 中的
