@@ -8,6 +8,10 @@ Li Zheng <flyskywhy@gmail.com>
 # 准备编译环境
 将 [天嵌 E9v3 卡片电脑下载资料](http://www.embedsky.com/index.php?g=home&m=download&a=show&id=7) 中 `TQIMX6_Linux平台工具` 里 gcc 的 bin 目录添加进主机 Linux 的 PATH 中即可。
 
+或是使用较新的版本：
+
+    suod apt install gcc-arm-linux-gnueabihf
+
 # 使用 SPI 驱动操作 SPI 管脚
 [天嵌 E9v3 卡片电脑下载资料](http://www.embedsky.com/index.php?g=home&m=download&a=show&id=7) 中， `Linux 4.1镜像` 里已经内含了 SPI 驱动，因此我们只需要按照 `配套教材集` 里的 《TQIMX6_E9硬件手册.pdf》 “扩展接口” 一章中用飞线短接 38 脚 CSPI2_MISO 和 39 脚 CSPI2_MOSI ，再用 `Linux4.1资源` 中的 `测试方法及示例代码/spi/build.sh` 在主机 Linux 中编译出 spi_test 可执行文件，就可以复制到 NFS 中进行本地 loopback 测试了。
 
@@ -21,7 +25,7 @@ RX | FF FF FF FF FF FF 40 00 00 00 00 95 FF FF FF FF FF FF FF FF FF FF FF FF FF 
 ```
 
 # 使用 LoRa 驱动操作 SPI 管脚上的 LoRa 芯片
-可以在 LoRa 应用或库中编写代码去操作上面的 SPI 驱动来达到操作 LoRa 芯片的目的，不过现在有直接的 LoRa 驱动 [https://github.com/starnight/LoRa/tree/file-ops](https://github.com/starnight/LoRa/tree/file-ops) 可使用。该 LoRa 驱动使用了 Linux 3.1 开始引入的用于减少慢速 I/O 驱动上的重复逻辑的 regmap 特性，所以如果你的 Linux 版本低于 3.1 的话，就只能使用上面的 SPI 驱动。
+可以在 LoRa 应用或库中编写代码去操作上面的 SPI 驱动来达到操作 LoRa 芯片的目的，不过现在有直接的 LoRa 驱动 [https://github.com/flyskywhy/LoRa/tree/file-ops](https://github.com/flyskywhy/LoRa/tree/file-ops) 可使用。该 LoRa 驱动使用了 Linux 3.1 开始引入的用于减少慢速 I/O 驱动上的重复逻辑的 regmap 特性，所以如果你的 Linux 版本低于 3.1 的话，就只能使用上面的 SPI 驱动。
 
 这里不使用 LoRa 驱动的 master 而是 file-ops 分支的原因是我们只想采用 ARM + LoRa 的网关与 STM32 + LoRa 的终端的通信方案，这样可以大大降低终端的成本，而 STM32 上是无法运行 Linux 的，所以 LoRa 驱动作者后来在 master 分支上想要达到的将 LoRa 作为自定义无线网卡的目标并不是我们的需求。具体可以翻墙参考 LoRa 驱动作者的 PPT [Let's Have an IEEE 802.15.4 over LoRa Linux Device Driver for IoT](https://www.slideshare.net/chienhungpan/lets-have-an-ieee-802154-over-lora-linux-device-driver-for-iot) 以及相关中文视频解说 [Let's Have an IEEE 802.15.4 over LoRa Linux Device Driver for IoT - YouTube](https://www.youtube.com/watch?v=_lGN-LDyl2I) ，从该解说中也可获知作者使用轮询中断标志位的方式替代了 GPIO 口连接 LoRa 的表明中断的 DIO 口，所以下文飞线时没有做 DIO 的连接处理。
 
@@ -55,7 +59,7 @@ make dtbs
 即可得到新的 `arch/arm/boot/dts/imx6q-sabresd.dtb` 文件。再将此文件按照 [Linux开发板调试典型方法](Linux开发板调试典型方法.md) 所说重新下载到板子上，然后如果发现之前的 `./spi_test  --verbose` 会报错说 `can't open device` 或者是无法 `ls /dev/spidev1.0` 了，则说明我们已经成功地更新了 device tree 。
 
 ## 编译 .ko 文件
-在主机 Linux 中进入 [https://github.com/starnight/LoRa/tree/file-ops](https://github.com/starnight/LoRa/tree/file-ops) 的 LoRa 目录，使用如下语句编译出 `sx1278.ko` ：
+在主机 Linux 中进入 [https://github.com/flyskywhy/LoRa/tree/file-ops](https://github.com/flyskywhy/LoRa/tree/file-ops) 的 LoRa 目录，使用如下语句编译出 `sx1278.ko` ：
 ```
 export ARCH=arm
 export CROSS_COMPILE=arm-linux-gnueabihf-
