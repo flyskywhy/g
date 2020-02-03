@@ -84,12 +84,18 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
 
 这样，当 js 代码修改后，将 Android 真机摇一摇，就能 Reload 过来最新修改的 js 代码了。
 
-如果出现错误提示 “increase the fs.inotify.max_user_watches sysctl” ，则可按 [Increasing the amount of inotify watchers](https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers) 进行操作。
+如果 `react-native run-android` 出现错误提示 “java.util.concurrent.ExecutionException: com.android.builder.utils.SynchronizedFile$ActionExecutionException: com.android.ide.common.signing.KeytoolException: Failed to create keystore.” ，则需要
+
+    keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
+
+并将生成的 debug.keystore 放到 `~/.android/` 中。
+
+如果 `react-native start` 出现错误提示 “increase the fs.inotify.max_user_watches sysctl” ，则可按 [Increasing the amount of inotify watchers](https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers) 进行操作。
 
 如果是 Win10 中的 WSL ，由于 Windows 的防火墙无法自动在 WSL 中的 Linux 开启端口时弹出对话框让用户选择是否允许，所以只有 Win10 本机才能访问该端口。为了让其它主机比如 Android 真机摇一摇后 `Dev Setting | Debug server host & port for device` 设置能够成功 Reload 到 js 代码，需要手动在防火墙中开启 native packager server 所监听的 8081 端口，方法是在 `控制面板 | Windows Defender 防火墙 | 高级安全 Windows Defender 防火墙 | 入站规则 | 新建规则` 中选择 `端口 | 8081 | 允许连接 ` ，最后填写名称比如为 `Allow localhost port 8081` 以及填写描述比如为 `port forwarding to allow external machine to access Windows 10's Windows Subsystem Linux servers` 即可。
 
 
-## release 离线打包
+## release 离线打包 Android
 ### 生成签名库,拷贝至 android/app/
 
     keytool -genkey -v -keystore rn-apk.keystore -alias rn-apk -keyalg RSA -keysize 2048 -validity 10000
@@ -158,6 +164,40 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
     react-web bundle
 
 打包完成后，文件会存放在 web/output/ 目录下面。
+
+## 配置 iOS 开发环境
+除了为 React Native [搭建开发环境](https://reactnative.cn/docs/getting-started.html) ，还需 [像 Mac 高手一样管理应用，从 Homebrew 开始](https://sspai.com/post/42924) 使用 `brew install` 、 `brew cask install` 或 `mas install` 安装各种实用工具。安装过程中最好保持翻墙状态，否则速度较慢或无法安装。另可参考 [我在 Mac 上都用什么](https://www.cnblogs.com/imzhizi/p/my-apps-on-mac.html) 一文。
+
+    brew install mas node watchman
+    brew cask install sublime-text double-commander google-chrome the-unarchiver iterm2 xquartz typora meld
+
+* 解决 `brew install` 或 `npm install -g` 时出现的 `/usr/local/` 权限问题
+
+如果当前不是 macOS 的第一个用户，就算已加入 admin 组，也还需要手动加入 wheel 组：
+
+    sudo dseditgroup -o edit -a $USER -t user wheel
+
+* 解决 `brew install` 的 git-gui 运行时容易崩溃的问题
+
+使用其它 git 的图形化客户端替代，比如
+
+    brew cask install fork
+
+* 安装 JAVA 环境
+
+如果想在 macOS 上编译 Android APP ，则还需参考 [macOS 的 JDK 安装问题 (Homebrew)](https://www.cnblogs.com/imzhizi/p/macos-jdk-installation-homebrew.html) 一文安装 JDK8
+
+    brew cask install AdoptOpenJDK/openjdk/adoptopenjdk8
+
+## Xcode 编译过程问题集锦
+* 手工下载 `node_modules/react-native/third-party`
+
+如果出现这个错误
+```
+Failed to successfully download 'boost_1_63_0.tar.gz'. Debug info:
+ls: /Users/lizheng/Library/Caches/com.facebook.ReactNativeBuild/boost_1_63_0.tar.gz: No such file or directory
+```
+则要按照 `node_modules/react-native/scripts/ios-install-third-party.sh` 中底部的几个链接手动下载，再将下载好的文件放到 `~/.rncache/` 或 `~/Library/Caches/com.facebook.ReactNativeBuild/` 中即可用 Xcode 重新编译。
 
 ## Redux
 [还在纠结 Flux 或 Relay，或许 Redux 更适合你](https://segmentfault.com/a/1190000003099895)
