@@ -147,7 +147,10 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
 ## 安装 react-web
     npm install -g react-web-cli
 
+另：官方 react-web 已停止维护，可使用我维护的 https://github.com/flyskywhy/react-web 替代，或是参考另一套 https://github.com/necolas/react-native-web 。
+
 ## 创建 react-web 项目
+
     cd ..
     react-web init AwesomeProject
 
@@ -169,7 +172,12 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
 除了为 React Native [搭建开发环境](https://reactnative.cn/docs/getting-started.html) ，还需 [像 Mac 高手一样管理应用，从 Homebrew 开始](https://sspai.com/post/42924) 使用 `brew install` 、 `brew cask install` 或 `mas install` 安装各种实用工具。安装过程中最好保持翻墙状态，否则速度较慢或无法安装。另可参考 [我在 Mac 上都用什么](https://www.cnblogs.com/imzhizi/p/my-apps-on-mac.html) 一文。
 
     brew install mas node watchman
-    brew cask install sublime-text double-commander google-chrome the-unarchiver iterm2 xquartz typora meld
+    brew cask install sublime-text double-commander google-chrome the-unarchiver iterm2 xquartz typora meld intelliscape-caffeine bitbar geektool turbovnc-viewer microsoft-remote-desktop-beta flux
+
+注：其中 `turbovnc-viewer` 的运行需要先安装下面提到的 JAVA 环境，并运行如下语句：
+
+    export JAVA_HOME `/usr/libexec/java_home -v 1.8`
+    launchctl setenv JAVA_HOME $JAVA_HOME
 
 * 解决 `brew install` 或 `npm install -g` 时出现的 `/usr/local/` 权限问题
 
@@ -199,6 +207,22 @@ ls: /Users/lizheng/Library/Caches/com.facebook.ReactNativeBuild/boost_1_63_0.tar
 ```
 则要按照 `node_modules/react-native/scripts/ios-install-third-party.sh` 中底部的几个链接手动下载，再将下载好的文件放到 `~/.rncache/` 或 `~/Library/Caches/com.facebook.ReactNativeBuild/` 中即可用 Xcode 重新编译。
 
+## 使用 Cocoapods 安装 iOS 第三方库
+
+首先是安装 cocoapods 自身
+
+    sudo gem install cocoapods
+
+在 `ios/` 目录中运行 `pod init` 以生成 Podfile 文件，然后可以按需修改，推荐按照下面会提到的 [react-native-unimodules](https://github.com/unimodules/react-native-unimodules) 的 README.md 说的那样修改 `ios/Podfile` 。
+
+最后就可以这样简单地安装 iOS 第三方库了（而不是像上面那样还要手工下载 `node_modules/react-native/third-party` ）:
+
+    pod install
+
+安装完后它会提示退出 Xcode 进程，并且下次 Xcode 需要打开 ios/ 目录中的 `.xcworkspace` 而非 `.xcodeproj` 。
+
+一般来说，使用 `pod install` 方式的话，就不需要再运行以前安装 react-native 第三方组件经常所需的 `react-native link` 命令，虽然就算运行过好像也没事。
+
 ## Redux
 [还在纠结 Flux 或 Relay，或许 Redux 更适合你](https://segmentfault.com/a/1190000003099895)
 
@@ -207,5 +231,11 @@ ls: /Users/lizheng/Library/Caches/com.facebook.ReactNativeBuild/boost_1_63_0.tar
     npm install --save redux react-redux
     npm install --save-dev redux-devtools
 
-## 使用 moles-web
-react-web 用起来还是有点磕磕绊绊，还好携程基于 react-web 做了个高级版 moles-web ，现在已经在携程的主 App 上投入生产，详见 [Moles：携程基于React Native的跨平台开发框架](https://www.sdk.cn/news/4602) ，只是其目前最新版还未开源，可以先拿 npm 上的旧版本与 react-web 代码整合用用。
+## react-native-unimodules 
+react-native 兴起之初，各种第三方组件百家争鸣，但也良莠不齐。最近看来 react-native-unimodules 渐有一统之势，它支持许多开发 APP 时用得到的方方面面的 [Packages](https://docs.expo.io/versions/latest/bare/unimodules-full-list/) ，而且其中所谓 bare workflow 也就是不需要和 Expo 绑定的独立 Packages 已经足够多了。
+
+如果是在 iOS 中使用 react-native-unimodules ，则必须要使用上面提到的 `pod install` 才能正常运行。
+
+## 参考 moles-web
+
+携程基于 react-web 做了个高级版 moles-web ，现在已经在携程的主 App 上投入生产，详见 [Moles：携程基于React Native的跨平台开发框架](https://www.sdk.cn/news/4602) ，只是其目前最新版还未开源，可以先拿 npm 上的旧版本与 react-web 代码整合用用。
