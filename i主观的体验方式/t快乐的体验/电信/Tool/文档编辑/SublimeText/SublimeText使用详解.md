@@ -58,35 +58,27 @@ Nodejs 代码会包含一个自动下载的包含了许多许多文件的 node_m
 这是使用各种语言的 lint 工具前需要安装的基础插件。
 
 ## 在 Package Control 中安装 SublimeLinter-eslint
-由于 eslint 相比 jshint 多出了对最新代码格式比如 React 的支持，所以推荐安装 eslint 。
+以及在你自己项目源代码目录中安装 eslint 可执行文件及 react-native 社区默认采用的规则文件：
 
-安装好 SublimeLinter-eslint 之后，如果是还不存在规则文件 `.eslintrc` 的新项目，则还需如下添加复杂/简单规则文件的操作：
+    npm install --save-dev @babel/core @babel/runtime @react-native-community/eslint-config eslint
 
-* 实际项目中使用的复杂规则文件
-
-在源代码目录中安装 eslint 可执行文件：
-
-    npm install --save-dev babel-eslint eslint eslint-plugin-react
-
-从 https://github.com/flyskywhy/noder-react-native 中复制 `.eslintrc` 文件到源代码目录。
-
-* 简单规则文件示例
-
-在源代码目录中安装 eslint 可执行文件：
-
-    npm install --save-dev eslint eslint-plugin-jsx-a11y eslint-config-airbnb eslint-plugin-import eslint-plugin-react
-
-在源代码目录中初始化 `.eslintrc` 文件，后续可再自行编辑：
-
-    eslint --init
-
-在初始化过程中回答如下问题即可：
-
-    ? How would you like to configure ESLint? Use a popular style guide
-    ? Which style guide do you want to follow? AirBnB
-    ? What format do you want your config file to be in? JavaScript
-
-这里选择 AirBnB 是因为 airbnb 的 [react 开发代码规范](https://github.com/airbnb/javascript/tree/master/react) 得到了许多开发者的点赞。
+为了使用上面的默认规则文件，还需在你自己项目源代码目录添加顶层的简单规则文件 `.eslintrc.js` ，参考自 react-native 0.60
+```
+module.exports = {
+  root: true,
+  extends: '@react-native-community',
+};
+```
+有时可能也有一些自己额外的规则想添加，比如有个全局变量 location 并不想让 SublimeLinter-eslint 提示个红框出来，那就可以将上面的顶层规则文件修改为：
+```
+module.exports = {
+  root: true,
+  extends: '@react-native-community',
+  globals: {
+    location: false,
+  },
+};
+```
 
 ### 解决规则文件没起作用的问题
 这可能是 eslint 的一个 BUG ，解决的方法是再额外全局安装一下 eslint
@@ -96,6 +88,20 @@ Nodejs 代码会包含一个自动下载的包含了许多许多文件的 node_m
 如果不存在 `/usr/bin/node` ，则还需
 
     sudo ln -s `which node` /usr/bin/node
+
+## 在 Package Control 中安装 JsPrettier
+使用 eslint 来提示代码规范编写问题，使用 prettier 来自动修改代码以符合代码规范，这样就达到了其它语言格式化工具比如 go 语言的 gofmt 的效果——不用再争论哪种代码规范更合适了，直接用 prettier 格式化代码即可。
+
+在上面安装 @react-native-community/eslint-config 时，已经自动安装了 prettier 可执行文件，现在只需在你自己项目源代码目录添加它的配置文件 `.prettierrc.js` ，参考自 react-native 0.60
+```
+module.exports = {
+  bracketSpacing: false,
+  jsxBracketSameLine: true,
+  singleQuote: true,
+  trailingComma: 'all',
+};
+```
+终于你只需要在 Sublime 中右键菜单 `JsPrettier Format Code` 就可格式化当前打开的 js 文件了。
 
 ## 在 Package Control 中安装 Color Highlighter
 这样就可以直观地在 `.css` 文件中 `color:` 的十六进制数值上通过左键单击看到颜色，还可以在右键菜单中选择颜色。
@@ -130,10 +136,10 @@ LiveStyle 可参见这篇文章 [Emmet LiveStyle 无刷新同步修改预览](ht
 这样就可以在敲代码时也能自动匹配到其它文件中的某个变量。
 
 ## 在 Package Control 中安装 AlignTab
-这样就可以很容易让代码基于 = 或 : 等符号进行列对齐。
+这样就可以很容易让代码基于 = 或 : 等符号进行列对齐。当然，最好时使用上面提到的 JsPrettier 。
 
 ## 在 Package Control 中安装 JsFormat
-这样就可以不用记忆 = 符号两边要加空格之类众多的编码规范。
+这样就可以不用记忆 = 符号两边要加空格之类众多的编码规范。当然，最好时使用上面提到的 JsPrettier 。
 
 为了支持 React 的 JSX 格式，需要打开 `preferences | Package Settings | JsFormat | Setting | Users` ，输入以下配置：
 
