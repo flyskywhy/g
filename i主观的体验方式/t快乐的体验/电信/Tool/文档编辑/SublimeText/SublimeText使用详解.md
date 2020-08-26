@@ -136,10 +136,10 @@ LiveStyle 可参见这篇文章 [Emmet LiveStyle 无刷新同步修改预览](ht
 这样就可以在敲代码时也能自动匹配到其它文件中的某个变量。
 
 ## 在 Package Control 中安装 AlignTab
-这样就可以很容易让代码基于 = 或 : 等符号进行列对齐。当然，最好时使用上面提到的 JsPrettier 。
+这样就可以很容易让代码基于 = 或 : 等符号进行列对齐。当然，最好是使用上面提到的 JsPrettier 。
 
 ## 在 Package Control 中安装 JsFormat
-这样就可以不用记忆 = 符号两边要加空格之类众多的编码规范。当然，最好时使用上面提到的 JsPrettier 。
+这样就可以不用记忆 = 符号两边要加空格之类众多的编码规范。当然，最好是使用上面提到的 JsPrettier 。
 
 为了支持 React 的 JSX 格式，需要打开 `preferences | Package Settings | JsFormat | Setting | Users` ，输入以下配置：
 
