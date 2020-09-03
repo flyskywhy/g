@@ -139,23 +139,114 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
 参见 [React Native CodePush实践小结](https://segmentfault.com/a/1190000009642563) 。
 
 ## 安装 react-dom
-安装后续要安装的 react-web 的 [package.json](https://github.com/taobaofed/react-web/blob/master/package.json) 中的 `peerDependencies` 里的 `react` 和 `react-dom`，因为 react-web 相当于是 `react` 和 `react-dom` 这两个宿主的插件，想要装插件就要先装宿主。由于上面 `react-native init` 已经自动安装了 react ，所以现在只需安装 react-dom ，如果后续某个新版的 react-web 也许也能像现在 react-native 自动安装 react 一样去安装 react-dom，则此处可省：
+安装后续要安装的 react-native-web 或 react-web 的 package.json 中的 `peerDependencies` 里的 `react` 和 `react-dom`，因为 react-native-web 或 react-web 相当于是 `react` 和 `react-dom` 这两个宿主的插件，想要装插件就要先装宿主。由于上面 `react-native init` 已经自动安装了 react ，所以现在只需安装 react-dom ：
 
     cd AwesomeProject
     npm install react-dom --save
 
-## 安装 react-web
+## RN >= 0.60 的安装 react-native-web
+    npm install react-native-web react-app-rewired react-scripts
+
+在你的项目根目录中创建一个 `config-overrides.js` 文件
+```
+// used by react-app-rewired
+
+const webpack = require('webpack');
+const path = require('path');
+
+module.exports = {
+  webpack: function (config, env) {
+    config.module.rules[1].use[0].options.baseConfig.extends = [
+      path.resolve('.eslintrc.js'),
+    ];
+
+    // To let alias like 'react-native/Libraries/Components/StaticRenderer'
+    // take effect, must set it before alias 'react-native'
+    delete config.resolve.alias['react-native'];
+    config.resolve.alias['react-native/Libraries/Components/StaticRenderer'] =
+      'react-native-web/dist/vendor/react-native/StaticRenderer';
+    config.resolve.alias['react-native'] = path.resolve(
+      'web/aliases/react-native',
+    );
+
+    // Let's force our code to bundle using the same bundler react native does.
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        __DEV__: env === 'development',
+      }),
+    );
+
+    // Need this rule to prevent `Attempted import error: 'SOME' is not exported from` when `react-app-rewired build`
+    // Need this rule to prevent `TypeError: Cannot assign to read only property 'exports' of object` when `react-app-rewired start`
+    config.module.rules.push({
+      test: /\.(js|tsx?)$/,
+      // You can exclude the exclude property if you don't want to keep adding individual node_modules
+      // just keep an eye on how it effects your build times, for this example it's negligible
+      // exclude: /node_modules[/\\](?!@react-navigation|react-native-gesture-handler|react-native-screens)/,
+      use: {
+        loader: 'babel-loader',
+      },
+    });
+
+    return config;
+  },
+  paths: function (paths, env) {
+    paths.appIndexJs = path.resolve('index.web.js');
+    paths.appSrc = path.resolve('.');
+    paths.moduleFileExtensions.push('ios.js');
+    return paths;
+  },
+};
+```
+还要创建一个 `web/aliases/react-native/index.js` 文件
+```
+// ref to https://levelup.gitconnected.com/react-native-typescript-and-react-native-web-an-arduous-but-rewarding-journey-8f46090ca56b
+
+import {Text as RNText, Image as RNImage} from 'react-native-web';
+// Let's export everything from react-native-web
+export * from 'react-native-web';
+
+// And let's stub out everything that's missing!
+export const ViewPropTypes = {
+  style: () => {},
+};
+RNText.propTypes = {
+  style: () => {},
+};
+RNImage.propTypes = {
+  style: () => {},
+  source: () => {},
+};
+
+export const Text = RNText;
+export const Image = RNImage;
+// export const ToolbarAndroid = {};
+export const requireNativeComponent = () => {};
+```
+在你项目的 package.json 中做如下更改
+```
+  "scripts": {
+   "start": "react-app-rewired start",
+   "build": "react-app-rewired build",
+}
+```
+调试用 `npm run web` 然后在浏览器中进入 [http://localhost:3000](http://localhost:3000) ；发布用 `npm run build-web` 生成 `build/` 中的文件，可以使用 `npx http-server build` 命令并用浏览器 [http://127.0.0.1:8080](http://127.0.0.1:8080) 进行简单测试。
+
+## RN < 0.60 的安装 react-web
     npm install -g react-web-cli
 
-另：官方 react-web 已停止维护，可使用我维护的 https://github.com/flyskywhy/react-web 替代，或是参考另一套 https://github.com/necolas/react-native-web 。
-
-## 创建 react-web 项目
+在项目根目录的上层目录中创建 react-web 项目
 
     cd ..
     react-web init AwesomeProject
 
-## 运行 Web
-运行如下命令即可启动 webpack 调试服务器，然后在浏览器打开 localhost:3000 即可：
+因官方 react-web 已停止维护，所以接下来可使用我维护的仓库替代
+
+    cd AwesomeProject
+    npm uninstall react-web
+    npm install https://github.com/flyskywhy/react-web.git#f6c63e3
+
+在项目根目录中运行如下命令即可启动 webpack 调试服务器，然后在浏览器打开 localhost:3000 即可：
 
     react-web start
 
@@ -163,10 +254,9 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
 
 其它可参见 [三步将 React Native 项目运行在 Web 浏览器上面](http://taobaofed.org/blog/2016/03/11/react-web-intro/)
 
-## 打包 Web
-    react-web bundle
+在项目根目录中运行如下命令即可打包 Web 到 `web/output/` 目录中
 
-打包完成后，文件会存放在 web/output/ 目录下面。
+    react-web bundle
 
 ## 配置 iOS 开发环境
 除了为 React Native [搭建开发环境](https://reactnative.cn/docs/getting-started.html) ，还需 [像 Mac 高手一样管理应用，从 Homebrew 开始](https://sspai.com/post/42924) 使用 `brew install` 、 `brew cask install` 或 `mas install` 安装各种实用工具。安装过程中最好保持翻墙状态，否则速度较慢或无法安装。另可参考 [我在 Mac 上都用什么](https://www.cnblogs.com/imzhizi/p/my-apps-on-mac.html) 一文。
@@ -370,7 +460,3 @@ ls: /Users/lizheng/Library/Caches/com.facebook.ReactNativeBuild/boost_1_63_0.tar
 react-native 兴起之初，各种第三方组件百家争鸣，但也良莠不齐。最近看来 react-native-unimodules 渐有一统之势，它支持许多开发 APP 时用得到的方方面面的 [Packages](https://docs.expo.io/versions/latest/bare/unimodules-full-list/) ，而且其中所谓 bare workflow 也就是不需要和 Expo 绑定的独立 Packages 已经足够多了。
 
 如果是在 iOS 中使用 react-native-unimodules ，则必须要使用上面提到的 `pod install` 才能正常运行。
-
-## 参考 moles-web
-
-携程基于 react-web 做了个高级版 moles-web ，现在已经在携程的主 App 上投入生产，详见 [Moles：携程基于React Native的跨平台开发框架](https://www.sdk.cn/news/4602) ，只是其目前最新版还未开源，可以先拿 npm 上的旧版本与 react-web 代码整合用用。
