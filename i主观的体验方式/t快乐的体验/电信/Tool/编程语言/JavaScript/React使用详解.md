@@ -417,7 +417,7 @@ ls: /Users/lizheng/Library/Caches/com.facebook.ReactNativeBuild/boost_1_63_0.tar
     pod repo remove master
     git clone --depth 1 https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git master
 
-后续如果想要更新，只需
+后续如果 `pod install` 时出现 `CocoaPods could not find compatible versions for pod` 的错误而想要更新，只需
 
     cd ~/.cocoapods/repos/master
     git pull
