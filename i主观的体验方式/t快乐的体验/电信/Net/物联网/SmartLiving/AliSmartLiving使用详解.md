@@ -1,8 +1,9 @@
 Li Zheng <flyskywhy@gmail.com>
 
 # Ali SmartLiving 使用详解
+[阿里云生活物联网平台](https://living.aliyun.com/)
 
-## 安装编译环境
+## 安装设备端编译环境
 由于 Ubuntu 用来编译 alios 的工具 aos 只能通过 python3 相关的组件 python3-pip 来安装，而 ali-smartliving-device-alios-things 中一些官方提供的 python 脚本仍然是 python2 语法的，所以需要如下罗嗦的方法来安装编译环境，而非仅仅只是安装 aos 即可。
 
 ### 安装 python 和 aos
@@ -43,12 +44,12 @@ Li Zheng <flyskywhy@gmail.com>
         f.write("\xff")
     TypeError: a bytes-like object is required, not 'str'
 
-## 编译 Ali SmartLiving
+## 设备端编译 Ali SmartLiving
 参见 `ali-smartliving-device-alios-things/README.md` 中 `build.sh` 的使用方法。
 
-## 添加 WebSocket Server 支持
+## 设备端添加 WebSocket Server 支持
 添加 WebSocket Server 之后，就可以配合模块厂商（不是阿里官方）的 WiFi 热点代码，让 APP 直连控制设备，而无需
-Ali SmartLiving 官方的扫描、配网、控制设备流程，甚至无需烧录 mac 地址！之所以使用 WebSocket 而非传统的 Socket ，是因为浏览器不支持创建 Socket 连接，而使用 WebSocket 的话，(react-native 和 react-native-web 同一套代码编写的)手机版或网页版 APP 都可以进行连接。
+Ali SmartLiving 官方的扫描、配网、控制设备流程，无需烧录产品 id 等三元组信息，因此也就无需向阿里购买这些三元组（因为直连模式不走阿里云生活物联网平台也能用），甚至无需烧录可能也要花钱购买的 mac 地址！之所以使用 WebSocket 而非传统的 Socket ，是因为浏览器不支持创建 Socket 连接，而使用 WebSocket 的话，(react-native 和 react-native-web 同一套代码编写的)手机版或网页版 APP 都可以进行连接。
 
 之所以在 [Comparison of WebSocket implementations](https://en.wikipedia.org/wiki/Comparison_of_WebSocket_implementations) 中选择 libwebsockets 而非 noPoll 等 C 语言 WebSocket 实现，是因为 Ali SmartLiving 所依赖的 [AliOS-Things](https://github.com/alibaba/AliOS-Things) 曾经采用过一段时间的 libwebsockets ，所以可以参考当时的阿里官方适配代码。
 
