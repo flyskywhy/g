@@ -413,6 +413,8 @@ ls: /Users/lizheng/Library/Caches/com.facebook.ReactNativeBuild/boost_1_63_0.tar
 
 如果 `pod install` 速度很慢或者干脆无法完成，可以参考 [清华大学开源软件镜像站 CocoaPods 镜像使用帮助](https://mirrors.tuna.tsinghua.edu.cn/help/CocoaPods/)
 
+注：许多网页介绍的清华镜像下载速度很慢甚至无法下载完成，所以推荐将下面语句中的 `https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git` 替换为 `https://gitee.com/mirrors/CocoaPods-Specs.git` 。如果你能下载大型的 github 仓库而不中途被断掉的话（比如通过 `git config --global http.proxy 你的代理服务器` 的方式），则推荐替换为更加实时更新的 `https://github.com/CocoaPods/Specs.git` 。
+
     cd ~/.cocoapods/repos
     pod repo remove master
     git clone --depth 1 https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git master
@@ -422,7 +424,7 @@ ls: /Users/lizheng/Library/Caches/com.facebook.ReactNativeBuild/boost_1_63_0.tar
     cd ~/.cocoapods/repos/master
     git pull
 
-即可。最后进入自己的工程，在自己工程的 podFile 第一行加上：
+即可。最后进入自己的工程，在自己工程的 Podfile 第一行加上：
 
     source 'https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git'
 
