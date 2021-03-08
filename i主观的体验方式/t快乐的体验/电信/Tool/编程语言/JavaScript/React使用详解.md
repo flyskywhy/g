@@ -436,6 +436,42 @@ ls: /Users/lizheng/Library/Caches/com.facebook.ReactNativeBuild/boost_1_63_0.tar
 
 的错误，这一般也是需要删除 Podfile.lock 文件。
 
+如果 `pod install` 时出现比如 `[!] `OpenSSL-Universal` requires CocoaPods version `>= 1.9`, which is not satisfied by your current version, `1.8.4`.` 这样的错误，则先需要
+
+    sudo gem install cocoapods -v 1.9.0
+
+但如果此时出现比如
+```
+Fetching: ffi-1.15.0.gem (100%)
+Building native extensions.  This could take a while...
+ERROR:  Error installing cocoapods:
+  ERROR: Failed to build gem native extension.
+
+    current directory: /Library/Ruby/Gems/2.3.0/gems/ffi-1.15.0/ext/ffi_c
+/System/Library/Frameworks/Ruby.framework/Versions/2.3/usr/bin/ruby -r ./siteconf20210308-55404-19a0g74.rb extconf.rb
+mkmf.rb can't find header files for ruby at /System/Library/Frameworks/Ruby.framework/Versions/2.3/usr/lib/ruby/include/ruby.h
+
+extconf failed, exit code 1
+
+Gem files will remain installed in /Library/Ruby/Gems/2.3.0/gems/ffi-1.15.0 for inspection.
+Results logged to /Library/Ruby/Gems/2.3.0/extensions/universal-darwin-18/2.3.0/ffi-1.15.0/gem_make.out
+```
+这样的错误，则先需要比如
+
+    open /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg
+
+但如果此时出现找不到这个 `.pkg` 文件的错误，则先需要
+
+    xcode-select --install
+
+但如果此时出现
+
+    xcode-select: error: command line tools are already installed, use "Software Update" to install updates
+
+这样的错误，则先需要
+
+    rm -rf /Library/Developer/CommandLineTools
+
 ### 一些 Cocoapods 使用技巧
 
 `pod install` 背后的原理其实就是生成了一个 `ios/Pods/` 目录，并在里面自动放入或删除各个第三方库的 `.h` 头文件及编译配置文件。 `.h` 头文件所在的目录名就是相应第三方库的 `.podspec` 文件中写明的 `name` 字段，这样你自己的源代码或其它第三方库就能简单地以 `<SomeName/some.h>` 来调用该库的功能了。
