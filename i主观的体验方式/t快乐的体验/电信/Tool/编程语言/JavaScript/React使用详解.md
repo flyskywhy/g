@@ -259,7 +259,7 @@ export const requireNativeComponent = () => {};
     react-web bundle
 
 ## 配置 iOS 开发环境
-除了为 React Native [搭建开发环境](https://reactnative.cn/docs/getting-started.html) ，还需 [像 Mac 高手一样管理应用，从 Homebrew 开始](https://sspai.com/post/42924) 使用 `brew install` 、 `brew cask install` 或 `mas install` 安装各种实用工具。安装过程中最好保持翻墙状态，否则速度较慢或无法安装。另可参考 [我在 Mac 上都用什么](https://www.cnblogs.com/imzhizi/p/my-apps-on-mac.html) 一文。
+除了为 React Native [搭建开发环境](https://reactnative.cn/docs/getting-started.html) ，还需 [像 Mac 高手一样管理应用，从 Homebrew 开始](https://sspai.com/post/42924) 使用 `brew install` 、 `brew cask install` 或 `mas install` 安装各种实用工具。安装过程中最好保持翻墙状态，否则速度较慢或无法安装。另可参考 [我在 Mac 上都用什么](https://www.cnblogs.com/imzhizi/p/my-apps-on-mac.html) 以及 [macOS使用详解](../../../Os/macOS/macOS使用详解.md) 。
 
     brew install mas node watchman
     brew cask install sublime-text double-commander google-chrome the-unarchiver iterm2 xquartz typora meld dos2unix intelliscape-caffeine bitbar geektool turbovnc-viewer microsoft-remote-desktop-beta flux mosh inkscape gimp
@@ -279,11 +279,24 @@ export const requireNativeComponent = () => {};
 
 brew 在安装软件前会先尝试升级 brew 自身，这里可能是中国网络环境的原因而会卡住很久，如果不想要升级 brew 自身的，此时可以直接 `CTRL + C` 跳过，它就会自动继续去安装了。
 
-* 解决 `brew install` 的 git-gui 运行时容易崩溃的问题
+* 解决 `brew install` 的 git-gui 运行时容易崩溃或是 gitk 无法调出鼠标右键菜单的问题
 
 使用其它 git 的图形化客户端替代，比如
 
     brew cask install fork
+
+* 解决 `brew install` 时出现的 `Error: Your CLT does not support macOS 11.2.` 问题
+
+该错误一般是因为 macOS 升级了但 Xcode 的 `Command Line Tools` 还没有匹配更新。该错误有时也会表现为 `Error: Your Xcode does not support macOS 11.2.` 的形式。解决方法为：
+
+    sudo rm -rf /Library/Developer/CommandLineTools
+    sudo xcode-select --install
+
+如果错误依旧，则：
+
+    sudo rm -rf /Library/Developer/CommandLineTools
+
+之后，再去 https://developer.apple.com/download/more/ 下载安装最新的 `Command Line Tools` 。
 
 * 安装 JAVA 环境
 
