@@ -15,6 +15,7 @@ Li Zheng <flyskywhy@gmail.com>
 
     ~/Library/Developer/
     ~/Library/Caches/Google/ (一般应该已经被上面 `Cleaner One` 给清理掉了)
+    ~/Library/Caches/CocoaPods/
     ~/Library/Caches/Homebrew/
     ~/go/
     ~/.gradle/
