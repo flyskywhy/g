@@ -163,11 +163,35 @@ void SetSoftApPropertySettingHandle(void* cb)
     }
 }
 
+#define MAX_TX_MSG_LEN 200
+struct msg {
+    char payload[MAX_TX_MSG_LEN];
+    size_t len;
+};
+
+struct msg amsg; /* the one pending message... */
+
+struct per_session_data__minimal {
+    struct per_session_data__minimal *pss_list;
+    struct lws *wsi;
+};
+
+struct per_session_data__minimal *websocket_pss_list; /* linked-list of live pss*/
+
 void softap_msg_response_handle(char* msg, int len)
 {
-    // lws_callback_on_writable
+    if (len + LWS_PRE > MAX_TX_MSG_LEN) {
+        LOG("[SoftAP] tx msg is to big");
+        return;
+    }
 
-    return;
+    amsg.len = len;
+    memcpy((char *)amsg.payload + LWS_PRE, msg, len);
+
+    lws_start_foreach_llp(struct per_session_data__minimal **,
+                  ppss, websocket_pss_list) {
+        lws_callback_on_writable((*ppss)->wsi);
+    } lws_end_foreach_llp(ppss, pss_list);
 }
 
 static void softap_property_setting_handle(const char* buffer, int len)
@@ -189,37 +213,54 @@ void softap_task_start(void){
     softap_launch = true;
 }
 
-// 参见下面 TODO 中的说明
-struct per_session_data__minimal {
-    struct per_session_data__minimal *pss_list;
-    struct lws *wsi;
-    int last; /* the last message number we sent */
-};
+#define lws_ll_fwd_insert(\
+    ___new_object,  /* pointer to new object */ \
+    ___m_list,  /* member for next list object ptr */ \
+    ___list_head    /* list head */ \
+        ) {\
+        ___new_object->___m_list = ___list_head; \
+        ___list_head = ___new_object; \
+    }
 
+#define lws_ll_fwd_remove(\
+    ___type,    /* type of listed object */ \
+    ___m_list,  /* member for next list object ptr */ \
+    ___target,  /* object to remove from list */ \
+    ___list_head    /* list head */ \
+    ) { \
+                lws_start_foreach_llp(___type **, ___ppss, ___list_head) { \
+                        if (*___ppss == ___target) { \
+                                *___ppss = ___target->___m_list; \
+                                break; \
+                        } \
+                } lws_end_foreach_llp(___ppss, ___m_list); \
+    }
+
+// ref to
+// https://libwebsockets.org/lws-api-doc-v2.4-stable/html/md_READMEs_README_8coding.html
+// https://github.com/warmcat/libwebsockets/blob/main/minimal-examples-lowlevel/ws-server/minimal-ws-server/protocol_lws_minimal.c
 static int
 callback_smartliving(struct lws *wsi, enum lws_callback_reasons reason,
             void *user, void *in, size_t len)
 {
+    struct per_session_data__minimal *pss =
+            (struct per_session_data__minimal *)user;
+
+    int m;
+
     LOGD("LWS_CALLBACK %d", reason);
     switch (reason) {
     case LWS_CALLBACK_PROTOCOL_INIT:
         break;
 
     case LWS_CALLBACK_ESTABLISHED:
+        /* add ourselves to the list of live pss held in the global variable */
+        lws_ll_fwd_insert(pss, pss_list, websocket_pss_list);
+        pss->wsi = wsi;
+
         if (connected) {
+            // maybe your APP only allow 1 connection?
             // TODO: allow more than 1 connection?
-            // 不过直连类的应用，同时只需要连一个手机就可以了吧？
-            // 后续如果真要同时连接好几个，可以参考
-            // https://github.com/warmcat/libwebsockets/blob/master/minimal-examples/ws-server/minimal-ws-server/minimal-ws-server.c
-            // 中的相关代码。
-            // 其实上面的 per_session_data__minimal 就是那些代码的残留。
-            // UPDATE: 实际上，经测试，现有代码就能同时建立 2 个 connection ，
-            // 测试用的 1 个是 macbook 中的网页， 1 个是手机 APP ，理论上可以
-            // 有更多连接。
-            // 之所以能够不用折腾 per_session_data__minimal 就支持多个连接
-            // 可能与我们用的是 ws:// 而非 wss:// 有关？
-            // 真正的连接数限制可能与下面的 info.max_http_header_pool
-            // 或 info.ip_limit_ah 等相关。
             LOG("only one connection is allowed\n");
             lws_close_reason(wsi, LWS_CLOSE_STATUS_UNEXPECTED_CONDITION,
                      (unsigned char *)"only one", 5);
@@ -231,19 +272,26 @@ callback_smartliving(struct lws *wsi, enum lws_callback_reasons reason,
         break;
 
     case LWS_CALLBACK_CLOSED:
-            connected = false;
-            LOG("websocket closed\n");
+        /* remove our closing pss from the list of live pss */
+        lws_ll_fwd_remove(struct per_session_data__minimal, pss_list,
+                  pss, websocket_pss_list);
+
+        connected = false;
+        LOG("websocket closed\n");
         break;
 
     case LWS_CALLBACK_SERVER_WRITEABLE:
-        // TODO: 后续再考虑发送数据给手机，先简化吧
-        // 如果要编写发送数据的代码，记得参考
-        // https://libwebsockets.org/lws-api-doc-v2.4-stable/html/md_READMEs_README_8coding.html
-        // 中提到的使用 lws_callback_on_writable 的方式进行，
-        // 还可以一定程度上参考
-        // https://github.com/warmcat/libwebsockets/blob/master/minimal-examples/ws-server/minimal-ws-server/minimal-ws-server.c
-        // 中 lws_callback_on_writable 的使用，比如在其它需要发送数据的 .c 文件中调用
-        // 本文件中内含 lws_callback_on_writable 的 softap_msg_response_handle()
+        if (!amsg.payload)
+            break;
+
+        /* notice we allowed for LWS_PRE in the payload already */
+        m = lws_write(wsi, ((unsigned char *)amsg.payload) +
+                  LWS_PRE, amsg.len, LWS_WRITE_TEXT);
+        if (m < (int)amsg.len) {
+            LOG("ERROR %d writing to ws\n", m);
+            // lwsl_err("ERROR %d writing to ws\n", m);
+            return -1;
+        }
         break;
 
     case LWS_CALLBACK_RECEIVE:
