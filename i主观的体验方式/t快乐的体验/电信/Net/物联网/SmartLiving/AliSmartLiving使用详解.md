@@ -163,9 +163,10 @@ void SetSoftApPropertySettingHandle(void* cb)
     }
 }
 
-#define MAX_TX_MSG_LEN 200
+#define MAX_RX_MSG_LEN 200
+#define MAX_TX_MSG_LEN 332
 struct msg {
-    char payload[MAX_TX_MSG_LEN];
+    char payload[LWS_PRE + MAX_TX_MSG_LEN];
     size_t len;
 };
 
@@ -180,7 +181,8 @@ struct per_session_data__minimal *websocket_pss_list; /* linked-list of live pss
 
 void softap_msg_response_handle(char* msg, int len)
 {
-    if (len + LWS_PRE > MAX_TX_MSG_LEN) {
+    LOG("[SoftAP] tx len: %d, msg: %s", len, msg);
+    if (len > MAX_TX_MSG_LEN) {
         LOG("[SoftAP] tx msg is to big");
         return;
     }
@@ -287,6 +289,7 @@ callback_smartliving(struct lws *wsi, enum lws_callback_reasons reason,
         /* notice we allowed for LWS_PRE in the payload already */
         m = lws_write(wsi, ((unsigned char *)amsg.payload) +
                   LWS_PRE, amsg.len, LWS_WRITE_TEXT);
+        LOG("lws_write %s\n", (unsigned char *)amsg.payload + LWS_PRE);
         if (m < (int)amsg.len) {
             LOG("ERROR %d writing to ws\n", m);
             // lwsl_err("ERROR %d writing to ws\n", m);
@@ -315,8 +318,8 @@ static struct lws_protocols protocols[] = {
         "local-ali-smartliving",
         callback_smartliving,
         sizeof(struct per_session_data__minimal),
-        200,
-        0, NULL, 0
+        MAX_RX_MSG_LEN,
+        0, NULL, MAX_TX_MSG_LEN
     },
     { NULL, NULL, 0, 0 } /* terminator */
 };
