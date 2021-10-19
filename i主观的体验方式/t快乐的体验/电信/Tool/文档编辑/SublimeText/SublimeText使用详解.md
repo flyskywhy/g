@@ -101,7 +101,40 @@ module.exports = {
   trailingComma: 'all',
 };
 ```
-终于你只需要在 Sublime 中右键菜单 `JsPrettier Format Code` 就可格式化当前打开的 js 文件了。
+终于你只需要在 Sublime 中右键菜单 `JsPrettier Format Code` 就可格式化当前打开的 `js` 文件了。
+
+## 在 Package Control 中安装 SublimeAStyleFormatter
+使用 SublimeAStyleFormatter 来自动修改 `C/C++/C#/Java` 代码以符合代码规范。
+
+可在 `preferences | Package Settings | SublimeAStyleFormatter | Settings - User` 中输入以下参考配置以比较贴近 JsPrettier 的风格：
+```
+{
+    "autoformat_on_save": false,
+
+    "options_default": {
+        "style": "kr",
+        "indent": "spaces",
+        "indent-spaces": 4,
+        "indent-switches": true,
+        "indent-cases": true,
+        "add-brackets": true,
+        "keep-one-line-blocks": false,
+    },
+    "options_c": {
+        "additional_options": ["--convert-tabs"]
+    },
+    "options_c++": {
+        "additional_options": ["--convert-tabs"]
+    },
+    "options_java": {
+        "additional_options": ["--convert-tabs"]
+    },
+    "options_cs": {
+        "additional_options": ["--convert-tabs"]
+    }
+}
+```
+终于你只需要在 Sublime 中右键菜单 `Format` 就可格式化当前打开的 `c/h/cpp/cs/java` 文件了。
 
 ## 在 Package Control 中安装 Color Highlighter
 这样就可以直观地在 `.css` 文件中 `color:` 的十六进制数值上通过左键单击看到颜色，还可以在右键菜单中选择颜色。
@@ -141,7 +174,7 @@ LiveStyle 可参见这篇文章 [Emmet LiveStyle 无刷新同步修改预览](ht
 ## 在 Package Control 中安装 JsFormat
 这样就可以不用记忆 = 符号两边要加空格之类众多的编码规范。当然，最好是使用上面提到的 JsPrettier 。
 
-为了支持 React 的 JSX 格式，需要打开 `preferences | Package Settings | JsFormat | Setting | Users` ，输入以下配置：
+为了支持 React 的 JSX 格式，需要打开 `preferences | Package Settings | JsFormat | Settings - User` ，输入以下配置：
 
     {
         "e4x": true
