@@ -134,7 +134,7 @@ module.exports = {
     }
 }
 ```
-终于你只需要在 Sublime 中右键菜单 `Format` 就可格式化当前打开的 `c/h/cpp/cs/java` 文件了。
+终于你只需要在 Sublime 中右键菜单 `AStyleFormatter | Format` 就可格式化当前打开的 `c/h/cpp/cs/java` 文件了。
 
 ## 在 Package Control 中安装 Color Highlighter
 这样就可以直观地在 `.css` 文件中 `color:` 的十六进制数值上通过左键单击看到颜色，还可以在右键菜单中选择颜色。
