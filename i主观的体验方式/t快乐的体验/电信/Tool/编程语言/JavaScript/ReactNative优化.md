@@ -2,6 +2,21 @@ Li Zheng <flyskywhy@gmail.com>
 
 # React Native 优化
 
+## 不建议使用 hooks
+如 [React. Too many hooks spoil the soup — why hooks are bad](https://medium.com/leocode/react-too-many-hooks-spoil-the-soup-why-hooks-are-bad-e728f004200) 说的缺点：
+
+* hooks 比 class 更容易写出糟糕的代码
+* React 的初始理念是单向数据流，但是 hooks 毁了它
+
+如 [为什么 React 现在要推行函数式组件，用 class 不好吗？](
+https://www.zhihu.com/question/343314784/answer/949210799) 说的缺点：
+
+* “useRef也是同理，ref会造成组件树之间相互影响，它是react团队开的后门”，说的其实是一旦使用 useRef ，就无法享受 concurrent 并发渲染模式的高性能了，而很多时候不得不用到 useRef ……
+* hooks 心智负担太重
+* 后端都是 OOP，转前端 OOP 很容易。但倘若前端陡然变成 FP，学习成本激增
+
+至于整个 APP 使用 hooks 重写后可以得到后续 React 版本并发渲染模式的加持从而性能更高的优点？其实基于上面的缺点，那还不如使用 @flyskywhy/react-native-gcanvas 来进行无 render 绘画或是使用本文介绍的其它性能优化方法。
+
 ## redux 性能优化
 首先需要知道，即使 `mapStateToProps()` 中没什么内容，只要 redux 的 store 有改变，仍然会被执行。
 
