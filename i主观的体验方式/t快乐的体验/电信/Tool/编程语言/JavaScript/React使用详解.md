@@ -410,8 +410,6 @@ ls: /Users/lizheng/Library/Caches/com.facebook.ReactNativeBuild/boost_1_63_0.tar
 
 在 Xcode 的主界面中的 Project 的某个 Target 的 'Signing & Capabilities' 那里选择相应的 Team 。
 
-将 Xcode 菜单 `Produce | Scheme | Edit Scheme | Run | Build Configuration` 设置为 Release 。
-
 在 Xcode 运行 `Product | Archive` 打包。
 
 在 Xcode 中用 `Window | Organizer | Distribute App` 上传到 App Store 中。
