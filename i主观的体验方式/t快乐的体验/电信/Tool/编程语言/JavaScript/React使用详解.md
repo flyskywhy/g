@@ -155,9 +155,12 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
     npm install react-dom --save
 
 ## RN >= 0.60 的安装 react-native-web
-    npm install react-native-web react-app-rewired react-scripts
+    npm install react-native-web react-app-rewired
+    npm install react-scripts@3.4.3 babel-jest@24.9.0 eslint@6.6.0 jest@24.9.0
 
-在你的项目根目录中创建一个 `config-overrides.js` 文件
+(In my case, `react-scripts@4.0.3 babel-jest@26.6.0 eslint@7.11.0 jest@26.6.0` will cause `Cannot read property '0' of undefined` when "react-app-rewired start")
+
+Create `config-overrides.js` in your project root:
 ```
 // used by react-app-rewired
 
@@ -186,6 +189,12 @@ module.exports = {
       }),
     );
 
+    // Keep all rules except the eslint - note that if they add additional rules this will need updating to match
+    // Consider if this should only apply to the development environment? If so, uncomment the if statement
+    // if (env === 'development') {
+    //   config.module.rules.splice(1, 1);
+    // }
+
     // Need this rule to prevent `Attempted import error: 'SOME' is not exported from` when `react-app-rewired build`
     // Need this rule to prevent `TypeError: Cannot assign to read only property 'exports' of object` when `react-app-rewired start`
     config.module.rules.push({
@@ -204,15 +213,18 @@ module.exports = {
     paths.appIndexJs = path.resolve('index.web.js');
     paths.appSrc = path.resolve('.');
     paths.moduleFileExtensions.push('ios.js');
+    paths.moduleFileExtensions.push('android.js');
+    paths.moduleFileExtensions.push('native.js');
     return paths;
   },
 };
 ```
-还要创建一个 `web/aliases/react-native/index.js` 文件
+Create `web/aliases/react-native/index.js`:
 ```
 // ref to https://levelup.gitconnected.com/react-native-typescript-and-react-native-web-an-arduous-but-rewarding-journey-8f46090ca56b
 
 import {Text as RNText, Image as RNImage} from 'react-native-web';
+// import RNModal from 'modal-enhanced-react-native-web';
 // Let's export everything from react-native-web
 export * from 'react-native-web';
 
@@ -230,17 +242,94 @@ RNImage.propTypes = {
 
 export const Text = RNText;
 export const Image = RNImage;
+// export const Modal = RNModal;
 // export const ToolbarAndroid = {};
 export const requireNativeComponent = () => {};
 ```
-在你项目的 package.json 中做如下更改
+
+Create `index.android.js` and `index.ios.js`:
+```
+// because index.android.js or index.ios.js can worked in
+// react-native-code-push@5.2.0 and bugsnag-react-native@2.5.1,
+// but not index.native.js
+
+import {AppRegistry} from 'react-native';
+import App from './src/index.js';
+import {name as appName} from './app.json';
+
+AppRegistry.registerComponent(appName, () => App);
+```
+
+Create `index.web.js`:
+```
+import {AppRegistry} from 'react-native';
+import App from './src/index.js';
+import {name as appName} from './app.json';
+
+AppRegistry.registerComponent(appName, () => App);
+
+AppRegistry.runApplication(appName, {
+  rootTag: document.getElementById('root'),
+});
+```
+
+Modify `@"index"` into `@"index.ios"` in `/ios/YourProjectName/AppDelegate.m`.
+
+Create `public/index.html`:
+```
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React App</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <style>
+      /* These styles make the body full-height */
+      html,
+      body {
+        height: 100%;
+      }
+      /* These styles disable body scrolling if you are using <ScrollView> */
+      body {
+        overflow: hidden;
+      }
+      /* These styles make the root element full-height */
+      #root {
+        display: flex;
+        height: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+```
+
+Add below into `package.json`:
 ```
   "scripts": {
    "start": "react-app-rewired start",
    "build": "react-app-rewired build",
 }
 ```
-调试用 `npm run web` 然后在浏览器中进入 [http://localhost:3000](http://localhost:3000) ；发布用 `npm run build-web` 生成 `build/` 中的文件，可以使用 `npx http-server build` 命令并用浏览器 [http://127.0.0.1:8080](http://127.0.0.1:8080) 进行简单测试。
+Use `npm run web` for development, then view it at [http://localhost:3000](http://localhost:3000) in web browser; use `npm run build-web` to generate files in `build/` for production, and can use `npx http-server build` to simply test it at [http://127.0.0.1:8080](http://127.0.0.1:8080) in web browser.
+
+### Q&A
+#### `Unexpected token '<'`
+If the url in web browser is `http://localhost:3000/Foo/Bar` not `http://localhost:3000`, and
+`Uncaught SyntaxError: Unexpected token '<'` in shell, then you need remove homepage in `package.json` like:
+```
+  "homepage": "https://github.com/Foo/Bar#readme",
+```
+
+#### `Failed to compile`
+If some error like below in shell, then you should refactor those lint `Line`, or enable `config.module.rules.splice(1, 1);` in `config-overrides.js`.
+```
+Failed to compile
+  Line 11:25:   Insert `,`
+prettier/prettier
+```
 
 ## RN < 0.60 的安装 react-web
     npm install -g react-web-cli
