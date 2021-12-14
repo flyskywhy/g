@@ -273,6 +273,8 @@ AppRegistry.runApplication(appName, {
 });
 ```
 
+Modify `"index"` into `"index.android"` in `android/app/src/main/java/com/yourprojectname/MainApplication.java`
+
 Modify `@"index"` into `@"index.ios"` in `/ios/YourProjectName/AppDelegate.m`.
 
 Create `public/index.html`:
