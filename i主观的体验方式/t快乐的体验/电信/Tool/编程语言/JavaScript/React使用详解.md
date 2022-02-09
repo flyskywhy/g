@@ -335,6 +335,11 @@ Failed to compile
 prettier/prettier
 ```
 
+#### `npm ERR! ERESOLVE unable to resolve dependency tree`
+Ref to [npm installation version problem](https://github.com/flyskywhy/react-native-usb-serialport/issues/2) , you need use npm version which is below 7, or e.g.
+
+    npm install react-native-usb-serialport --legacy-peer-deps
+
 ## RN < 0.60 的安装 react-web
     npm install -g react-web-cli
 
