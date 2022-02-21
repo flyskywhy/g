@@ -158,9 +158,11 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
 
 ## RN >= 0.60 的安装 react-native-web
     npm install react-native-web react-app-rewired
-    npm install react-scripts@3.4.3 babel-jest@24.9.0 eslint@6.6.0 jest@24.9.0
+    npm install react-scripts@3.4.3 babel-jest@24.9.0 eslint@6.6.0 jest@24.9.0 react-error-overlay@6.0.9
 
 (In my case, `react-scripts@4.0.3 babel-jest@26.6.0 eslint@7.11.0 jest@26.6.0` will cause `Cannot read property '0' of undefined` when "react-app-rewired start")
+
+(`react-error-overlay@6.0.10` will cause `Uncaught ReferenceError: process is not defined` when hot reloading)
 
 Create `config-overrides.js` in your project root:
 ```
@@ -171,9 +173,18 @@ const path = require('path');
 
 module.exports = {
   webpack: function (config, env) {
+    // To enable the eslint rules in '.eslintrc.js'
     config.module.rules[1].use[0].options.baseConfig.extends = [
       path.resolve('.eslintrc.js'),
     ];
+
+    // To avoid sometimes react-app-rewired is not honouring your change to the eslint rules
+    // in '.eslintrc.js', you should manually disable the eslint cache, ref to
+    // https://github.com/facebook/create-react-app/issues/9007#issuecomment-628601097
+    config.module.rules[1].use[0].options.cache = false;
+
+    // To enable '.eslintignore'
+    config.module.rules[1].use[0].options.ignore = true;
 
     // To let alias like 'react-native/Libraries/Components/StaticRenderer'
     // take effect, must set it before alias 'react-native'
