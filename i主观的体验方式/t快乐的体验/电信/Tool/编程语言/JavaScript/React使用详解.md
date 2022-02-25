@@ -624,6 +624,9 @@ Results logged to /Library/Ruby/Gems/2.3.0/extensions/universal-darwin-18/2.3.0/
     npm install --save redux react-redux
     npm install --save-dev redux-devtools
 
+### Isolating Redux Sub-Apps
+Want render a react-native APP as a sub-app (library) in other APP? I implement this requirement in [let other react-native APP can embed PixelShapeRN as sub-app](https://github.com/flyskywhy/PixelShapeRN/commit/9728e45ffe4a5046d7cd8076b2b103c5eef079c5), which ref to [Isolating Redux Sub-Apps](https://redux.js.org/usage/isolating-redux-sub-apps) and [Breaking out of Redux paradigm to isolate apps](https://gist.github.com/gaearon/eeee2f619620ab7b55673a4ee2bf8400)
+
 ## react-native-unimodules
 react-native 兴起之初，各种第三方组件百家争鸣，但也良莠不齐。最近看来 react-native-unimodules 渐有一统之势，它支持许多开发 APP 时用得到的方方面面的 [Packages](https://docs.expo.io/versions/latest/bare/unimodules-full-list/) ，而且其中所谓 bare workflow 也就是不需要和 Expo 绑定的独立 Packages 已经足够多了。
 
