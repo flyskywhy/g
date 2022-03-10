@@ -157,14 +157,115 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
     npm install react-dom --save
 
 ## RN >= 0.60 的安装 react-native-web
-    npm install react-native-web react-app-rewired
-    npm install react-scripts@3.4.3 babel-jest@24.9.0 eslint@6.6.0 jest@24.9.0 react-error-overlay@6.0.9
-
-(In my case, `react-scripts@4.0.3 babel-jest@26.6.0 eslint@7.11.0 jest@26.6.0` will cause `Cannot read property '0' of undefined` when "react-app-rewired start")
+    npm install react-native-web
+    npm install react-app-rewired react-error-overlay@6.0.9 --save-dev
 
 (`react-error-overlay@6.0.10` will cause `Uncaught ReferenceError: process is not defined` when hot reloading)
 
-Create `config-overrides.js` in your project root:
+* Create `web/aliases/react-native/index.js`:
+```
+// ref to https://levelup.gitconnected.com/react-native-typescript-and-react-native-web-an-arduous-but-rewarding-journey-8f46090ca56b
+
+import {Text as RNText, Image as RNImage} from 'react-native-web';
+// import RNModal from 'modal-enhanced-react-native-web';
+// Let's export everything from react-native-web
+export * from 'react-native-web';
+
+// And let's stub out everything that's missing!
+export const ViewPropTypes = {
+  style: () => {},
+};
+RNText.propTypes = {
+  style: () => {},
+};
+RNImage.propTypes = {
+  style: () => {},
+  source: () => {},
+};
+
+export const Text = RNText;
+export const Image = RNImage;
+// export const Modal = RNModal;
+// export const ToolbarAndroid = {};
+export const requireNativeComponent = () => {};
+```
+
+* Create `public/index.html`:
+```
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React App</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <style>
+      /* These styles make the body full-height */
+      html,
+      body {
+        height: 100%;
+      }
+      /* These styles disable body scrolling if you are using <ScrollView> */
+      body {
+        overflow: hidden;
+      }
+      /* These styles make the root element full-height */
+      #root {
+        display: flex;
+        height: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+```
+
+* Modify `"index"` into `"index.android"` in `android/app/src/main/java/com/yourprojectname/MainApplication.java`
+
+* Modify `@"index"` into `@"index.ios"` in `/ios/YourProjectName/AppDelegate.m`
+
+* Modify
+```
+    shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+```
+into
+```
+    shellScript = "export NODE_BINARY=node\nexport ENTRY_FILE=index.ios.js\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+```
+in `ios/PixelShapeRN.xcodeproj/project.pbxproj`
+
+* Create `index.android.js` and `index.ios.js`:
+```
+// because index.android.js or index.ios.js can worked in
+// react-native-code-push@5.2.0 and bugsnag-react-native@2.5.1,
+// but not index.native.js
+
+import {AppRegistry} from 'react-native';
+import App from './src/index.js';
+import {name as appName} from './app.json';
+
+AppRegistry.registerComponent(appName, () => App);
+```
+
+### `react-scripts@3`
+
+    npm install react-scripts@3.4.3 babel-jest@24.9.0 eslint@6.6.0 jest@24.9.0 --save-dev
+
+* Create `index.web.js`:
+```
+import {AppRegistry} from 'react-native';
+import App from './src/index.js';
+import {name as appName} from './app.json';
+
+AppRegistry.registerComponent(appName, () => App);
+
+AppRegistry.runApplication(appName, {
+  rootTag: document.getElementById('root'),
+});
+```
+
+* Create `config-overrides.js` in your project root:
 ```
 // used by react-app-rewired
 
@@ -232,103 +333,53 @@ module.exports = {
   },
 };
 ```
-Create `web/aliases/react-native/index.js`:
-```
-// ref to https://levelup.gitconnected.com/react-native-typescript-and-react-native-web-an-arduous-but-rewarding-journey-8f46090ca56b
 
-import {Text as RNText, Image as RNImage} from 'react-native-web';
-// import RNModal from 'modal-enhanced-react-native-web';
-// Let's export everything from react-native-web
-export * from 'react-native-web';
-
-// And let's stub out everything that's missing!
-export const ViewPropTypes = {
-  style: () => {},
-};
-RNText.propTypes = {
-  style: () => {},
-};
-RNImage.propTypes = {
-  style: () => {},
-  source: () => {},
-};
-
-export const Text = RNText;
-export const Image = RNImage;
-// export const Modal = RNModal;
-// export const ToolbarAndroid = {};
-export const requireNativeComponent = () => {};
-```
-
-Create `index.android.js` and `index.ios.js`:
-```
-// because index.android.js or index.ios.js can worked in
-// react-native-code-push@5.2.0 and bugsnag-react-native@2.5.1,
-// but not index.native.js
-
-import {AppRegistry} from 'react-native';
-import App from './src/index.js';
-import {name as appName} from './app.json';
-
-AppRegistry.registerComponent(appName, () => App);
-```
-
-Create `index.web.js`:
-```
-import {AppRegistry} from 'react-native';
-import App from './src/index.js';
-import {name as appName} from './app.json';
-
-AppRegistry.registerComponent(appName, () => App);
-
-AppRegistry.runApplication(appName, {
-  rootTag: document.getElementById('root'),
-});
-```
-
-Modify `"index"` into `"index.android"` in `android/app/src/main/java/com/yourprojectname/MainApplication.java`
-
-Modify `@"index"` into `@"index.ios"` in `/ios/YourProjectName/AppDelegate.m`.
-
-Create `public/index.html`:
-```
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>React App</title>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
-    <style>
-      /* These styles make the body full-height */
-      html,
-      body {
-        height: 100%;
-      }
-      /* These styles disable body scrolling if you are using <ScrollView> */
-      body {
-        overflow: hidden;
-      }
-      /* These styles make the root element full-height */
-      #root {
-        display: flex;
-        height: 100%;
-      }
-    </style>
-  </head>
-
-  <body>
-    <div id="root"></div>
-  </body>
-</html>
-```
-
-Add below into `package.json`:
+* Add below into `package.json`:
 ```
   "scripts": {
-   "start": "react-app-rewired start",
-   "build": "react-app-rewired build",
-}
+   "web": "react-app-rewired start",
+   "build-web": "react-app-rewired build"
+  }
 ```
-Use `npm run web` for development, then view it at [http://localhost:3000](http://localhost:3000) in web browser; use `npm run build-web` to generate files in `build/` for production, and can use `npx http-server build` to simply test it at [http://127.0.0.1:8080](http://127.0.0.1:8080) in web browser.
+
+* Use `npm run web` for development, then view it at [http://localhost:3000](http://localhost:3000) in web browser
+* Use `npm run build-web` to generate files in `build/` for production, and can use `npx http-server build` to simply test it at [http://127.0.0.1:8080](http://127.0.0.1:8080) in web browser.
+
+If some error like below in shell, then you should refactor those lint `Line`, or enable `config.module.rules.splice(1, 1);` in `config-overrides.js`.
+```
+Failed to compile
+  Line 11:25:   Insert `,`
+prettier/prettier
+```
+
+### Upgrade to `react-scripts@5` and Add Web Workers support
+At the very first, after upgrade react-scripts from 3 to 5 and related babel upgrade (or modify webpack config?), the most important thing is `rm -fr node_modules/.cache/*` first, otherwise will meat many strange error and can't be solved.
+
+    npm install react-app-rewired@2.2.1 react-scripts@5.0.0 codegen.macro react-refresh@0.11.0 react-error-overlay@6.0.9 --save-dev
+
+(lower version of `react-refresh` comes from `metro-react-native-babel-preset` may cause `Module not found: Error: Cannot find module 'react-refresh'`)
+
+#### Upgrade in `package.json`
+```
+  "scripts": {
+    "web": "PLATFORM_OS=web DISABLE_ESLINT_PLUGIN=true react-app-rewired start",
+    "web-fresh": "rm -fr node_modules/.cache/*; PLATFORM_OS=web DISABLE_ESLINT_PLUGIN=true react-app-rewired start",
+    "build-web": "PLATFORM_OS=web DISABLE_ESLINT_PLUGIN=true react-app-rewired build",
+  }
+```
+
+* Use `npm run web` for development, then view it at [http://localhost:3000](http://localhost:3000) in web browser.
+* Use `npm run web-fresh` for development to automatically `rm -fr node_modules/.cache/*` first.
+* Use `npm run build-web` to generate files in `build/` for production, and can use `npx http-server build` to simply test it at [http://127.0.0.1:8080](http://127.0.0.1:8080) in web browser.
+
+`DISABLE_ESLINT_PLUGIN=true` here is to avoid [Failed to load plugin 'flowtype' declared in 'package.json » eslint-config-react-app': Cannot find module 'eslint/use-at-your-own-risk'](https://stackoverflow.com/questions/70397587/failed-to-load-plugin-flowtype-declared-in-package-json-eslint-config-react).
+
+`PLATFORM_OS=web` here work with codegen.macro is to avoid `SyntaxError: import.meta is only valid inside modules.` with react-native, ref to "import.meta.url" in `https://github.com/flyskywhy/PixelShapeRN/blob/master/src/workers/workerPool.js`
+
+If not define `DISABLE_ESLINT_PLUGIN=true` , and nodejs version < 14 , will cause `ERROR in Error: Child compilation failed: Module.createRequire is not a function` . If define `DISABLE_ESLINT_PLUGIN=true` , then nodejs version can < 14 because only `eslint@8` is using `Module.createRequire` .
+
+#### Upgrade in `config-overrides.js` `index.web.js` and other files
+Ref to [react -> react-native: let Web Worker with Support for CRA v5 (and Webpack 5) to fix Build doesn't work properly](https://github.com/flyskywhy/PixelShapeRN/commit/3ea44d17d4978f53be833d0e24b07c6f09a1736f), and your project may need `npm run stream-browserify process --save-dev` as described in [config-overrides.js](https://github.com/flyskywhy/PixelShapeRN/blob/3ea44d17d4978f53be833d0e24b07c6f09a1736f/config-overrides.js#L25).
 
 ### Q&A
 #### `Unexpected token '<'`
@@ -336,14 +387,6 @@ If the url in web browser is `http://localhost:3000/Foo/Bar` not `http://localho
 `Uncaught SyntaxError: Unexpected token '<'` in shell, then you need remove homepage in `package.json` like:
 ```
   "homepage": "https://github.com/Foo/Bar#readme",
-```
-
-#### `Failed to compile`
-If some error like below in shell, then you should refactor those lint `Line`, or enable `config.module.rules.splice(1, 1);` in `config-overrides.js`.
-```
-Failed to compile
-  Line 11:25:   Insert `,`
-prettier/prettier
 ```
 
 #### `npm ERR! ERESOLVE unable to resolve dependency tree`
