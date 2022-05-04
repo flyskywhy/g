@@ -343,7 +343,7 @@ module.exports = {
 ```
 
 * Use `npm run web` for development, then view it at [http://localhost:3000](http://localhost:3000) in web browser
-* Use `npm run build-web` to generate files in `build/` for production, and can use `npx http-server build` to simply test it at [http://127.0.0.1:8080](http://127.0.0.1:8080) in web browser.
+* Use `npm run build-web` to generate files in `build/` for production, and can use `npx http-server@13.0.2 build` to simply test it at [http://127.0.0.1:8080](http://127.0.0.1:8080) in web browser.
 
 If some error like below in shell, then you should refactor those lint `Line`, or enable `config.module.rules.splice(1, 1);` in `config-overrides.js`.
 ```
@@ -370,7 +370,7 @@ At the very first, after upgrade react-scripts from 3 to 5 and related babel upg
 
 * Use `npm run web` for development, then view it at [http://localhost:3000](http://localhost:3000) in web browser.
 * Use `npm run web-fresh` for development to automatically `rm -fr node_modules/.cache/*` first.
-* Use `npm run build-web` to generate files in `build/` for production, and can use `npx http-server build` to simply test it at [http://127.0.0.1:8080](http://127.0.0.1:8080) in web browser.
+* Use `npm run build-web` to generate files in `build/` for production, and can use `npx http-server@13.0.2 build` to simply test it at [http://127.0.0.1:8080](http://127.0.0.1:8080) in web browser.
 
 `DISABLE_ESLINT_PLUGIN=true` here is to avoid [Failed to load plugin 'flowtype' declared in 'package.json » eslint-config-react-app': Cannot find module 'eslint/use-at-your-own-risk'](https://stackoverflow.com/questions/70397587/failed-to-load-plugin-flowtype-declared-in-package-json-eslint-config-react).
 
