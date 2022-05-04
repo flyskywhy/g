@@ -365,12 +365,15 @@ At the very first, after upgrade react-scripts from 3 to 5 and related babel upg
     "web": "PLATFORM_OS=web DISABLE_ESLINT_PLUGIN=true react-app-rewired start",
     "web-fresh": "rm -fr node_modules/.cache/*; PLATFORM_OS=web DISABLE_ESLINT_PLUGIN=true react-app-rewired start",
     "build-web": "PLATFORM_OS=web DISABLE_ESLINT_PLUGIN=true react-app-rewired build",
+    "build-web-PixelShapeRN": "PUBLIC_URL=/PixelShapeRN PLATFORM_OS=web DISABLE_ESLINT_PLUGIN=true react-app-rewired build"
   }
 ```
 
 * Use `npm run web` for development, then view it at [http://localhost:3000](http://localhost:3000) in web browser.
 * Use `npm run web-fresh` for development to automatically `rm -fr node_modules/.cache/*` first.
 * Use `npm run build-web` to generate files in `build/` for production, and can use `npx http-server@13.0.2 build` to simply test it at [http://127.0.0.1:8080](http://127.0.0.1:8080) in web browser.
+
+`PUBLIC_URL=/PixelShapeRN` here is to [fix `build-web-PixelShapeRN` `GET https://flyskywhy.github.io/PixelShapeRN/PixelShapeRN/static/js/main.b043a6c7.js net::ERR_ABORTED 404`](https://github.com/flyskywhy/PixelShapeRN/commit/6f5ce184c8d5cfbaee596a3ec8169bfd3c4828fb), you should replace `PixelShapeRN` here with your github repo name.
 
 `DISABLE_ESLINT_PLUGIN=true` here is to avoid [Failed to load plugin 'flowtype' declared in 'package.json » eslint-config-react-app': Cannot find module 'eslint/use-at-your-own-risk'](https://stackoverflow.com/questions/70397587/failed-to-load-plugin-flowtype-declared-in-package-json-eslint-config-react).
 
