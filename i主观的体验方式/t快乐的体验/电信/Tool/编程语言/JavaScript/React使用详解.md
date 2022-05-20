@@ -424,10 +424,10 @@ Ref to [npm installation version problem](https://github.com/flyskywhy/react-nat
     react-web bundle
 
 ## 配置 iOS 开发环境
-除了为 React Native [搭建开发环境](https://reactnative.cn/docs/getting-started.html) ，还需 [像 Mac 高手一样管理应用，从 Homebrew 开始](https://sspai.com/post/42924) 使用 `brew install` 、 `brew cask install` 或 `mas install` 安装各种实用工具。安装过程中最好保持翻墙状态，否则速度较慢或无法安装。另可参考 [我在 Mac 上都用什么](https://www.cnblogs.com/imzhizi/p/my-apps-on-mac.html) 以及 [macOS使用详解](../../../Os/macOS/macOS使用详解.md) 。
+除了为 React Native [搭建开发环境](https://reactnative.cn/docs/environment-setup.html) ，还需 [像 Mac 高手一样管理应用，从 Homebrew 开始](https://sspai.com/post/42924) 使用 `brew install` 或 `mas install` 安装各种实用工具。安装过程中最好保持翻墙状态，否则速度较慢或无法安装。另可参考 [我在 Mac 上都用什么](https://www.cnblogs.com/imzhizi/p/my-apps-on-mac.html) 以及 [macOS使用详解](../../../Os/macOS/macOS使用详解.md) 。
 
-    brew install mas node watchman
-    brew cask install sublime-text double-commander google-chrome the-unarchiver iterm2 xquartz typora meld dos2unix intelliscape-caffeine bitbar geektool turbovnc-viewer microsoft-remote-desktop-beta flux mosh inkscape gimp
+    brew install mas node watchman dos2unix mosh
+    brew install sublime-text double-commander google-chrome the-unarchiver iterm2 xquartz typora meld intelliscape-caffeine bitbar geektool turbovnc-viewer microsoft-remote-desktop flux inkscape gimp
 
 注：其中 `turbovnc-viewer` 的运行需要先安装下面提到的 JAVA 环境，并在 macOS 自带终端中运行(在 iterm2 中运行没有效果)如下语句：
 
@@ -448,7 +448,7 @@ brew 在安装软件前会先尝试升级 brew 自身，这里可能是中国网
 
 使用其它 git 的图形化客户端替代，比如
 
-    brew cask install fork
+    brew install fork
 
 * 解决 `brew install` 时出现的 `Error: Your CLT does not support macOS 11.2.` 问题
 
@@ -467,7 +467,11 @@ brew 在安装软件前会先尝试升级 brew 自身，这里可能是中国网
 
 如果想在 macOS 上编译 Android APP ，则还需参考 [macOS 的 JDK 安装问题 (Homebrew)](https://www.cnblogs.com/imzhizi/p/macos-jdk-installation-homebrew.html) 一文安装 JDK8
 
-    brew cask install AdoptOpenJDK/openjdk/adoptopenjdk8
+    brew install AdoptOpenJDK/openjdk/adoptopenjdk8
+
+或是 brew 所提示的
+
+    brew install homebrew/cask-version/temurin8
 
 ## Xcode 编译过程问题集锦
 * 手工下载 `node_modules/react-native/third-party`
@@ -604,6 +608,8 @@ ls: /Users/lizheng/Library/Caches/com.facebook.ReactNativeBuild/boost_1_63_0.tar
 
     source 'https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git'
 
+或是让 Podfile 中保持 `https://github.com/CocoaPods/Specs.git` 并且将 `~/.cocoapods/repos/master/.git/config` 中的 `https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git` 替换为 `https://github.com/CocoaPods/Specs.git` ，则也是可以的。
+
 然后就可以正常 `pod install` 了（第一次可能需要删除已经存在的 Podfile.lock 文件）。
 
 另外，有时候比如 `git reset` 到某个提交点后做 `pod install` 时出现
@@ -611,6 +617,11 @@ ls: /Users/lizheng/Library/Caches/com.facebook.ReactNativeBuild/boost_1_63_0.tar
     NoMethodError - undefined method `each' for nil:NilClass
 
 的错误，这一般也是需要删除 Podfile.lock 文件。
+
+如果 `pod install` 时卡死在某个 `Installing` 上，或者最终它报出来 `LibreSSL SSL_connect: Operation timed out in connectiong to github.com:443`，则可以参照[pod install/update 卡住](https://blog.csdn.net/u011374880/article/details/106327526)一文里的解决方法，或是在 `~/.gitconfig` 中添加
+
+    [http "https://github.com/"]
+        proxy = http://你的科学上网代理IP:端口
 
 如果 `pod install` 时出现比如 `[!] `OpenSSL-Universal` requires CocoaPods version `>= 1.9`, which is not satisfied by your current version, `1.8.4`.` 这样的错误，则先需要
 
