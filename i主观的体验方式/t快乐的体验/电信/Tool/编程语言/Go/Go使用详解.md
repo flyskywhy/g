@@ -32,7 +32,7 @@
 ## go module
 现在很多 `go` 语言所写的项目源代码会使用 `go module` 进行依赖管理，在 `go get` 时会自动安装这些依赖。如果因为墙导致安装这些依赖时出现网络错误，则需要
 
-    export GOPROXY=https://goproxy.io
+    export GOPROXY=https://proxy.golang.com.cn,direct
 
 ## godep
 以前许多 `go` 语言所写的项目源代码中，会有一个`Godeps`目录，这个目录其实是由`godep save`命令自动生成的。
