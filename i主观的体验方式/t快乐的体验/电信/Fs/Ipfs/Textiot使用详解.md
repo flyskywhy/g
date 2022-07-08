@@ -395,4 +395,6 @@ Thread 底层是由区块链实现的，而区块链的优点——数据不可�
 ## 参考链接
 [docs](https://github.com/flyskywhy/textiot/tree/master/docs)
 
+[tour of Textile](https://github.com/flyskywhy/textiot/tree/master/docs/docs/a-tour-of-textile.md)
+
 [concepts](https://github.com/flyskywhy/textiot/tree/master/docs/docs/concepts)
