@@ -689,5 +689,22 @@ react-native 兴起之初，各种第三方组件百家争鸣，但也良莠不�
 
 如果是在 iOS 中使用 react-native-unimodules ，则必须要使用上面提到的 `pod install` 才能正常运行。
 
+### install react-native-unimodules without install expo
+The worked well version is
+
+    "react-native-unimodules": "0.10.1",
+
+and related
+
+    "expo-application": "2.4.1",
+    "expo-document-picker": "8.3.0",
+    "expo-gl": "8.4.0",
+    "expo-keep-awake": "8.0.0",
+    "expo-location": "10.0.0",
+
+The installation of `react-native-unimodules` can ref to this commit [expo -> react-native: add react-native-unimodules](https://github.com/flyskywhy/snakeRN/commit/90983816de3ad2a4da47ffa0f6d1659c2688be3e), and if RN >= 0.65 , to compile react-native-unimodules, need downgrade to gradle-6.7.1-all.zip in `YOUR_APP/android/gradle/wrapper/gradle-wrapper.properties` , and because `invalidate` replaces `onCatalystInstanceDestroy` in RN >= 0.65, ref to [https://github.com/facebook/react-native/commit/18c8417290823e67e211bde241ae9dde27b72f17](https://github.com/facebook/react-native/commit/18c8417290823e67e211bde241ae9dde27b72f17), you need
+
+    sed -i -e "s/^}$/public void invalidate() {}}/" node_modules/@unimodules/react-native-adapter/android/src/main/java/org/unimodules/adapters/react/services/CookieManagerModule.java
+
 ## 一些 BUG 的解决方法
 ### [fixed `TypeError: Network request failed` when upload file to http not https with Android debug builds](https://github.com/facebook/react-native/issues/33217#issuecomment-1159844475)
