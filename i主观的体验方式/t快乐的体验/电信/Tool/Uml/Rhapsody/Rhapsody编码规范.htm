@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="KEYWORDS" content="Rhapsody 编码规范" />
+<meta name="robots" content="index,follow" />
+<link rel="shortcut icon" href="/favicon.ico" />
+    <title>Rhapsody 编码规范 - IDDWebServer</title>
+    <style type="text/css" media="screen,projection">/*<![CDATA[*/ @import "/mediawiki/skins/monobook/main.css"; /*]]>*/</style>
+    <link rel="stylesheet" type="text/css" media="print" href="/mediawiki/skins/common/commonPrint.css" />
+    <!--[if lt IE 5.5000]><style type="text/css">@import "/mediawiki/skins/monobook/IE50Fixes.css";</style><![endif]-->
+    <!--[if IE 5.5000]><style type="text/css">@import "/mediawiki/skins/monobook/IE55Fixes.css";</style><![endif]-->
+    <!--[if gte IE 6]><style type="text/css">@import "/mediawiki/skins/monobook/IE60Fixes.css";</style><![endif]-->
+    <!--[if IE]><script type="text/javascript" src="/mediawiki/skins/common/IEFixes.js"></script>
+    <meta http-equiv="imagetoolbar" content="no" /><![endif]-->
+    <script type="text/javascript" src="/mediawiki/index.php?title=-&amp;action=raw&amp;gen=js"></script>    <script type="text/javascript" src="/mediawiki/skins/common/wikibits.js"></script>
+    <style type="text/css">/*<![CDATA[*/
+@import "/mediawiki/index.php?title=MediaWiki:Monobook.css&action=raw&ctype=text/css&smaxage=18000";
+@import "/mediawiki/index.php?title=-&action=raw&gen=css&maxage=18000";
+/*]]>*/</style>              </head>
+  <body                 class="ns-0">
+    <div id="globalWrapper">
+      <div id="column-content">
+	<div id="content">
+	  <a name="top" id="top"></a>
+	  	  <h1 class="firstHeading">Rhapsody 编码规范</h1>
+	  <div id="bodyContent">
+	    <h3 id="siteSub">Wikipedia，自由的百科全书</h3>
+	    <div id="contentSub"></div>
+	    	    	    <!-- start content -->
+	    <p>　　类的属性、函数和状态的名称用小写字母开始，第二个单词的第一个字母大写，如dataLength，如果是类的属性或者说成员变量，则在变量名前添加“m_”，如m_dataLength。
+</p><p>　　类的名称用大写字母开始，如DiscDrv。类名尽量不超过2个单词，以使RiC时的类函数名较短，便于调用。
+</p><p>　　宏定义所有字母均大写，单词之间用下划线分割，宏定义的第一个单词使其所属的类别，如KEY_EJECT。否则如果两个枚举类型中都定义了“NULL”，编译器就会报两个同名常量的错。将同一类别的宏定义为Package中的一种Type，Type->Kind为Enumeration。另外也可以让Rhapsody自动生成用#define定义的宏，方法是在Package中添加变量，并将变量类型设为“Constant”。
+</p><p>　　调用类自身的属性时，尽量使用“me->”而不使用“getIts()函数”，使得代码精简，除非是想要得到类自身所包含的类的指针。
+</p><div class="printfooter">
+取自"<a href="http://iddwebserver/mediawiki/index.php/Rhapsody_%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83">http://iddwebserver/mediawiki/index.php/Rhapsody_%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83</a>"</div>
+	    	    <!-- end content -->
+	    <div class="visualClear"></div>
+	  </div>
+	</div>
+      </div>
+      <div id="column-one">
+	<div id="p-cactions" class="portlet">
+	  <h5>Views</h5>
+	  <ul>
+	    <li id="ca-nstab-main"
+	       class="selected"	       ><a href="/mediawiki/index.php/Rhapsody_%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83">条目</a></li><li id="ca-talk"
+	       class="new"	       ><a href="/mediawiki/index.php?title=Talk:Rhapsody_%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83&amp;action=edit">讨论</a></li><li id="ca-edit"
+	       	       ><a href="/mediawiki/index.php?title=Rhapsody_%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83&amp;action=edit">编辑</a></li><li id="ca-history"
+	       	       ><a href="/mediawiki/index.php?title=Rhapsody_%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83&amp;action=history">History</a></li>	  </ul>
+	</div>
+	<div class="portlet" id="p-personal">
+	  <h5>Personal tools</h5>
+	  <div class="pBody">
+	    <ul>
+	    <li id="pt-login"><a href="/mediawiki/index.php?title=Special:Userlogin&amp;returnto=Rhapsody_%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83">用户登录</a></li>	    </ul>
+	  </div>
+	</div>
+	<div class="portlet" id="p-logo">
+	  <a style="background-image: url(/mediawiki/skins/common/images/mediawiki.png);"
+	    href="/mediawiki/index.php/%E9%A6%96%E9%A1%B5"
+	    title="首页"></a>
+	</div>
+	<script type="text/javascript"> if (window.isMSIE55) fixalpha(); </script>
+		<div class='portlet' id='p-navigation'>
+	  <h5>导航</h5>
+	  <div class='pBody'>
+	    <ul>
+	    	      <li id="n-mainpage"><a href="/mediawiki/index.php/%E9%A6%96%E9%A1%B5">首页</a></li>
+	     	      <li id="n-portal"><a href="/mediawiki/index.php/IDDWebServer:Community_Portal">社区</a></li>
+	     	      <li id="n-currentevents"><a href="/mediawiki/index.php/Current_events">新闻动态</a></li>
+	     	      <li id="n-recentchanges"><a href="/mediawiki/index.php/Special:Recentchanges">最近更改</a></li>
+	     	      <li id="n-randompage"><a href="/mediawiki/index.php/Special:Random">随机页面</a></li>
+	     	      <li id="n-help"><a href="/mediawiki/index.php/Wikipedia:%E5%B8%AE%E5%8A%A9">帮助</a></li>
+	     	      <li id="n-sitesupport"><a href="/mediawiki/index.php/IDDWebServer:Site_support">Donations</a></li>
+	     	    </ul>
+	  </div>
+	</div>
+		<div id="p-search" class="portlet">
+	  <h5><label for="searchInput">搜索</label></h5>
+	  <div class="pBody">
+	    <form name="searchform" action="/mediawiki/index.php/Special:Search" id="searchform">
+	      <input id="searchInput" name="search" type="text"
+	        accesskey="f" value="" />
+	      <input type='submit' name="go" class="searchButton" id="searchGoButton"
+	        value="进入"
+	        />&nbsp;<input type='submit' name="fulltext"
+	        class="searchButton"
+	        value="搜索" />
+	    </form>
+	  </div>
+	</div>
+	<div class="portlet" id="p-tb">
+	  <h5>工具</h5>
+	  <div class="pBody">
+	    <ul>
+		  		  <li id="t-whatlinkshere"><a href="/mediawiki/index.php/Special:Whatlinkshere/Rhapsody_%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83">链入页面</a></li>
+		  		  <li id="t-recentchangeslinked"><a href="/mediawiki/index.php/Special:Recentchangeslinked/Rhapsody_%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83">链出更改</a></li>
+		                	      	      	      	      	      	      	      <li id="t-upload"><a href="/mediawiki/index.php/Special:Upload">上载文件</a></li>	      	      <li id="t-specialpages"><a href="/mediawiki/index.php/Special:Specialpages">特殊页面</a></li>	      	      	      <li id="t-print"><a href="/mediawiki/index.php?title=Rhapsody_%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83&amp;printable=yes">可打印版</a></li>
+	      	    </ul>
+	  </div>
+	</div>
+	      </div><!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer">
+    <div id="f-poweredbyico"><a href="http://www.mediawiki.org/"><img src="/mediawiki/skins/common/images/poweredby_mediawiki_88x31.png" alt="MediaWiki" /></a></div>		<ul id="f-list">
+	  <li id="f-lastmod"> 最后更改07:45 2006年6月8日.</li>	  <li id="f-viewcount">本页面已经被浏览40次。</li>	  	  	  	  <li id="f-about"><a href="/mediawiki/index.php/Wikipedia:%E5%85%B3%E4%BA%8E" title="Wikipedia:关于">关于Wikipedia</a></li>	  <li id="f-disclaimer"><a href="/mediawiki/index.php/IDDWebServer:General_disclaimer" title="IDDWebServer:General disclaimer">Disclaimers</a></li>	  	</ul>
+      </div>
+    </div>
+    <!-- Served by iddwebserver in 0.29 secs. -->  </body>
+</html>

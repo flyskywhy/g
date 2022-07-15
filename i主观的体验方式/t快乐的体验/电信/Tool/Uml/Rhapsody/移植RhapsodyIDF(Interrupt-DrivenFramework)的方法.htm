@@ -1,0 +1,462 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="KEYWORDS" content="移植Rhapsody IDF(Interrupt-Driven Framework)的方法" />
+<meta name="robots" content="index,follow" />
+<link rel="shortcut icon" href="/favicon.ico" />
+    <title>移植Rhapsody IDF(Interrupt-Driven Framework)的方法 - IDDWebServer</title>
+    <style type="text/css" media="screen,projection">/*<![CDATA[*/ @import "/mediawiki/skins/monobook/main.css"; /*]]>*/</style>
+    <link rel="stylesheet" type="text/css" media="print" href="/mediawiki/skins/common/commonPrint.css" />
+    <!--[if lt IE 5.5000]><style type="text/css">@import "/mediawiki/skins/monobook/IE50Fixes.css";</style><![endif]-->
+    <!--[if IE 5.5000]><style type="text/css">@import "/mediawiki/skins/monobook/IE55Fixes.css";</style><![endif]-->
+    <!--[if gte IE 6]><style type="text/css">@import "/mediawiki/skins/monobook/IE60Fixes.css";</style><![endif]-->
+    <!--[if IE]><script type="text/javascript" src="/mediawiki/skins/common/IEFixes.js"></script>
+    <meta http-equiv="imagetoolbar" content="no" /><![endif]-->
+    <script type="text/javascript" src="/mediawiki/index.php?title=-&amp;action=raw&amp;gen=js"></script>    <script type="text/javascript" src="/mediawiki/skins/common/wikibits.js"></script>
+    <style type="text/css">/*<![CDATA[*/
+@import "/mediawiki/index.php?title=MediaWiki:Monobook.css&action=raw&ctype=text/css&smaxage=18000";
+@import "/mediawiki/index.php?title=-&action=raw&gen=css&maxage=18000";
+/*]]>*/</style>              </head>
+  <body                 class="ns-0">
+    <div id="globalWrapper">
+      <div id="column-content">
+	<div id="content">
+	  <a name="top" id="top"></a>
+	  	  <h1 class="firstHeading">移植Rhapsody IDF(Interrupt-Driven Framework)的方法</h1>
+	  <div id="bodyContent">
+	    <h3 id="siteSub">Wikipedia，自由的百科全书</h3>
+	    <div id="contentSub"></div>
+	    	    	    <!-- start content -->
+	    <div class="editsection" style="float:right;margin-left:5px;">[<a href="/mediawiki/index.php?title=%E7%A7%BB%E6%A4%8DRhapsody_IDF%28Interrupt-Driven_Framework%29%E7%9A%84%E6%96%B9%E6%B3%95&amp;action=edit&amp;section=1" title="移植Rhapsody IDF(Interrupt-Driven Framework)的方法">编辑</a>]</div><a name=".E7.A7.BB.E6.A4.8DIDF"></a><h1>移植IDF</h1>
+<p>　　这里以移植到OpenRisc1200上的GCC环境为例。参考自Doc\pdf_docs\Using_the_IDF.pdf。
+</p><p>　　打开Rhapsody安装目录下的Share\LangC\idf\Adapters\Microsoft\MicrosoftNT模型，另存为Share\LangC\idf\Adapters\OpenRisc\OpenRisc
+</p><p>　　在Share\LangC\idf\Adapters目录中建立一个新工程OpenRisc，也就是Share\LangC\idf\Adapters\OpenRisc\OpenRisc.rpy，在Type中选择“IDFProfile”。添加一个component名为idf及其configuration名为debugANDrelease，并将idf component的Type设为“Library”，在Standart Headers中填入“support.h,spr_defs.h,RiC.h””（这里的support.h,spr_defs.h位于$(OrMakeRoot)下面的include目录中），将configuration debugANDrelease的Stereotype设为“IDF”。将idf component的Directory设为“.”，将configuration debugANDrelease的Directory设为“..\..”，这样，configuration的实际路径就是Share\LangC\idf了。使用“File”菜单中的“Add to Model...”导入Share\LangC\idf\Adapters\Microsoft\MicrosoftNT_rpy\OSAL.sbs。在idf component中添加“File”RiCOSOR及RiCOS并用“Add Element”按钮将OSAL Package加入，将RiCOROS的Type改为“Implementation”，这样就会在Share\LangC\idf目录下生成RiCOROS.c文件，将RiCOS的Type改为“Specification”，并将Path设为“./Adapters/OpenRisc”，这样就会在Share\LangC\idf\Adapters\OpenRisc目录下生成RiCOS.c文件。
+</p><p>　　在Share\Properties\siteC.prp文件里添加一行“Include "OpenRiscIDF.prp"”。在Share\Properties目录中建立一个OpenRiscIDF.prp文件，文件内容如下：
+</p>
+<pre>Subject C_CG
+   	Metaclass Configuration  
+		Property Environment Enum "Cygwin,INTEGRITY,INTEGRITY5,Multi4Win32, Microsoft,MicrosoftIDF,OpenRiscIDF,VxWorks,VxWorks6.2diab,VxWorks6.2gnu,PsosPPC,Solaris2,Solaris2GNU,Linux,NucleusPLUS-PPC,WorkbenchManaged" "Microsoft"
+  	end 
+
+    Metaclass OpenRiscIDF
+
+		Property InvokeMake String "\"$OMROOT/etc/Executer.exe\" \"\\\"$OMROOT\\etc\\cygwinormake.bat\\\" $makefile $maketarget\""
+		Property InvokeExecutable String ""
+
+		Property BuildInIDE Bool "False"
+		Property AutoAttachToIDEDebugger Bool "False"
+        Property ParseErrorMessage String "([^:]+)[:]([0-9]+)[:]"
+        Property ErrorMessageTokensFormat String "ToTalNumberOfTokens=2,FileTokenPosition=1,LineTokenPosition=2"
+        Property Include String "include"
+		Property ObjExtension String ".o"
+        Property ExeExtension String ".exe"
+        Property LibExtension String ".a"
+        Property EntryPoint String "main"
+
+		Property UseRemoteHost Bool "False"
+		Property DuplicateLibsListInMakeFile Bool "True"
+		Property RemoteHost String ""
+		Property ReactiveVtblKind Enum "OXF, IDF" "IDF"
+ 		Property OSFileSystemCaseSensitive Bool "True"
+   		Property QuoteOMROOT Bool "True"
+		Property UnixPathNameForOMROOT Bool "True"
+
+		Property UnixLineTerminationStyle Bool "True"
+
+		Property ObjectsDirectory String ""
+		Property BuildCommandSet Enum "Debug,Release" "Debug"
+		Property PathDelimiter String "/"
+		Property SpecExtension String ".h"
+		Property ImpExtension String ".c"
+        Property AdditionalReservedWords String ""
+  		Property IsFileNameShort Bool "False"
+		Property ObjectName String ""
+		Property CPPCompileCommand MultiLine 
+"	@echo Compiling $OMFileImpPath
+	@$(CC) $OMFileCPPCompileSwitches -o $OMFileObjPath $OMFileImpPath
+"
+		Property CompileSwitches MultiLine "-I. -I$OMDefaultSpecificationDirectory -I$(OMROOT)/LangC/idf -I$(OMROOT)/LangC/idf/Adapters/OpenRisc  -I$(OrMakeRoot)/include $(INCLUDE_PATH) $OMCPPCompileCommandSet -DIC=1 -DDC=1 -DCLK_MHZ=83 -msoft-float -fno-builtin -Wall -O2 -c "
+		Property CPPCompileDebug String "-g -D_DEBUG"
+		Property CPPCompileRelease String "-DNDEBUG"
+		Property LinkSwitches String "$OMLinkCommandSet"
+		Property LinkDebug String "-g"
+		Property LinkRelease String ""
+		Property DependencyRule String "$OMFileObjPath&nbsp;: $OMFileImpPath $OMFileSpecPath $OMFileDependencies "
+		Property FileDependencies String "$OMSpecIncludeInElements $OMImpIncludeInElements"
+		Property ObjCleanCommand String "$(RM) $OMFileObjPath"
+		Property NullValue String "NULL"
+		Property MakeFileName String ""
+		Property MakeFileContent MultiLine "
+############# Target type (Debug/Release) ##################
+############################################################
+CPPCompileDebug=$OMCPPCompileDebug
+CPPCompileRelease=$OMCPPCompileRelease
+LinkDebug=$OMLinkDebug
+LinkRelease=$OMLinkRelease
+BuildSet=$OMBuildSet
+
+ConfigurationCPPCompileSwitches=$OMConfigurationCPPCompileSwitches
+
+OrMakeRoot	?= D:/CVSRoot/DVD/FirmWare/MakeRoot
+
+CFLAGS=$(ConfigurationCPPCompileSwitches)
+ASFLAGS = $(CFLAGS)
+
+#########################################
+###### Predefined macros ################
+RM=rm -rf
+INCLUDE_QUALIFIER=-I
+
+Compiler	?= or32-elf
+
+ifeq ($(Compiler), or32-uclinux)
+BccDir			= /opt/$(Compiler)
+else
+	ifeq ($(OSTYPE), linux)
+		BccDir			= $(OrMakeRoot)/tool/build/linux_$(Compiler)
+		TOOL_EXE_EXT	=
+	else
+		BccDir			= $(OrMakeRoot)/tool/build/cygwin_$(Compiler)
+		TOOL_EXE_EXT	= .exe
+		export SHELL		:= ${OrMakeRoot}/tool/build/cygwin_bin/bash
+	endif
+endif
+
+BccBinDir	= $(BccDir)/bin
+GCC			= gcc
+CC			= $(BccBinDir)/$(Compiler)-gcc
+AS			= $(BccBinDir)/$(Compiler)-as
+LD			= $(BccBinDir)/$(Compiler)-ld
+AR			= $(BccBinDir)/$(Compiler)-ar
+RANLIB		= $(BccBinDir)/$(Compiler)-ranlib
+DUMP		= $(BccBinDir)/$(Compiler)-objdump
+OBJCOPY		= $(BccBinDir)/$(Compiler)-objcopy
+OBJSIZE		= $(BccBinDir)/$(Compiler)-size
+BIN2HEX		= $(OrMakeRoot)/tool/bin2hex$(TOOL_EXE_EXT)
+
+MAKEFILE_LIST&nbsp;?= $OMMakefileName
+
+LIB_CMD=$(AR)
+LINK_CMD=$(LD)
+LIB_FLAGS=rvu
+LINK_FLAGS=$OMConfigurationLinkSwitches
+
+# default Link script
+DefaultLink			?= $(OrMakeRoot)/script/OrLink
+DefaultLinkScript	= $(if $(DefaultLink), -T $(DefaultLink))
+
+# user Link script
+UserLink			?=
+UserLinkScript		= $(if $(UserLink),-T $(UserLink))
+
+# build flags
+
+ifeq ($(Compiler), or32-uclinux)
+LibDir += $(BccDir)/lib/gcc-lib/$(Compiler)/3.2.3	$(BccDir)/lib
+else
+LibDir += $(BccDir)/lib/gcc/$(Compiler)/3.4.4	$(BccDir)/lib
+endif
+
+LDLIBS	= $(LibDir:%=-L%)
+
+ifeq ($(Compiler), or32-uclinux)
+LDLIBS	+= -lgcc -liberty -lbfd -lopcodes
+else
+	ifeq ($(OSTYPE), linux)
+		LDLIBS	+= -lgcc -lgcov
+	else
+		LDLIBS	+= -lgcc -lgcov -liberty -lmmalloc
+	endif
+endif
+
+DUMPFLAGS = -d -S -s -t -r -h -f  -x 
+
+#########################################
+####### Context macros ##################
+$OMContextMacros
+
+OBJS	+=		\\
+	reset.o       \\
+	except.o      \\
+	support.o     \\
+	int.o         \\
+	DVD.o
+
+$(OBJS)&nbsp;: $(MAKEFILE_LIST)
+
+DVD.o: $(OrMakeRoot)/include/DVD.c $(OrMakeRoot)/include/DVD.h $(OrMakeRoot)/include/DVDSoc.h \\
+  $(OrMakeRoot)/include/DVDBoard.h $(OrMakeRoot)/include/spr_defs.h \\
+  $(OrMakeRoot)/include/support.h $(OrMakeRoot)/include/int.h $(OrMakeRoot)/include/board.h
+	@echo Compiling DVD.c
+	@$(CC) $(ConfigurationCPPCompileSwitches)  -o DVD.o $(OrMakeRoot)/include/DVD.c
+
+except.o: $(OrMakeRoot)/include/except.S $(OrMakeRoot)/include/spr_defs.h \\
+  $(OrMakeRoot)/include/board.h
+	@echo Compiling except.S
+	@$(CC) $(ConfigurationCPPCompileSwitches)  -o except.o $(OrMakeRoot)/include/except.S
+
+int.o: $(OrMakeRoot)/include/int.c $(OrMakeRoot)/include/support.h \\
+  $(OrMakeRoot)/include/spr_defs.h $(OrMakeRoot)/include/int.h
+	@echo Compiling int.c
+	@$(CC) $(ConfigurationCPPCompileSwitches)  -o int.o $(OrMakeRoot)/include/int.c
+
+reset.o: $(OrMakeRoot)/include/reset.S $(OrMakeRoot)/include/spr_defs.h \\
+  $(OrMakeRoot)/include/board.h $(OrMakeRoot)/include/DVDSoc.h
+	@echo Compiling reset.S
+	@$(CC) $(ConfigurationCPPCompileSwitches)  -o reset.o $(OrMakeRoot)/include/reset.S
+
+support.o: $(OrMakeRoot)/include/support.c $(OrMakeRoot)/include/spr_defs.h \\
+  $(OrMakeRoot)/include/support.h $(OrMakeRoot)/include/int.h $(OrMakeRoot)/include/board.h \\
+  $(OrMakeRoot)/include/DVDSoc.h
+	@echo Compiling support.c
+	@$(CC) $(ConfigurationCPPCompileSwitches)  -o support.o $(OrMakeRoot)/include/support.c
+
+#########################################
+####### Predefined macros ###############
+$(OBJS)&nbsp;:  $(INST_LIBS) $(OXF_LIBS)
+
+LIB_POSTFIX=
+ifeq ($(BuildSet),Release)
+LIB_POSTFIX=R
+endif
+
+ifeq ($(TIME_MODEL),Simulated)
+	@echo Simulated Time Model is not available.
+TIM_EXT=
+else
+ifeq ($(TIME_MODEL),RealTime)
+TIM_EXT=
+else
+	@echo An invalid Time Model \"$(TIME_MODEL)\" is specified.
+endif
+endif
+
+ifeq ($(INSTRUMENTATION),Animation)
+	@echo Animation is not yet available.
+
+else
+ifeq ($(INSTRUMENTATION),Tracing)
+	@echo Tracing is not yet available.
+
+else
+ifeq ($(INSTRUMENTATION),None)
+
+INST_FLAGS=
+INST_INCLUDES=
+INST_LIBS=
+OXF_LIBS=$(OMROOT)/LangC/lib/ORidf$(LIB_POSTFIX)$(LIB_EXT)
+SOCK_LIB=
+
+else
+	@echo An invalid Instrumentation $(INSTRUMENTATION) is specified.
+	exit
+endif
+endif
+endif
+
+.SUFFIXES: $(CPP_EXT)
+
+
+
+#####################################################################
+##################### Context dependencies and commands #############
+$OMContextDependencies
+
+$OMFileObjPath&nbsp;: $OMMainImplementationFile $(OBJS)
+		@$(CC) $(ConfigurationCPPCompileSwitches) -o  $OMFileObjPath $OMMainImplementationFile
+
+####################################################################################
+#                    Predefined linking instructions                               #
+# INST_LIBS is included twice to solve bi-directional dependency between libraries #
+####################################################################################
+$(TARGET_NAME)$(EXE_EXT): $(OBJS) $(ADDITIONAL_OBJS) $OMFileObjPath $(MAKEFILE_LIST) $OMModelLibs ${UserLink} ${DefaultLink}
+	@echo Linking $(TARGET_NAME)$(EXE_EXT)
+	@$(LINK_CMD)  $OMFileObjPath $(OBJS) $(ADDITIONAL_OBJS) \\
+	$(LIBS) \\
+	$(INST_LIBS) \\
+	$(OXF_LIBS) \\
+	$(SOCK_LIB) \\
+	$(LDLIBS) \\
+	$(LINK_FLAGS) $(UserLinkScript) $(DefaultLinkScript) -o $(TARGET_NAME)$(EXE_EXT)
+	$(DUMP) $(DUMPFLAGS) $(TARGET_NAME)$(EXE_EXT) > $(TARGET_NAME).se
+	$(OBJCOPY) -O binary $(TARGET_NAME)$(EXE_EXT) $(TARGET_NAME).bin
+	$(BIN2HEX) $(TARGET_NAME).bin > $(TARGET_NAME).hex
+
+$(TARGET_NAME)$(LIB_EXT)&nbsp;: $(OBJS) $(ADDITIONAL_OBJS) $(MAKEFILE_LIST)
+	@echo Building library $@
+	@$(LIB_CMD) $(LIB_FLAGS) $(TARGET_NAME)$(LIB_EXT) $(OBJS) $(ADDITIONAL_OBJS)
+
+
+
+clean:
+	@echo Cleanup
+	$OMCleanOBJS
+	$(RM) *$(OBJ_EXT)
+	$(RM) $OMFileObjPath $(ADDITIONAL_OBJS)
+	$(RM) $(TARGET_NAME)$(LIB_EXT)
+	$(RM) $(TARGET_NAME)$(EXE_EXT)
+	$(RM) $(TARGET_NAME).se
+	$(RM) $(TARGET_NAME).bin
+	$(RM) $(TARGET_NAME).hex
+"
+	end
+
+
+end
+</pre>
+<p>　　这里的“OrMakeRoot	?= D:/CVSRoot/DVD/FirmWare/MakeRoot”需要改成你本地电脑上的相应路径。
+</p><p>　　在Share\etc目录中建立一个CygwinOrMake.bat文件，文件内容如下：
+</p>
+<pre>@echo off
+PATH=D:/CVSRoot/DVD/FirmWare/MakeRoot/tool/build/cygwin_bin;d:\cygwin\bin;%PATH%
+if "%2"=="" set target=all
+if "%2"=="build" set target=all
+if "%2"=="rebuild" set target=clean all
+if "%2"=="clean" set target=clean
+echo Setting environment for Cygwin of OpenRisc
+echo "make.exe"
+make %target% -f %1
+</pre>
+<p>　　这里的“D:/CVSRoot/DVD/FirmWare/MakeRoot/tool/build/cygwin_bin”需要改成你本地电脑上的相应路径。
+</p><p>　　如果想要自己在命令行里进行makefile的手动编译，则要保证在系统化境变量里的PATH中D:/CVSRoot/DVD/FirmWare/MakeRoot/tool/build/cygwin_bin位于d:\cygwin\bin之前。
+</p><p>　　重新用Rhapsody打开工程OpenRisc，此时configuration debugANDrelease的Environment中的选项就多出了“OpenRiscIDF”，选中该项，然后在Properties中将C_CG->OpenRiscIDF->MakeFileName中填入ORidf，于是所生成的Makefile的名称就是ORidf.mak，所生成的库的名称就是ORidf.a了。接着修改Properties中的C_CG->OpenRiscIDF->MakeFileContent，将“#Context macros#”段中“OBJS += ”行开始的其它几行内容替换为：
+</p>
+<pre>include idfFiles.list
+
+OBJS += $(OXF_OBJ)
+</pre>
+<p>　　将“$(LIB_CMD) $(LIB_FLAGS) $(TARGET_NAME)$(LIB_EXT) $(OBJS) $(ADDITIONAL_OBJS)”替换为
+</p>
+<pre>$(LIB_CMD) $(LIB_FLAGS) ../lib/$(TARGET_NAME)$(LIB_POSTFIX)$(LIB_EXT) $(OBJS) $(ADDITIONAL_OBJS)
+</pre>
+<p>　　将“$(RM) $(TARGET_NAME)$(LIB_EXT)”替换为
+</p>
+<pre>$(RM) ../lib/$(TARGET_NAME)$(LIB_POSTFIX)$(LIB_EXT)
+</pre>
+<p>　　这样在编译后，就会在Share\LangC\lib目录中产生一个ORidf.a或ORidfR.a文件。Build Set为“Debug”时，将会生成ORidf.a文件；Build Set为“Release”时，将会生成ORidfR.a文件。如果不使用printf()函数，可以在Compiler Switches中添加“-DNO_PRINT”。如果不使用malloc()函数，可以在Compiler Switches中添加“-DNO_MALLOC”。如果不使用Memory Pool的方式进行内存分配，可以在Compiler Switches中添加“-DNO_POOLS”。如果编译时出现找不到stdio.h之类的错误信息，只需在or32编译器的系统目录（lib目录下的某一层include目录中）中放置相应的空.h文件即可。
+</p><p>　　接下来是真正的移植工作，即修改OSAL Package中相关的函数、变量等。
+</p><p>　　将RiCInitTimer的内容设为如下语句，开启系统时钟的Timer：
+</p>
+<pre>start_timer(TIMER0);
+</pre>
+<p>　　将RiCGetSystemTick的内容设为如下语句，获得系统时钟被开启后所经过的毫秒数（由于保持RIC_MS_PER_TICK为1，所以RiC中的TICK就是毫秒）：
+</p>
+<pre>return getMsCnt();
+</pre>
+<p>　　将RiCEnterCriticalRegion的内容设为如下语句，以便在进入中断处理函数时关闭中断响应：
+</p>
+<pre>mtspr(SPR_SR, mfspr(SPR_SR) &amp; ~SPR_SR_IEE);
+</pre>
+<p>　　将RiCExitCriticalRegion的内容设为如下语句，以便在退出中断处理函数时开启中断响应：
+</p>
+<pre>mtspr(SPR_SR, mfspr(SPR_SR) | SPR_SR_IEE);
+</pre>
+<p>　　Types中的RIC_MAX_EVENTS等酌情予以选择，一般默认就可以了。
+</p><p>　　下面是一些注意事项：
+</p>
+<ul><li>IDF需要使用"flat statechart implementation"和"real-time model"选项。
+</li></ul>
+<ul><li>为了减少内存的使用，最大的连续null transitions数已经从100缩减到了7。
+</li></ul>
+<ul><li>如果你需要RiCString、RiCMap、RiCList和RiCCollection，那么它们需要被添加到Share\LangC\idf\model\idf.rpy的generic configuration的scope中，并且idf library需要被重建。它们在默认情况下并没有被包括在内。如果要使用RiCString，用户必须#include RiCString.h，而且系统必须支持 malloc / free 和 realloc。
+</li></ul>
+<div class="editsection" style="float:right;margin-left:5px;">[<a href="/mediawiki/index.php?title=%E7%A7%BB%E6%A4%8DRhapsody_IDF%28Interrupt-Driven_Framework%29%E7%9A%84%E6%96%B9%E6%B3%95&amp;action=edit&amp;section=2" title="移植Rhapsody IDF(Interrupt-Driven Framework)的方法">编辑</a>]</div><a name=".E6.94.B9.E8.BF.9BIDF"></a><h1>改进IDF</h1>
+<p>　　由于Rhapsody的出品公司I-logix已经被收购，是否继续推出Rhapsody新版还未可知，而目前的6.2版运行起来还是比较稳定的，因此改进该版本的IDF模型还是比较有长效性的。
+</p><p>　　目前的IDF模型在开启NO_MALLOC进行编译时会报告RiCReactive.c中RiCReactive_destroy()里的free没有定义，这是因为那里忘了应用NO_MALLOC这个宏了，我们应对其进行补充完整。打开Share\LangC\idf\model\idf.rpy，在Idf Package下的Core Package上点右键选择“Unit->Edit Unit...”，然后在弹出的对话框中将“Read Only”改为“Read/Write”，这样就可以在Core Package下的RiCReactive Class中的destroy Operation里将“free(me);”改为如下内容了：
+</p>
+<pre>#ifndef NO_MALLOC
+  free(me);
+#else
+  assert ( FALSE );
+#endif
+</pre>
+<p>　　最后在资源管理器中将Share\LangC\idf\RiCReactive.c的只读属性去掉，这样在RiCReactive Class上点右键选择“Generate Class”后就可以更新RiCReactive.c文件了。
+</p>
+<div class="editsection" style="float:right;margin-left:5px;">[<a href="/mediawiki/index.php?title=%E7%A7%BB%E6%A4%8DRhapsody_IDF%28Interrupt-Driven_Framework%29%E7%9A%84%E6%96%B9%E6%B3%95&amp;action=edit&amp;section=3" title="移植Rhapsody IDF(Interrupt-Driven Framework)的方法">编辑</a>]</div><a name=".E4.BD.BF.E7.94.A8IDF"></a><h1>使用IDF</h1>
+<p>　　在应用程序的configuration的Environment中选择了“OpenRiscIDF”后，就可以在Rhapsody中编译出运行在DVD硬件（CPU是Open Risc 1200）的程序。也可以在保存自动生成的*.c *.h *.mak中的目录中添加Makefile，主要是设置一些目录环境，就可以在命令行中使用make来编译，Makefile内容如下：
+</p>
+<pre>OrMakeRoot = ../../../../FirmWare/MakeRoot
+Compiler = or32-uclinux # default is or32-elf
+MAKEFILE_LIST = Makefile $(notdir $(PWD)).mak
+
+include $(notdir $(PWD)).mak
+
+OMROOT = $(OrMakeRoot)/tool/build
+</pre><div class="printfooter">
+取自"<a href="http://iddwebserver/mediawiki/index.php/%E7%A7%BB%E6%A4%8DRhapsody_IDF%28Interrupt-Driven_Framework%29%E7%9A%84%E6%96%B9%E6%B3%95">http://iddwebserver/mediawiki/index.php/%E7%A7%BB%E6%A4%8DRhapsody_IDF%28Interrupt-Driven_Framework%29%E7%9A%84%E6%96%B9%E6%B3%95</a>"</div>
+	    	    <!-- end content -->
+	    <div class="visualClear"></div>
+	  </div>
+	</div>
+      </div>
+      <div id="column-one">
+	<div id="p-cactions" class="portlet">
+	  <h5>Views</h5>
+	  <ul>
+	    <li id="ca-nstab-main"
+	       class="selected"	       ><a href="/mediawiki/index.php/%E7%A7%BB%E6%A4%8DRhapsody_IDF%28Interrupt-Driven_Framework%29%E7%9A%84%E6%96%B9%E6%B3%95">条目</a></li><li id="ca-talk"
+	       class="new"	       ><a href="/mediawiki/index.php?title=Talk:%E7%A7%BB%E6%A4%8DRhapsody_IDF%28Interrupt-Driven_Framework%29%E7%9A%84%E6%96%B9%E6%B3%95&amp;action=edit">讨论</a></li><li id="ca-edit"
+	       	       ><a href="/mediawiki/index.php?title=%E7%A7%BB%E6%A4%8DRhapsody_IDF%28Interrupt-Driven_Framework%29%E7%9A%84%E6%96%B9%E6%B3%95&amp;action=edit">编辑</a></li><li id="ca-history"
+	       	       ><a href="/mediawiki/index.php?title=%E7%A7%BB%E6%A4%8DRhapsody_IDF%28Interrupt-Driven_Framework%29%E7%9A%84%E6%96%B9%E6%B3%95&amp;action=history">History</a></li>	  </ul>
+	</div>
+	<div class="portlet" id="p-personal">
+	  <h5>Personal tools</h5>
+	  <div class="pBody">
+	    <ul>
+	    <li id="pt-login"><a href="/mediawiki/index.php?title=Special:Userlogin&amp;returnto=%E7%A7%BB%E6%A4%8DRhapsody_IDF(Interrupt-Driven_Framework)%E7%9A%84%E6%96%B9%E6%B3%95">用户登录</a></li>	    </ul>
+	  </div>
+	</div>
+	<div class="portlet" id="p-logo">
+	  <a style="background-image: url(/mediawiki/skins/common/images/mediawiki.png);"
+	    href="/mediawiki/index.php/%E9%A6%96%E9%A1%B5"
+	    title="首页"></a>
+	</div>
+	<script type="text/javascript"> if (window.isMSIE55) fixalpha(); </script>
+		<div class='portlet' id='p-navigation'>
+	  <h5>导航</h5>
+	  <div class='pBody'>
+	    <ul>
+	    	      <li id="n-mainpage"><a href="/mediawiki/index.php/%E9%A6%96%E9%A1%B5">首页</a></li>
+	     	      <li id="n-portal"><a href="/mediawiki/index.php/IDDWebServer:Community_Portal">社区</a></li>
+	     	      <li id="n-currentevents"><a href="/mediawiki/index.php/Current_events">新闻动态</a></li>
+	     	      <li id="n-recentchanges"><a href="/mediawiki/index.php/Special:Recentchanges">最近更改</a></li>
+	     	      <li id="n-randompage"><a href="/mediawiki/index.php/Special:Random">随机页面</a></li>
+	     	      <li id="n-help"><a href="/mediawiki/index.php/Wikipedia:%E5%B8%AE%E5%8A%A9">帮助</a></li>
+	     	      <li id="n-sitesupport"><a href="/mediawiki/index.php/IDDWebServer:Site_support">Donations</a></li>
+	     	    </ul>
+	  </div>
+	</div>
+		<div id="p-search" class="portlet">
+	  <h5><label for="searchInput">搜索</label></h5>
+	  <div class="pBody">
+	    <form name="searchform" action="/mediawiki/index.php/Special:Search" id="searchform">
+	      <input id="searchInput" name="search" type="text"
+	        accesskey="f" value="" />
+	      <input type='submit' name="go" class="searchButton" id="searchGoButton"
+	        value="进入"
+	        />&nbsp;<input type='submit' name="fulltext"
+	        class="searchButton"
+	        value="搜索" />
+	    </form>
+	  </div>
+	</div>
+	<div class="portlet" id="p-tb">
+	  <h5>工具</h5>
+	  <div class="pBody">
+	    <ul>
+		  		  <li id="t-whatlinkshere"><a href="/mediawiki/index.php/Special:Whatlinkshere/%E7%A7%BB%E6%A4%8DRhapsody_IDF%28Interrupt-Driven_Framework%29%E7%9A%84%E6%96%B9%E6%B3%95">链入页面</a></li>
+		  		  <li id="t-recentchangeslinked"><a href="/mediawiki/index.php/Special:Recentchangeslinked/%E7%A7%BB%E6%A4%8DRhapsody_IDF%28Interrupt-Driven_Framework%29%E7%9A%84%E6%96%B9%E6%B3%95">链出更改</a></li>
+		                	      	      	      	      	      	      	      <li id="t-upload"><a href="/mediawiki/index.php/Special:Upload">上载文件</a></li>	      	      <li id="t-specialpages"><a href="/mediawiki/index.php/Special:Specialpages">特殊页面</a></li>	      	      	      <li id="t-print"><a href="/mediawiki/index.php?title=%E7%A7%BB%E6%A4%8DRhapsody_IDF%28Interrupt-Driven_Framework%29%E7%9A%84%E6%96%B9%E6%B3%95&amp;printable=yes">可打印版</a></li>
+	      	    </ul>
+	  </div>
+	</div>
+	      </div><!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer">
+    <div id="f-poweredbyico"><a href="http://www.mediawiki.org/"><img src="/mediawiki/skins/common/images/poweredby_mediawiki_88x31.png" alt="MediaWiki" /></a></div>		<ul id="f-list">
+	  <li id="f-lastmod"> 最后更改00:32 2006年12月7日.</li>	  <li id="f-viewcount">本页面已经被浏览43次。</li>	  	  	  	  <li id="f-about"><a href="/mediawiki/index.php/Wikipedia:%E5%85%B3%E4%BA%8E" title="Wikipedia:关于">关于Wikipedia</a></li>	  <li id="f-disclaimer"><a href="/mediawiki/index.php/IDDWebServer:General_disclaimer" title="IDDWebServer:General disclaimer">Disclaimers</a></li>	  	</ul>
+      </div>
+    </div>
+    <!-- Served by iddwebserver in 0.41 secs. -->  </body>
+</html>
