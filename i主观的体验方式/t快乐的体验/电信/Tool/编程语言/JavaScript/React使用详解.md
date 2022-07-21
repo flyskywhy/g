@@ -708,3 +708,5 @@ The installation of `react-native-unimodules` can ref to this commit [expo -> re
 
 ## 一些 BUG 的解决方法
 ### [fixed `TypeError: Network request failed` when upload file to http not https with Android debug builds](https://github.com/facebook/react-native/issues/33217#issuecomment-1159844475)
+
+### Fixed [x/mobile: Calling net.InterfaceAddrs() fails on Android SDK 30](https://github.com/golang/go/issues/40569#issuecomment-1190950966) if use GO on Android >= 11
