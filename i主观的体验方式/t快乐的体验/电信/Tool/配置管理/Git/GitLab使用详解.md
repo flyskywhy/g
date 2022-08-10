@@ -273,10 +273,12 @@ Shell executor 相对其它 executor 来说比较容易理解和操作，在初�
 curl -sSL https://get.docker.com/ | sh
 
 至于实际使用的 docker 镜像，虽说可以在使用默认的比如 alpine:latest 或是 `.gitlab-ci.yml` 文件里指定的 image: node:latest 时，在  `.gitlab-ci.yml` 文件里另外安装一些必须的工具，就像下面做的那样：
+
 ```
 before_script:
   - apt-get update -qq && apt-get install -qq rsync sshpass
 ```
+
 但是 `apt-get` 有时也会碰到 `Could not resolve 'cdn-fastly.deb.debian.org'` 这样的网络问题，再考虑到 latest 所代表的意义是经常要从国内访问不太稳定的 DockerHub 上 pull 最新版本的镜像，所以最好是自己编译一个合适的特定版本镜像来长久使用，比如 [flyskywhy/java-nodejs:v8.3.0](https://hub.docker.com/r/flyskywhy/java-nodejs/tags/) 。
 
 #### 为 Docker executor 配置 DNS
@@ -445,3 +447,12 @@ gitlab 默认是 http 的，如果想开启 https ，首先需要比如到 [阿�
  }
 ```
 然后 `sudo gitlab-ctl reconfigure` ，确认可以访问 gitlab 了，再修改回来后 `sudo gitlab-ctl reconfigure` 即可。
+
+## 一些 BUG 的解决方法
+如果往 gitlab 上传了类似 Linux `kernel.git` 那种提交点特别多的仓库后（或是 gitlab 中 git 仓库越来越多？），出现 `git fsck` 进程占用 100% CPU 导致服务器卡死的问题，可以参考 [Git fsck memory leak (#3256) · Issues · GitLab.org](https://gitlab.com/gitlab-org/omnibus-gitlab/-/issues/3256) 在 root 帐号登录 gitlab 后的 "Admin area" 的 "Settings" 页面里不勾选 `Enable Repository Checks` 。
+
+如果发现有时 gitlay 进程占用 100% CPU ，可以参考 [High Gitaly CPU usage_load average causing issues (#42575) · Issues · GitLab.org](https://gitlab.com/gitlab-org/gitlab-foss/-/issues/42575) 在运行 gitlab 的 Linux 服务器的 `/etc/security/limit.conf` 中添加
+```
+git soft nproc 10240
+git hard nproc 10240
+```
