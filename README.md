@@ -1,0 +1,47 @@
+# 知识分类
+
+## 我自己写的文章，分门别类写在各个子目录里
+
+## 他人资料，分门别类简介如下，资料本身请自行搜集
+
+- i主观的体验方式
+	- i悲伤的体验
+		- 中医
+			- 《批评中医》——方舟子（题外话，方舟子的科普文章值得一读，但他的政治言论太过幼稚不必在意）
+			- [中药毒副作用备览](https://www.douban.com/group/topic/4182073/)——方舟子
+			- [如何看待中医，以及一切前现代文化残余](https://www.bilibili.com/video/BV1Ed4y1N7mh/)——未明子
+	 - t快乐的体验
+		- 处世
+			- [高中生大学生要成熟起来，认识到自己的范式性意义](https://www.bilibili.com/video/BV13e4y1e7ss/)——未明子
+			- 《高效能人士的七个习惯》
+			- 《原则》——瑞·达利欧
+		- 电信
+			- [Programming_learning_resource](https://github.com/shihyu/Programming_learning_resource)
+			- [命令行的艺术](https://github.com/jlevy/the-art-of-command-line/blob/master/README-zh.md)
+		- 商
+			- [996的实质：不！是！剥！削！](https://space.bilibili.com/23191782/)——未明子
+			- [996对于人的素质的危害](https://www.bilibili.com/video/BV1Pq4y1x7fi/)——未明子
+		- 诗
+			- [搜韵-诗词门户网站](https://sou-yun.cn/)
+		- 体
+			- [消减训练·学生党工作久坐必备·快速见效·音乐卡点](https://www.bilibili.com/video/BV1gy4y1J7Bg/)
+		- 幼教
+			- 《爱和自由》——孙瑞雪
+		- 哲学
+			- [哲学、政治、科学到底是什么？](https://www.bilibili.com/video/BV1Jt4y1w71y/)——未明子
+
+- t客观的存在原理
+	- i人体内部的存在
+		- i心灵
+			- 《人类心智(The Human Mind)》——BBC
+			- 性
+				- [年轻人要把自己的欲望拯救出来](https://www.bilibili.com/video/BV1WK411U7Mr/)——未明子
+		- t肉体
+			- 《人体世界(The Human Body)》——BBC
+	- t人体外部的存在
+		- i纵向的时间
+			- [重现伟大中华史：把被儒家文官颠倒的历史再颠倒回来](http://www.xinfajia.net/15955.html)——李晓鹏
+			- [从黄河文明到一带一路](http://mp.weixin.qq.com/mp/homepage?__biz=MjM5MzY0ODgyNg==&hid=1&sn=61e04d7a48852fd9b70e452649d829e3&scene=18#wechat_redirect)——李晓鹏
+		- t横向的空间
+			- 物理
+				- [清华大学现代量子力学 67讲](https://www.bilibili.com/video/BV1up411R7Hg/)
