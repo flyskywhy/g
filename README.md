@@ -1,6 +1,8 @@
+Li Zheng <flyskywhy@gmail.com>
+
 # 知识分类
 
-## 我自己写的文章，分门别类写在各个子目录里
+## 本人文章，分门别类在这个[https://github.com/flyskywhy/g](https://github.com/flyskywhy/g)各子目录中
 
 ## 他人资料，分门别类简介如下，资料本身请自行搜集
 
