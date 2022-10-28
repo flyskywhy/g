@@ -17,6 +17,7 @@ Li Zheng <flyskywhy@gmail.com>
 	 - t快乐的体验
 		- 处世
 			- [高中生大学生要成熟起来，认识到自己的范式性意义](https://www.bilibili.com/video/BV13e4y1e7ss/)——未明子
+			- [致一位父母在家中不说话的女士](https://www.bilibili.com/video/BV1ud4y1g7HN/)——未明子
 			- 《高效能人士的七个习惯》
 			- 《原则》——瑞·达利欧
 		- 电信
