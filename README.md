@@ -11,7 +11,7 @@ Li Zheng <flyskywhy@gmail.com>
 		- 军
 			- [俄乌战争，可以被视为美国对华战争的第一阶段](https://www.bilibili.com/video/BV19G411L7Zm/)
 		- 中医
-			- 《批评中医》——方舟子（题外话，方舟子的科普文章值得一读，但他的政治言论太过幼稚不必在意）
+			- 《批评中医》——方舟子（题外话，方舟子的科普文章值得一读，但其政治言论太幼稚不必在意）
 			- [中药毒副作用备览](https://www.douban.com/group/topic/4182073/)——方舟子
 			- [如何看待中医，以及一切前现代文化残余](https://www.bilibili.com/video/BV1Ed4y1N7mh/)——未明子
 	 - t快乐的体验
