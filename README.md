@@ -25,6 +25,7 @@ Li Zheng <flyskywhy@gmail.com>
 			- [命令行的艺术](https://github.com/jlevy/the-art-of-command-line/blob/master/README-zh.md)
 		- 农
 			- [农民如何拯救了中国三次现代化危机？](https://www.bilibili.com/video/BV1fr4y1L7E9/)——温铁军
+			- [给普罗大众兜底的不是农村，是社会主义](https://www.bilibili.com/video/BV1FW4y1771p/)——未明子
 		- 商
 			- [996的实质：不！是！剥！削！](https://space.bilibili.com/23191782/)——未明子
 			- [996对于人的素质的危害](https://www.bilibili.com/video/BV1Pq4y1x7fi/)——未明子
