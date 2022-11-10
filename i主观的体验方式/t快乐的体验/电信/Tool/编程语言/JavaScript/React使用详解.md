@@ -104,6 +104,12 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
 
 如果 `react-native start` 出现错误提示 “increase the fs.inotify.max_user_watches sysctl” ，则可按 [Increasing the amount of inotify watchers](https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers) 进行操作。
 
+上面的 `react-native run-android` 实际上执行的命令是 `./android/gradlew installDebug -p ./android/` ，这个命令每次执行时都会尝试从网上下载一些第三方组件的最新版。可以根据自己的实际情况优化这个命令，比如不想每次都尝试网上下载而是离线编译时添加 `--offline` ，就像这个命令 `./android/gradlew installDebug --offline -x lint -x lintVitalRelease -p ./android/` 中做的那样，不过当离线编译出现比如
+
+    Could not resolve com.android.tools.lint:lint-gradle:26.5.3
+
+这样错误时，就需要临时去掉 `--offline` 来运行一次。
+
 如果 APP 启动就闪退出现，并且 logcat 中有错误提示 “java.lang.UnsatisfiedLinkError: couldn't find DSO to load: libfbjni.so result: 0” ，则需要 `./android/gradlew assembleDebug --rerun-tasks -p ./android/` 或者是 `./android/gradlew clean -p ./android/; react-native run-android; react-native start --reset-cache` 。
 
 如果是 Win10 中的 WSL ，由于 Windows 的防火墙无法自动在 WSL 中的 Linux 开启端口时弹出对话框让用户选择是否允许，所以只有 Win10 本机才能访问该端口。为了让其它主机比如 Android 真机摇一摇后 `Dev Setting | Debug server host & port for device` 设置能够成功 Reload 到 js 代码，需要手动在防火墙中开启 native packager server 所监听的 8081 端口，方法是在 `控制面板 | Windows Defender 防火墙 | 高级安全 Windows Defender 防火墙 | 入站规则 | 新建规则` 中选择 `端口 | 8081 | 允许连接 ` ，最后填写名称比如为 `Allow localhost port 8081` 以及填写描述比如为 `port forwarding to allow external machine to access Windows 10's Windows Subsystem Linux servers` 即可。
@@ -725,9 +731,6 @@ The installation of `react-native-unimodules` can ref to this commit [expo -> re
 
 ### `$rootDir/../node_modules/react-native/android` as [React-Native Android import from node_modules directory does not working](https://stackoverflow.com/questions/50354939/react-native-android-import-from-node-modules-directory-does-not-working)
 The 2022-11 issue [No matching variant of com.facebook.react:react-native:0.71.0-rc.0 was found.](https://github.com/facebook/react-native/issues/35210) will cause one of Android build/run failures below:
-```
-Could not resolve com.android.tools.lint:lint-gradle:26.5.3
-```
 ```
 java.lang.IncompatibleClassChangeError: Found class com.facebook.react.uimanager.events.EventDispatcher, but interface was expected
 ```
