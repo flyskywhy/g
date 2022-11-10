@@ -785,3 +785,20 @@ Finally fix below in `android/build.gradle`  can work ref to https://github.com/
             url("$rootDir/../node_modules/react-native/android")
         }
     }
+
+### Recompile with -Xlint:deprecation for details
+If got an error like below:
+```
+Note: ... SOME.java uses or overrides a deprecated API
+Note: Recompile with -Xlint:deprecation for details.
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Script 'YOUR_APP/node_modules/react-native/react.gradle' line: 319
+
+* What went wrong:
+Execution failed for task ':app:packageDebug'.
+> react_80jkne8u4hv8b3lwi0xrttidv$_run_closure4$_closure6$_closure10$_closure18
+```
+Then you need remove `~/.gradle/caches/`, if some file in it can't be removed for "file is in use" on Windows, you should restart Windows and remove it again. Ref to https://github.com/facebook/react-native/issues/28665#issuecomment-826251902 .
