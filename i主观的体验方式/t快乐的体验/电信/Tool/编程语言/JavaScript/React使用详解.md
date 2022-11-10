@@ -15,6 +15,13 @@ React 并不是简单地在 Javascript 中嵌入 HTML ，而是对 UI （包括 
 
     npm config set registry https://registry.npm.taobao.org
 
+或是暂时让电脑进行系统性翻墙比如运行翻墙 VPN 或是在系统代理设置中设置翻墙服务器的代理 `IP:port`
+
+或是暂时让电脑只在 `npm install` 时才翻墙，也就是在 `~/.npmrc` 中添加
+
+    //timeout=240000
+    https-proxy=http://翻墙服务器的代理IP:port
+
 ## 安装 watchman
 watchman 是由 Facebook 提供的监视文件系统变更的工具。安装此工具可以提高开发时的性能（ React Native 的 packager 可以快速捕捉文件的变化从而实现实时刷新）
 ### 安装依赖
