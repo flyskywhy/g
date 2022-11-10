@@ -732,6 +732,9 @@ The installation of `react-native-unimodules` can ref to this commit [expo -> re
 ### `$rootDir/../node_modules/react-native/android` as [React-Native Android import from node_modules directory does not working](https://stackoverflow.com/questions/50354939/react-native-android-import-from-node-modules-directory-does-not-working)
 The 2022-11 issue [No matching variant of com.facebook.react:react-native:0.71.0-rc.0 was found.](https://github.com/facebook/react-native/issues/35210) will cause one of Android build/run failures below:
 ```
+AAPT: error: resource android:attr/lStar not found
+```
+```
 java.lang.IncompatibleClassChangeError: Found class com.facebook.react.uimanager.events.EventDispatcher, but interface was expected
 ```
 ```
