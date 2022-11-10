@@ -710,3 +710,78 @@ The installation of `react-native-unimodules` can ref to this commit [expo -> re
 ### [fixed `TypeError: Network request failed` when upload file to http not https with Android debug builds](https://github.com/facebook/react-native/issues/33217#issuecomment-1159844475)
 
 ### Fixed [x/mobile: Calling net.InterfaceAddrs() fails on Android SDK 30](https://github.com/golang/go/issues/40569#issuecomment-1190950966) if use GO on Android >= 11
+
+### `$rootDir/../node_modules/react-native/android` as [React-Native Android import from node_modules directory does not working](https://stackoverflow.com/questions/50354939/react-native-android-import-from-node-modules-directory-does-not-working)
+The 2022-11 issue [No matching variant of com.facebook.react:react-native:0.71.0-rc.0 was found.](https://github.com/facebook/react-native/issues/35210) will cause one of Android build/run failures below:
+```
+Could not resolve com.android.tools.lint:lint-gradle:26.5.3
+```
+```
+java.lang.IncompatibleClassChangeError: Found class com.facebook.react.uimanager.events.EventDispatcher, but interface was expected
+```
+```
+Manifest merger failed : uses-sdk:minSdkVersion 16 cannot be smaller than version 21 declared in library [com.facebook.react:react-native:0.71.0-rc.0] ~/.gradle/caches/transforms-2/files-2.1/b7e5811cc2418a7984972c8ebe02d2c4/jetified-react-native-0.71.0-rc.0-debug/AndroidManifest.xml as the library might be using APIs not available in 16
+```
+```
+Could not download react-native-0.71.0-rc.0-debug.aar (com.facebook.react:react-native:0.71.0-rc.0): No cached version available for offline mode
+```
+```
+/@minar-kotonoha/react-native-threads/android/src/main/java/com/reactlibrary/ReactContextBuilder.java:15: 错误: 找不到符号
+import com.facebook.react.bridge.NativeModuleCallExceptionHandler;
+```
+Then fix below in `android/app/build.gradle` does not working anymore:
+```
+implementation ("com.facebook.react:react-native:0.63.2") { force = true }
+```
+```
+implementation "com.facebook.react:react-native:0.63.2!!"
+```
+```
+android {
+    ....
+    configurations.all {
+        resolutionStrategy {
+            // failOnVersionConflict()
+            // force 'com.facebook.react:react-native:0.63.2'
+            substitude module('com.facebook.react:react-native:+') with module('com.facebook.react:react-native:0.63.2')
+        }
+    }
+}
+```
+```
+android {
+    ....
+    configurations.all {
+          resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            if (details.requested.group == 'com.facebook.react'
+                && details.requested.name == 'react-native') {
+                details.useVersion "0.63.2"
+                // details.useTarget group:'com.facebook.react', name:'react-native', version:"0.63.2"
+                // it.substitute it.module("com.facebook.react:react-native:+") with module("com.facebook.react:react-native:0.63.2")
+            }
+        }
+    }
+}
+```
+Finally fix below in `android/build.gradle`  can work ref to https://github.com/facebook/react-native/issues/35204#issuecomment-1304740228 :
+
+    allprojects {
+        repositories {
+            exclusiveContent {
+                filter {
+                    includeGroup "com.facebook.react"
+                }
+                forRepository {
+                    maven {
+                        url "$rootDir/../node_modules/react-native/android"
+                    }
+                }
+            }
+        }
+        ...
+        // actually now can remove below lines
+        maven {
+            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+            url("$rootDir/../node_modules/react-native/android")
+        }
+    }
