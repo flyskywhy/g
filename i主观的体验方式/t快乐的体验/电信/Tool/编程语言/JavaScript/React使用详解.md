@@ -97,6 +97,11 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
 
 并将生成的 debug.keystore 放到 `~/.android/` 中。
 
+如果 `react-native run-android` 时因网络问题导致 gradle 这个编译工具报出一些第三方库下载失败，则可以暂时让电脑进行系统性翻墙比如运行翻墙 VPN 或是在系统代理设置中设置翻墙服务器的代理 `IP:port` ，或是暂时让电脑只在运行 gradle 时才翻墙，也就是在 `~/.gradle/gradle.properties` 中添加
+
+    systemProp.https.proxyHost=翻墙服务器的代理IP
+    systemProp.https.proxyPort=翻墙服务器的代理port
+
 如果 `react-native start` 出现错误提示 “increase the fs.inotify.max_user_watches sysctl” ，则可按 [Increasing the amount of inotify watchers](https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers) 进行操作。
 
 如果 APP 启动就闪退出现，并且 logcat 中有错误提示 “java.lang.UnsatisfiedLinkError: couldn't find DSO to load: libfbjni.so result: 0” ，则需要 `./android/gradlew assembleDebug --rerun-tasks -p ./android/` 或者是 `./android/gradlew clean -p ./android/; react-native run-android; react-native start --reset-cache` 。
