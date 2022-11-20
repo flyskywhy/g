@@ -40,7 +40,9 @@ Li Zheng <flyskywhy@gmail.com>
 		- 哲学
 			- [哲学、政治、科学到底是什么？](https://www.bilibili.com/video/BV1Jt4y1w71y/)——未明子
 		- 政
-			- [中国文明与战略调整](https://www.bilibili.com/video/BV1VQ4y1y79r/)——温铁军
+			- [从国家到国际到共产主义的胜利](https://www.bilibili.com/video/BV1wG4y1b7Ki/)——未明子
+			- [【行动路线】我们的道路（近-中-远），以及我两年来的财务状况](https://www.bilibili.com/video/BV1FW4y1x792/)——未明子
+			- [中国文明与战略调整](https://www.bilibili.com/video/BV1VJ411r7ip/)——温铁军
 
 - t客观的存在原理
 	- i人体内部的存在
