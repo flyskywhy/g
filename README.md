@@ -41,6 +41,8 @@ Li Zheng <flyskywhy@gmail.com>
 			- 《爱和自由》——孙瑞雪
 		- 哲学
 			- [哲学、政治、科学到底是什么？](https://www.bilibili.com/video/BV1Jt4y1w71y/)——未明子
+			- [为什么我叫你们学习黑格尔！不是让你们进一步学习马克思和列宁，而是要成为马克思和列宁！](https://www.bilibili.com/video/BV1D14y1H7CQ/)——未明子
+			- [为什么要学习黑格尔，而不是做1、2、3个不堪用没用的学学主义者](https://www.bilibili.com/video/BV1V84y117jc/)——未明子
 		- 政
 			- [从国家到国际到共产主义的胜利](https://www.bilibili.com/video/BV1wG4y1b7Ki/)——未明子
 			- [【行动路线】我们的道路（近-中-远），以及我两年来的财务状况](https://www.bilibili.com/video/BV1FW4y1x792/)——未明子
