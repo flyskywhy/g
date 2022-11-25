@@ -26,6 +26,8 @@ Li Zheng <flyskywhy@gmail.com>
 		- 农
 			- [农民如何拯救了中国三次现代化危机？](https://www.bilibili.com/video/BV1fr4y1L7E9/)——温铁军
 			- [给普罗大众兜底的不是农村，是社会主义](https://www.bilibili.com/video/BV1FW4y1771p/)——未明子
+		- 工
+			- [应明确工业党人绝非社会主义者，如何从工业党人蜕变为社会主义](https://www.bilibili.com/video/BV1u24y1f7Rw/)——未明子
 		- 商
 			- [996的实质：不！是！剥！削！](https://space.bilibili.com/23191782/)——未明子
 			- [996对于人的素质的危害](https://www.bilibili.com/video/BV1Pq4y1x7fi/)——未明子
