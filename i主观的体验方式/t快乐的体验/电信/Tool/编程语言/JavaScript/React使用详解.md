@@ -89,7 +89,7 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
 
     react-native start
 
-这样，当 js 代码修改后，将 Android 真机摇一摇，就能 Reload 过来最新修改的 js 代码了。
+这样，当 js 代码修改后，将 Android 真机摇一摇，就能 Reload 过来最新修改的 js 代码了。背后的动作实际上是在 Reload 的时候 packager server 实时生成了一个 `index.android.bundle` 被下载到 Android APP 中。 react native 的 LogBox 也就是出错时或 `console.warn` 在 APP 界面上的打印信息中有指明文件名和行数，如果文件名是 `index.android.bundle` 的话，则可以比如用 `wget http://localhost:8081/index.android.bundle` 命令下载到电脑中查看，此时需要注意的是不要下载到你启动 `react-native start` 的目录中比如 `YOUR_PROJECT/index.android.bundle` ，否则后续你对代码的更改再也不会被打包为最新的 `index.android.bundle` 因为 `packager server` 此时就像一个 web server 一样直接将现存的 `YOUR_PROJECT/index.android.bundle` 提供给 Android APP 或 wget 。
 
 如果 `react-native run-android` 出现错误提示 “java.util.concurrent.ExecutionException: com.android.builder.utils.SynchronizedFile$ActionExecutionException: com.android.ide.common.signing.KeytoolException: Failed to create keystore.” ，则需要
 
