@@ -6,7 +6,7 @@ React 并不是简单地在 Javascript 中嵌入 HTML ，而是对 UI （包括 
 本文的工具安装以 Linux 为例，其它平台详见 [开始使用React Native - react native 中文网](http://reactnative.cn/docs/0.27/getting-started.html)
 
 ## 安装 node.js 及其自带的包下载工具 npm
-从 [nodejs 官网](https://nodejs.org) 下载安装。
+从 [nodejs 官网](https://nodejs.org/dist/) 下载安装。 React Native 的某些 0.6x 版本还能在 nodejs v10 上面工作，更高的则至少需要 nodejs v15（nodejs 从 v16 开始不能再正常运行于 Win7 ）。
 
 如果是 Linux 用户，需要手动将 node 安装位置的 `bin` 目录添加到 `$PATH` 中。
 
@@ -19,7 +19,7 @@ React 并不是简单地在 Javascript 中嵌入 HTML ，而是对 UI （包括 
 
 或是暂时让电脑只在 `npm install` 时才翻墙，也就是在 `~/.npmrc` 中添加
 
-    //timeout=240000
+    //timeout=200000
     https-proxy=http://翻墙服务器的代理IP:port
 
 ## 安装 watchman
@@ -69,6 +69,10 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
 如果没有装过 jdk 的话，还需要：
 
     sudo apt install default-jdk
+
+或是到 <https://jdk.java.net/archive/> 手动下载所需 JDK 版本并配置好`JAVA_HOME` 这个环境变量。
+
+低于 0.67 版本的 React Native 需要 JDK 1.8 版本（官方也称 8 版本），否则需要 11 版本。
 
 如果 `echo $SHELL` 发现是 dash 的话，后续编译时会报 `aapt: Syntax error: newline unexpected (expecting ")"` 的错误，所以还需换成 bash：
 
@@ -154,6 +158,14 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
     org.gradle.jvmargs=-Xmx2048m -XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8
 
 更多用法参见 [React-Native 离线打包](http://alihub.org/14659907331638.html) 。
+
+### 生成 aab
+
+    ./android/gradlew bundleRelease --offline -x lint -x lintVitalRelease -p ./android/
+
+如果生成好的 aab 在上传到 Google Play 时报错说“您上传的 APK 或 Android App Bundle 内含活动、活动别名、服务或广播接收器，这些项目有 intent 过滤器，但没有“android:exported”属性设置。此文件无法在 Android 12 或更高版本上安装”，且将自己 APP 的 `android:exported` 设为 true 后仍然如此，则将 `compileSdkVersion` 设为 31 再次进行编译时就可以依据 [Apps targeting Android 12 and higher are required to specify an explicit value for android:exported when the corresponding component has an intent filter defined. See https://developer.android.com/guide/topics/manifest/activity-element#exported for details](https://github.com/facebook/react-native/issues/35232#issuecomment-1324619149) 中所说的错误定位到某个第三方组件了。
+
+如果将 `compileSdkVersion` 设为 31 后编译时碰到 `Installed Build Tools revision 31.0.0 is corrupted` 错误，则需要从低版本比如 `android-sdk/build-tools/30.0.0/` 中复制出 `d8` 和 `d8.jar` 来。
 
 ## release 在线更新（热更新）
 参见 [React Native CodePush实践小结](https://segmentfault.com/a/1190000009642563) 。
