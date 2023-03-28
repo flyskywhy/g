@@ -2,10 +2,13 @@ Li Zheng <flyskywhy@gmail.com>
 
 # Lichee RV 使用详解
 
-## 安装 risc-v Linux
-
+### 在 x86 Windows 上烧录 risc-v Linux 到 SD 卡
 插上 SD 卡，用 Debian 镜像[烧录系统](https://wiki.sipeed.com/hardware/zh/lichee/RV/flash.html)。
 
+### 在 x86 Linux 上修复 SD 卡中的分区
+后面运行 risc-v Linux 时用`df -h`命令会发现根分区只有`3.6GB`，为避免后续安装更多软件时出现`No space left on device`，需使用 GParted 打开 SD 卡，在里面的 rootfs 上“右键菜单->信息”，根据提示“分区->检查”来扩大文件系统至整个`8GB`的分区。
+
+### 运行 risc-v Linux
 插上 HDMI 和 USB 键盘，使用用户名 root 和密码 licheepi 登录系统。
 
 如果没有 USB HUB 来同时插上 USB 鼠标，则可使用`CTRL+ESC`来打开系统菜单找到终端程序。
@@ -44,10 +47,6 @@ Li Zheng <flyskywhy@gmail.com>
 
 ## 在 risc-v Linux 上运行 js 程序
 
-    apt install nodejs
+    apt install nodejs npm
 
-之后运行`node --version`返回为`v18.13.0`。
-
-    apt install npm
-
-以便后续`npm install`，可惜之前烧录的 Debian 镜像的根分区只分配了`3.6GB`，所以安装到最后`No space left on device`，期望后续官方能出个根分区更大的镜像。
+然后就可以进行 nodejs 开发了，比如`npx http-server some_www_folder`就可以将 Lichee RV 作为一个 Web 服务器来使用了。
