@@ -407,7 +407,7 @@ At the very first, after upgrade react-scripts from 3 to 5 and related babel upg
 
 `DISABLE_ESLINT_PLUGIN=true` here is to avoid [Failed to load plugin 'flowtype' declared in 'package.json » eslint-config-react-app': Cannot find module 'eslint/use-at-your-own-risk'](https://stackoverflow.com/questions/70397587/failed-to-load-plugin-flowtype-declared-in-package-json-eslint-config-react).
 
-`PLATFORM_OS=web` here work with codegen.macro is to avoid `SyntaxError: import.meta is only valid inside modules.` with react-native, ref to "import.meta.url" in `https://github.com/flyskywhy/PixelShapeRN/blob/master/src/workers/workerPool.js`
+`PLATFORM_OS=web` here work with codegen.macro is to avoid `SyntaxError: import.meta is only valid inside modules.` with react-native, ref to "import.meta.url" in `https://github.com/flyskywhy/PixelShapeRN/blob/v1.1.27/src/workers/workerPool.js`
 
 If not define `DISABLE_ESLINT_PLUGIN=true` , and nodejs version < 14 , will cause `ERROR in Error: Child compilation failed: Module.createRequire is not a function` . If define `DISABLE_ESLINT_PLUGIN=true` , then nodejs version can < 14 because only `eslint@8` is using `Module.createRequire` .
 
