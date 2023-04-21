@@ -464,6 +464,32 @@ Ref to [npm installation version problem](https://github.com/flyskywhy/react-nat
     export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
     launchctl setenv JAVA_HOME $JAVA_HOME
 
+* 升级 node 的方法
+
+可以采用如下方法升级到比如 v16 版本：
+
+    brew install node@16
+
+然后在 `~/.zshrc` 或 `~/.bash_profile` 中添加如下语句并重启电脑：
+
+    export PATH=/usr/local/opt/node@16/bin:$PATH
+
+最后在运行比如 `react-native start` 之前开发者有时想要运行的 `watchman watch-del-all` 过程中出现类似
+
+    dyld[23087]:  Library not loaded: /usr/local/opt/icu4c/lib/libicudata.71.dylib
+      Referenced from: /usr/local/Cellar/boost/1.79.0_2/lib/libboost_regex-mt.dylib
+    sh: line 1: 23087 Abort trap: 6           watchman watch-del-all
+
+这样的报错，则需要：
+
+    brew upgrade
+
+来自动升级 boost 到最新版。
+
+另，在 Xcode 打包 release 时会调用 `/usr/local/bin/node` ，所以还需要：
+
+    ln -sf $(which node) /usr/local/bin/node
+
 * 解决 `brew install` 或 `npm install -g` 时出现的 `/usr/local/` 权限问题
 
 如果当前不是 macOS 的第一个用户，就算已加入 admin 组，也还需要手动加入 wheel 组：
@@ -549,7 +575,7 @@ ls: /Users/lizheng/Library/Caches/com.facebook.ReactNativeBuild/boost_1_63_0.tar
 
 * 配置 node 路径
 
-如果没有标准化安装 nodejs ，比如 `brew install node@10` 这种方式安装的，则就算已经在 `.bash_profile` 中 `export PATH=/usr/local/opt/node@10/bin:$PATH` 了，也还是会在真机编译时报 `Can't find 'node' binary to build React Native bundle` 这样的错误，此时需要按提示到 Xcode 的 Project 的 `Build Phases | Bundle React Native code and images` 那里将 `export NODE_BINARY=node` 改为 `export NODE_BINARY=$(which node)` 。或者还有一种方法 `ln -s $(which node) /usr/local/bin/node` 。
+如果没有标准化安装 nodejs ，比如 `brew install node@10` 这种方式安装的，则就算已经在 `~/.zshrc` 或 `~/.bash_profile` 中 `export PATH=/usr/local/opt/node@10/bin:$PATH` 了，也还是会在真机编译时报 `Can't find 'node' binary to build React Native bundle` 这样的错误，此时需要按提示到 Xcode 的 Project 的 `Build Phases | Bundle React Native code and images` 那里将 `export NODE_BINARY=node` 改为 `export NODE_BINARY=$(which node)` 。或者还有一种方法 `ln -s $(which node) /usr/local/bin/node` 。
 
 * 为 Xcode 添加 iOS-DeviceSupport
 
