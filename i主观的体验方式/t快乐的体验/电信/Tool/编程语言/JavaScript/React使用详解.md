@@ -582,6 +582,17 @@ ls: /Users/lizheng/Library/Caches/com.facebook.ReactNativeBuild/boost_1_63_0.tar
 
 如果没有标准化安装 nodejs ，比如 `brew install node@10` 这种方式安装的，则就算已经在 `~/.zshrc` 或 `~/.bash_profile` 中 `export PATH=/usr/local/opt/node@10/bin:$PATH` 了，也还是会在真机编译时报 `Can't find 'node' binary to build React Native bundle` 这样的错误，此时需要按提示到 Xcode 的 Project 的 `Build Phases | Bundle React Native code and images` 那里将 `export NODE_BINARY=node` 改为 `export NODE_BINARY=$(which node)` 。或者还有一种方法 `ln -s $(which node) /usr/local/bin/node` 。
 
+* release error with [data-uri.macro](https://github.com/Andarist/data-uri.macro)
+
+如果 APP 中使用了 `data-uri.macro` ，则 release 打包时会出现比如 `Error: /Users/YOU/proj/YOUR_APP/ios/app/images/gif/index.js: data-uri.macro: ENOENT: no such file or directory, open '/Users/YOU/proj/YOUR_APP/ios/app/images/gif/spot.gif'` ，此时需要到 Xcode 的 Project 的 `Build Phases | Bundle React Native code and images` 那里将
+
+    ../node_modules/react-native/scripts/react-native-xcode.sh
+
+改为
+
+    cd ..
+    ./node_modules/react-native/scripts/react-native-xcode.sh
+
 * 为 Xcode 添加 iOS-DeviceSupport
 
 如果真机调试运行时出现比如 `This iPhone 7 (Model 1660, 1778, 1779, 1780) is running iOS 13.2.3 (17B111), which may not be supported by this version of Xcode. An updated version of Xcode may be found on the App Store or at developer.apple.com.` 这样的错误提示，它的意思是当前版本的 Xcode 不支持真机上的 iOS 操作系统版本。调试一个手机 APP 还必须要 IDE 支持手机操作系统的版本，这样的反人类设计恐怕也只有苹果公司才做得出来。可以如提示中所说升级 Xcode 自身，但 Xcode 安装包要 7 个多 GB ，而且偶尔某个版本的 Xcode 会出现一些奇奇怪怪的 BUG ，所以最简洁的方式其实是为当前版本的 Xcode 的安装目录某个地方多添加一个比如 13.2 目录即可。
