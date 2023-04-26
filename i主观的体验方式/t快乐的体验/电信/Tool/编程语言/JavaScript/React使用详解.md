@@ -530,6 +530,11 @@ brew 在安装软件前会先尝试升级 brew 自身，这里可能是中国网
     brew install homebrew/cask-version/temurin8
 
 ## Xcode 编译过程问题集锦
+
+* `Signing for "React-Core-AccessibilityResources" requires a development team`
+
+Xcdoe 14 会遇到这个错误，解决方法是在 Xcode 左边的 `Project navigator` 中点击 `Pods`，然后点击此时出现在右边的 `Signing & Capabilities` 并在 `Team` 下拉框中选择一个。
+
 * 手工下载 `node_modules/react-native/third-party`
 
 如果出现这个错误
