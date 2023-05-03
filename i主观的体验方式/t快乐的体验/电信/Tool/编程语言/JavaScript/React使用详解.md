@@ -427,6 +427,15 @@ Ref to [npm installation version problem](https://github.com/flyskywhy/react-nat
 
     npm install react-native-usb-serialport --legacy-peer-deps
 
+#### `FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory`
+If `npm run build-web` got this error, then need change
+
+    "build-web": "react-app-rewired build",
+
+to
+
+    "build-web": "node --max_old_space_size=4096 node_modules/.bin/react-app-rewired build",
+
 ## RN < 0.60 的安装 react-web
     npm install -g react-web-cli
 
