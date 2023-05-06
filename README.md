@@ -32,6 +32,7 @@ Li Zheng <flyskywhy@gmail.com>
 		- 商
 			- [996的实质：不！是！剥！削！](https://space.bilibili.com/23191782/)——未明子
 			- [996对于人的素质的危害](https://www.bilibili.com/video/BV1Pq4y1x7fi/)——未明子
+			- [天坑专业的文科小知识分子怎么办？](https://www.bilibili.com/video/BV1zX4y1r73q/)——未明子
 			- [从地缘战略到币缘战略——全球化的演变](https://www.bilibili.com/video/BV1pL411F7XS/)——温铁军
 			- [美国债务增长就像陀螺旋转，一旦停下来就要倒下](https://www.bilibili.com/video/BV1he4y1e7FS/)——温铁军
 			- [工人阶级晋升中产阶级的代价是后半生都得为银行还债](https://www.bilibili.com/video/BV1Re411P7iS/)——赫德森
@@ -39,8 +40,13 @@ Li Zheng <flyskywhy@gmail.com>
 			- [搜韵-诗词门户网站](https://sou-yun.cn/)
 		- 体
 			- [消减训练·学生党工作久坐必备·快速见效·音乐卡点](https://www.bilibili.com/video/BV1gy4y1J7Bg/)
+		- 学
+			- [论鸡娃教育](https://www.bilibili.com/video/BV1zT411n7it/)——未明子
 		- 幼教
 			- 《爱和自由》——孙瑞雪
+		- 娱
+			- [关于青少年的精神娱乐](https://www.bilibili.com/video/BV1Fh4y1H7Nf/)——未明子
+			- [漫威高管离职，《蚁人3》扑街，为什么好莱坞电影越来越难看了？](https://www.bilibili.com/video/BV1xM411N73a/)——毒舌的南瓜
 		- 哲学
 			- [哲学、政治、科学到底是什么？](https://www.bilibili.com/video/BV1Jt4y1w71y/)——未明子
 			- [为什么我叫你们学习黑格尔！不是让你们进一步学习马克思和列宁，而是要成为马克思和列宁！](https://www.bilibili.com/video/BV1D14y1H7CQ/)——未明子
@@ -48,6 +54,8 @@ Li Zheng <flyskywhy@gmail.com>
 		- 政
 			- [从国家到国际到共产主义的胜利](https://www.bilibili.com/video/BV1wG4y1b7Ki/)——未明子
 			- [【行动路线】我们的道路（近-中-远），以及我两年来的财务状况](https://www.bilibili.com/video/BV1FW4y1x792/)——未明子
+			- [要善于扬弃资本主义的植物性](https://www.bilibili.com/video/BV1hh411M7kk/)——未明子
+			- [不做孔乙己，也不做丁举人，要做——](https://www.bilibili.com/video/BV15k4y1i74J/)——未明子
 			- [中国文明与战略调整](https://www.bilibili.com/video/BV1VJ411r7ip/)——温铁军
 
 - t客观的存在原理
@@ -56,6 +64,8 @@ Li Zheng <flyskywhy@gmail.com>
 			- 《人类心智(The Human Mind)》——BBC
 			- 性
 				- [年轻人要把自己的欲望拯救出来](https://www.bilibili.com/video/BV1WK411U7Mr/)——未明子
+				- [年轻人性苦闷了怎么办](https://www.bilibili.com/video/BV1Aj411w7TS/)——未明子
+				- [从“泰裤辣”说开去](https://www.bilibili.com/video/BV1s14y1Z7bk/)——未明子
 		- t肉体
 			- 《人体世界(The Human Body)》——BBC
 	- t人体外部的存在
