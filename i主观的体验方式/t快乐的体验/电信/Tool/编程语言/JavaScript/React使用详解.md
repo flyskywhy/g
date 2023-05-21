@@ -438,6 +438,15 @@ to
 
     "build-web": "node --max_old_space_size=4096 node_modules/.bin/react-app-rewired build",
 
+#### `Module not found: Error: Can't resolve 'react-native/package.json'`
+If using `react-native-gesture-handler@2` not `react-native-gesture-handler@1` will meet `ERROR in ./node_modules/react-native-gesture-handler/lib/module/utils.js 1:0-45` , then need add
+```
+    config.resolve.alias['react-native/package.json'] = path.resolve(
+      'node_modules/react-native/package.json',
+    );
+```
+into `config-overrides.js` .
+
 ## RN < 0.60 的安装 react-web
     npm install -g react-web-cli
 
