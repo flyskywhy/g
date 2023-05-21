@@ -382,8 +382,10 @@ Failed to compile
 prettier/prettier
 ```
 
+And since there is webpack config `loader: 'babel-loader'` here, maybe need add some in `babel.config.js` ref to APP ReactWebNative8Koa [RN 0.63.2 -> 0.70.5: works well on Web](https://github.com/flyskywhy/ReactWebNative8Koa/commit/a87437ad0527edaa4a2f643708938accabb26a8d)
+
 ### Upgrade to `react-scripts@5` and Add Web Workers support
-At the very first, after upgrade react-scripts from 3 to 5 and related babel upgrade (or modify webpack config?), the most important thing is `rm -fr node_modules/.cache/*` first, otherwise will meat many strange error and can't be solved.
+At the very first, after upgrade react-scripts from 3 to 5 and related babel upgrade (or modify webpack config?), the most important thing is `rm -fr node_modules/.cache/*` first, otherwise will meet many strange error and can't be solved.
 
     npm install react-app-rewired@2.2.1 react-scripts@5.0.0 codegen.macro react-refresh@0.11.0 react-error-overlay@6.0.9 --save-dev
 
@@ -412,7 +414,7 @@ At the very first, after upgrade react-scripts from 3 to 5 and related babel upg
 If not define `DISABLE_ESLINT_PLUGIN=true` , and nodejs version < 14 , will cause `ERROR in Error: Child compilation failed: Module.createRequire is not a function` . If define `DISABLE_ESLINT_PLUGIN=true` , then nodejs version can < 14 because only `eslint@8` is using `Module.createRequire` .
 
 #### Upgrade in `config-overrides.js` `index.web.js` and other files
-Ref to [react -> react-native: let Web Worker with Support for CRA v5 (and Webpack 5) to fix Build doesn't work properly](https://github.com/flyskywhy/PixelShapeRN/commit/3ea44d17d4978f53be833d0e24b07c6f09a1736f), and your project may need `npm run stream-browserify process --save-dev` as described in [config-overrides.js](https://github.com/flyskywhy/PixelShapeRN/blob/3ea44d17d4978f53be833d0e24b07c6f09a1736f/config-overrides.js#L25).
+Ref to APP ReactWebNative8Koa [RN 0.63.2 -> 0.70.5: let Web Worker with Support for CRA v5 (and Webpack 5)](https://github.com/flyskywhy/ReactWebNative8Koa/commit/8adc7bbf43d225b790de88a177aa438ccea8dabc) , and your project may need `npm run stream-browserify process --save-dev` as described in [config-overrides.js](https://github.com/flyskywhy/ReactWebNative8Koa/blob/8adc7bbf43d225b790de88a177aa438ccea8dabc/config-overrides.js#L25).
 
 ### Q&A
 #### `Unexpected token '<'`
