@@ -894,3 +894,72 @@ Execution failed for task ':app:packageDebug'.
 > react_80jkne8u4hv8b3lwi0xrttidv$_run_closure4$_closure6$_closure10$_closure18
 ```
 Then you need remove `~/.gradle/caches/`, if some file in it can't be removed for "file is in use" on Windows, you should restart Windows and remove it again. Ref to https://github.com/facebook/react-native/issues/28665#issuecomment-826251902 .
+
+### Compile some 3rd lib got `Read timed out` `Could not GET 'https://maven.google.com/com/facebook/react/react-native/maven-metadata.xml'`
+Ref to [RN 0.63.2 -> 0.70.5: fix Read timed out when compiling on Android](https://github.com/flyskywhy/ReactWebNative8Koa/commit/96fad3d9524e64fa309d0e72a4d9ad4808a1470f) , need add below into `settings.gradle`:
+```
+// ref to https://docs.gradle.org/7.5.1/userguide/declaring_repositories.html#sub:centralized-repository-declaration
+dependencyResolutionManagement {
+    // to fix `Read timed out` e.g.
+    //    > Could not resolve com.facebook.react:react-native:0.70.+.
+    //       > Failed to list versions for com.facebook.react:react-native.
+    //          > Unable to load Maven meta-data from https://maven.google.com/com/facebook/react/react-native/maven-metadata.xml.
+    //             > Could not GET 'https://maven.google.com/com/facebook/react/react-native/maven-metadata.xml'.
+    //                > Read timed out
+    //    > Could not download bcprov-jdk15on-1.48.jar (org.bouncycastle:bcprov-jdk15on:1.48)
+    //       > Could not get resource 'https://repo.maven.apache.org/maven2/org/bouncycastle/bcprov-jdk15on/1.48/bcprov-jdk15on-1.48.jar'.
+    //          > Read timed out
+    //    > Could not download guava-17.0.jar (com.google.guava:guava:17.0)
+    //       > Could not get resource 'https://repo.maven.apache.org/maven2/com/google/guava/guava/17.0/guava-17.0.jar'.
+    //          > Read timed out
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        // maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public' }
+
+        maven {
+            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+            url("$rootDir/../node_modules/react-native/android")
+        }
+        maven {
+            // Android JSC is installed from npm
+            url("$rootDir/../node_modules/jsc-android/dist")
+        }
+        mavenCentral {
+            // We don't want to fetch react-native from Maven Central as there are
+            // older versions over there.
+            content {
+                excludeGroup "com.facebook.react"
+            }
+        }
+        google()
+        maven { url 'https://www.jitpack.io' }
+    }
+}
+```
+and now can also remove useless `allprojects` in `build.gradle`.
+
+### `AAPT: error: resource android:attr/colorError not found`
+If got error like
+```
+> A failure occurred while executing com.android.build.gradle.tasks.VerifyLibraryResourcesTask$Action
+   > Android resource linking failed
+     ERROR: node_modules/@flyskywhy/react-native-locale-detector/android/build/intermediates/merged_res/release/values-v26/values-v26.xml:7: AAPT: error: resource android:attr/colorError not found.
+```
+you may need add below into `YOUR_APP/android/build.gradle`:
+```
+subprojects {
+    afterEvaluate {
+        project ->
+            if (project.hasProperty("android")) {
+                android {
+                    compileSdkVersion = rootProject.compileSdkVersion
+                    buildToolsVersion = rootProject.buildToolsVersion
+                }
+            }
+    }
+}
+```
