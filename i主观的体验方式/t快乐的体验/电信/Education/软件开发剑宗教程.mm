@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0.1">
+<!-- This file is saved using a hacked version of FreeMind. visit: http://freemind-mmx.sourceforge.net -->
+<!-- Orignal FreeMind, can download from http://freemind.sourceforge.net -->
+<!-- This .mm file is CVS/SVN friendly, some atts are saved in .mmx file. (from ossxp.com) -->
+<node ID="ID_1798027569" 
+	TEXT="软件开发剑宗教程">
+<node FOLDED="true" ID="ID_816979394" POSITION="right" 
+	TEXT="正文">
+<node FOLDED="true" ID="ID_963461591" 
+	TEXT="知识范围">
+<node HGAP="62" ID="ID_1915849718" 
+	TEXT="计算机相关知识包罗万象，本教程只专注于 React Native 前端开发方向，附带作为前端操作对象的 JS 后端服务器开发和物联网嵌入式开发，并在开发过程精通各种企业业界开发所需的的 Linux 基础、 git 操作等各种工具的使用。" VSHIFT="-29"/>
+</node>
+<node FOLDED="true" ID="ID_623240243" 
+	TEXT="考核与就业">
+<node ID="ID_400416951">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      不存在考试，也就没有考试分数，唯一的考核依据是 github 上自己维护的开源仓库的点赞数和对他人仓库贡献的 PR 数量，而这个依据也是作为对冲非计算机专业出身而被写入在求职简历中的。
+    </p>
+    <p>
+      企业招聘人员在简历中关注的点，在校招时是应届毕业生的大学专业，在社招时是其他企业跳槽人员的项目经验，因此非计算机专业的应届毕业生的首份工作不要想着大厂，而是先到小公司积赚钱兼攒两年经验，或是在比如码市、程序员客栈、猿急送等程序员接私活的网站上赚钱兼树立个人品牌，特别是类似码市中[ APP 开发]( https://codemart.com/projects?projectType=APP) 这样的分类。
+    </p>
+  </body>
+</html></richcontent>
+</node>
+</node>
+<node FOLDED="true" ID="ID_1060896349" 
+	TEXT="时间计划">
+<node ID="ID_966111973" 
+	TEXT="高考后暑假 3 个月学完本教程"/>
+<node ID="ID_208904867" 
+	TEXT="大学 3 年自己持续精通至在 gihub 上维护至少一个开源仓库、对他人仓库贡献一些 PR"/>
+</node>
+<node FOLDED="true" ID="ID_1018865950" 
+	TEXT="具体目标计划" VGAP="0">
+<node FOLDED="true" ID="ID_1860280213" 
+	TEXT="学习项目组统一使用的版本管理工具 Git">
+<node HGAP="26" ID="ID_1851263008" LINK="https://github.com/flyskywhy/g/blob/master/i%E4%B8%BB%E8%A7%82%E7%9A%84%E4%BD%93%E9%AA%8C%E6%96%B9%E5%BC%8F/t%E5%BF%AB%E4%B9%90%E7%9A%84%E4%BD%93%E9%AA%8C/%E7%94%B5%E4%BF%A1/Tool/%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/Git/Git%E6%9C%80%E7%AE%80%E5%9F%B9%E8%AE%AD.md" 
+	TEXT="通过 Git 最简培训.md 一文，学习 git 图形界面的使用方法" VSHIFT="6"/>
+</node>
+<node FOLDED="true" ID="ID_1121834067" 
+	TEXT="配置项目组统一使用的编辑工具 Sublime">
+<node ID="ID_937798741" LINK="https://github.com/flyskywhy/g/blob/master/i%E4%B8%BB%E8%A7%82%E7%9A%84%E4%BD%93%E9%AA%8C%E6%96%B9%E5%BC%8F/t%E5%BF%AB%E4%B9%90%E7%9A%84%E4%BD%93%E9%AA%8C/%E7%94%B5%E4%BF%A1/Tool/%E6%96%87%E6%A1%A3%E7%BC%96%E8%BE%91/SublimeText/SublimeText%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3.md" 
+	TEXT="通过 Sublime Text 使用详解.md 一文，配置好 Sublime 编辑环境"/>
+</node>
+<node FOLDED="true" ID="ID_1674607691" 
+	TEXT="学习 react-native 基础知识">
+<node ID="ID_1923252297" LINK="http://www.linuxeden.com/html/news/20160817/167563.html" 
+	TEXT="选择 React 是商业问题而不是技术问题  中里的这幅图很清晰地对比了我们采用的低耦合的 react+redux 框架与传统的高耦合的 MVC 框架"/>
+<node ID="ID_1868250590" LINK="http://www.linuxeden.com/a/25955" 
+	TEXT="从 开发者吐槽：Android 开发就像“大便三明治” 一文可以看出 react-native 从技术和商业上来说都比 Android 原生开发更有优势"/>
+<node FOLDED="true" ID="ID_178005216" 
+	TEXT="这个原理看一遍即可">
+<node ID="ID_814713321" LINK="https://zhuanlan.zhihu.com/p/20678269" 
+	TEXT="抛开 React 学习 React 第一部分"/>
+<node ID="ID_958277586" LINK="https://zhuanlan.zhihu.com/p/20694964" 
+	TEXT="抛开 React 学习 React 第二部分"/>
+</node>
+<node FOLDED="true" ID="ID_370815849" 
+	TEXT="这个实践估计要看四五遍">
+<node ID="ID_323714051" LINK="https://www.w3ctech.com/topic/1561" 
+	TEXT="深入浅出 - Redux"/>
+</node>
+<node FOLDED="true" ID="ID_695391408" 
+	TEXT="整体掌握一些概念">
+<node ID="ID_602513634" LINK="https://www.oschina.net/translate/grabs-front-end-guide-for-large-teams" 
+	TEXT="开发团队必备的现代前端开发指南  "/>
+</node>
+</node>
+<node FOLDED="true" ID="ID_869643277" 
+	TEXT="在自己本机练习部署以便调试 web 前端">
+<node ID="ID_777730961" LINK="https://github.com/flyskywhy/g/blob/master/i%E4%B8%BB%E8%A7%82%E7%9A%84%E4%BD%93%E9%AA%8C%E6%96%B9%E5%BC%8F/t%E5%BF%AB%E4%B9%90%E7%9A%84%E4%BD%93%E9%AA%8C/%E7%94%B5%E4%BF%A1/Tool/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JavaScript/React%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3.md" 
+	TEXT="按照 React使用详解.md 一文进行环境搭建  "/>
+</node>
+<node FOLDED="true" ID="ID_733950363" 
+	TEXT="学习 JavaScript 基本用法">
+<node ID="ID_1727434358" LINK="https://www.runoob.com/nodejs/nodejs-tutorial.html" 
+	TEXT="首先看这个《Node.js 教程》了解整体上是怎么玩的"/>
+<node ID="ID_1079642298" LINK="https://www.jb51.net/onlineread/JavaScript-Garden-CN/" 
+	TEXT="然后看这个《JavaScript 秘密花园》讲得简明但又点出了需要关注的细节"/>
+</node>
+<node FOLDED="true" ID="ID_557878718" 
+	TEXT="真正开始投入项目开发工作 ">
+<node FOLDED="true" ID="ID_539744204" 
+	TEXT="掌握 JS 前端">
+<node ID="ID_1061206289" 
+	TEXT="将 https://github.com/osdio/noder-react-native 最新代码基本看懂"/>
+<node ID="ID_492052980" 
+	TEXT="可以参考 gitk --all 图形界面中的一些提交点里的代码变化来了解开发方法，比如关于 action 相关代码的添加，可参考 YP 提交点 f14566b 中各个文件的变化"/>
+</node>
+<node FOLDED="true" ID="ID_1538412053" 
+	TEXT="掌握 React Native 和 git">
+<node ID="ID_233017688" 
+	TEXT="将  https://github.com/osdio/noder-react-native 仓库换个名称比如 Rnw8Koa ，并参考 https://github.com/flyskywhy/ReactWebNative8Koa 的历史提交点进行升级 RN 升级"/>
+</node>
+<node FOLDED="true" ID="ID_1602304220" 
+	TEXT="掌握 JS 后端">
+<node ID="ID_1608159691" 
+	TEXT="将 https://github.com/wesley1001/FoodMarket 代码基本看懂，并将其参考 https://github.com/flyskywhy/ReactWebNative8Koa 代码合并入 Rnw8Koa 中"/>
+</node>
+<node FOLDED="true" ID="ID_1176108930" 
+	TEXT="其它">
+<node ID="ID_1534223853" 
+	TEXT="用 APP 前端控制 riscv 等物联网嵌入式后端"/>
+</node>
+</node>
+</node>
+</node>
+<node FOLDED="true" ID="ID_732399075" POSITION="left" 
+	TEXT="附录：自习材料精选">
+<node FOLDED="true" ID="ID_1871806682" LINK="https://www.yuque.com/jianxu/knowledgemap/852850" 
+	TEXT="大猫兼续的编程语言分类">
+<node ID="ID_1290403012" 
+	TEXT="里面气宗“理论学科”提到“千万不要觉得在工作和生活中根本用不上” ，但对于我几十年编程经验得出的剑宗来说，真的用不上，特别是对于应用层开发来说"/>
+</node>
+<node ID="ID_568837376" LINK="http://www.linuxeden.com/a/121162" 
+	TEXT="幽默的编程语言分类"/>
+<node FOLDED="true" ID="ID_161231140" LINK="https://www.yuque.com/jianxu" 
+	TEXT="大猫兼续的其他文章也值得一读">
+<node ID="ID_642868400" LINK="https://www.yuque.com/jianxu/knowledgemap/artboards/77139" 
+	TEXT="比如为什么要健身"/>
+</node>
+<node ID="ID_557448203" LINK="https://www.yuque.com/fe9/basic/qvoo0d" 
+	TEXT="高效学习 &amp; 程序员练级攻略"/>
+<node ID="ID_1260691988" LINK="https://cloud-atlas.readthedocs.io" 
+	TEXT="黄华泰的博客"/>
+<node ID="ID_846373165" LINK="https://mp.weixin.qq.com/s/GBSiE0c16kUXpk-LSjGs7g" 
+	TEXT="我们是否对现代前端开发框架过于崇拜了？"/>
+</node>
+<node FOLDED="true" ID="ID_1975038489" POSITION="left" 
+	TEXT="附录：工具精选">
+<node FOLDED="true" ID="ID_95600426" 
+	TEXT="shell">
+<node ID="ID_711956130" LINK="https://tinylab-1.gitbook.io/shellbook/" 
+	TEXT="Shell 编程范例"/>
+</node>
+<node FOLDED="true" ID="ID_726628109" 
+	TEXT="文件管理">
+<node FOLDED="true" ID="ID_1467760193" 
+	TEXT="github">
+<node ID="ID_1399210421" 
+	TEXT="大猫兼续的文章都是写在语雀里的，但我不推荐用语雀，因为语雀的社交分享（花园）功能是按年付费的，那这些文章总有一天是无法被访问的，所以使用电子信息方式制作的文章、代码等心血还是记录在电子信息技术的基石 github 中更保险"/>
+</node>
+</node>
+<node FOLDED="true" ID="ID_14625935" 
+	TEXT="文档编辑">
+<node FOLDED="true" ID="ID_1543749739" 
+	TEXT="FreeMind">
+<node ID="ID_5386295" 
+	TEXT="脑图软件，用于制作知识图谱。免费、可全键盘操作"/>
+</node>
+<node ID="ID_315606217" 
+	TEXT="MarkDown"/>
+</node>
+<node FOLDED="true" ID="ID_1908246473" 
+	TEXT="配置管理">
+<node ID="ID_1147741920" 
+	TEXT="git"/>
+</node>
+<node FOLDED="true" ID="ID_899175151" 
+	TEXT="编程语言">
+<node FOLDED="true" ID="ID_1968043483" 
+	TEXT="JavaScript">
+<node FOLDED="true" ID="ID_1576406589" 
+	TEXT="基础">
+<node ID="ID_121296214" LINK="https://www.jb51.net/onlineread/JavaScript-Garden-CN/" 
+	TEXT="然后看这个《JavaScript 秘密花园》讲得简明但又点出了需要关注的细节"/>
+</node>
+<node FOLDED="true" ID="ID_230474356" 
+	TEXT="React">
+<node FOLDED="true" ID="ID_71454036" LINK="https://mp.weixin.qq.com/s/SxUyTiMjy2mNCSJCFGXHBg" 
+	TEXT="重要的是这篇文章中的这张图">
+<node ID="ID_433738875" LINK="https://mmbiz.qpic.cn/mmbiz_png/Z6bicxIx5naKW3Xq6YwicNhu2I3hK9fd0QhwayqUbYZoH133R98Kuib07NOdnQLM1YRibToal0LDVJBUeib4ZWSbTQw/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" 
+	TEXT="单向数据流"/>
+</node>
+</node>
+<node FOLDED="true" ID="ID_1240834598" 
+	TEXT="高级">
+<node ID="ID_1585086297" LINK="https://mp.weixin.qq.com/s/QXUphQ7hbudggwYXZTIisw" 
+	TEXT="javascript 异常处理的一些经验"/>
+</node>
+</node>
+</node>
+<node FOLDED="true" ID="ID_1567221494" 
+	TEXT="UML">
+<node ID="ID_1936144657" LINK="https://mp.weixin.qq.com/s/ZJ4PkJGiIVcna6iDdUKJ4Q" 
+	TEXT="写出易维护的代码｜React开发的设计模式及原则"/>
+<node ID="ID_762670432" LINK="https://mp.weixin.qq.com/s/kc7tgGLiPUrmq67da9Uhow" 
+	TEXT="谈谈我工作中的23个设计模式"/>
+</node>
+</node>
+</node>
+</map>
