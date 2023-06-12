@@ -116,8 +116,37 @@
 	TEXT="附录：自习材料精选">
 <node FOLDED="true" ID="ID_1871806682" LINK="https://www.yuque.com/jianxu/knowledgemap/852850" 
 	TEXT="大猫兼续的编程语言分类">
-<node ID="ID_1290403012" 
-	TEXT="里面气宗“理论学科”提到“千万不要觉得在工作和生活中根本用不上” ，但对于我几十年编程经验得出的剑宗来说，真的用不上，特别是对于应用层开发来说"/>
+<node HGAP="18" ID="ID_1290403012" 
+	TEXT="里面气宗“理论学科”提到“千万不要觉得在工作和生活中根本用不上” ，但对于我几十年编程经验得出的剑宗来说，真的用不上，特别是对于前端应用层开发来说,从来没用到过算法（顶多间接用过包装着算法的库文件），个人认为前端工程师没必要花时间在算法开发上，优先级可以降到最低。" VSHIFT="-61"/>
+</node>
+<node FOLDED="true" ID="ID_1904138012" 
+	TEXT="技术积累规划">
+<node FOLDED="true" ID="ID_204033532" 
+	TEXT="前端工程师">
+<node FOLDED="true" ID="ID_69087257" 
+	TEXT="一般来说，IT 技术日新月异，等技术积累好了，该技术也快过时了，幸运的是，由于我们前端界面使用 react-native 和 react-native-web 技术，使得可以用一套 JS 代码来生成 Android 、 iOS 、 Web 界面，而且在很长一段时间 react-native 都是业界趋势，所以对主要是把后端提供的数据转换成界面元素的前端工作来说，唯一的技术积累方向就是一步步了解、掌握、精通所有有限定范围的前端知识。该限定范围是： JS 代码能力以及某些特定的 Android 、 iOS 、 Web 界面知识。">
+<node FOLDED="true" ID="ID_294324464" 
+	TEXT="精通 JS 代码能力以及用 JS 表达的设计模式">
+<node ID="ID_931626741" LINK="https://wizardforcel.gitbooks.io/javascript-patterns/content/index.html" 
+	TEXT="JavaScript 模式"/>
+</node>
+<node FOLDED="true" ID="ID_1409824826" 
+	TEXT="精通 Web 界面知识">
+<node ID="ID_1221536370" LINK="http://www.linuxeden.com/a/8182" 
+	TEXT="Web 前端知识体系精简"/>
+</node>
+<node FOLDED="true" ID="ID_740264327" 
+	TEXT="“利用互联网解决问题”搜索自己代码或第三方组件代码中有疑问的 Android 、 iOS 知识">
+<node ID="ID_416676183" LINK="https://www.bilibili.com/read/cv578131/" 
+	TEXT="如何自学编程？"/>
+</node>
+</node>
+</node>
+<node FOLDED="true" ID="ID_83070477" 
+	TEXT="后端工程师">
+<node ID="ID_1274851632" 
+	TEXT="这个真的是日新月异，不用刻意去积累具体的技术，反而可以去关注数据结构、算法、计算机网络、操作系统等基础知识知识，以便理解后端不断前进的性能优化的底层原理，以利于选择某种技术优化路径。"/>
+</node>
 </node>
 <node ID="ID_568837376" LINK="http://www.linuxeden.com/a/121162" 
 	TEXT="幽默的编程语言分类"/>
@@ -130,6 +159,8 @@
 	TEXT="高效学习 &amp; 程序员练级攻略"/>
 <node ID="ID_1260691988" LINK="https://cloud-atlas.readthedocs.io" 
 	TEXT="黄华泰的博客"/>
+<node ID="ID_1156325910" LINK="http://www.linuxeden.com/a/121699" 
+	TEXT="为什么计算机采用 8 位字节"/>
 <node ID="ID_846373165" LINK="https://mp.weixin.qq.com/s/GBSiE0c16kUXpk-LSjGs7g" 
 	TEXT="我们是否对现代前端开发框架过于崇拜了？"/>
 </node>
@@ -139,6 +170,8 @@
 	TEXT="shell">
 <node ID="ID_711956130" LINK="https://tinylab-1.gitbook.io/shellbook/" 
 	TEXT="Shell 编程范例"/>
+<node ID="ID_1780597025" LINK="http://www.linuxeden.com/a/121826" 
+	TEXT="超越 Bash: 9 个不太知名的 Linux Shell 及其功能"/>
 </node>
 <node FOLDED="true" ID="ID_726628109" 
 	TEXT="文件管理">
