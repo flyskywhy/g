@@ -163,6 +163,8 @@
 	TEXT="为什么计算机采用 8 位字节"/>
 <node ID="ID_846373165" LINK="https://mp.weixin.qq.com/s/GBSiE0c16kUXpk-LSjGs7g" 
 	TEXT="我们是否对现代前端开发框架过于崇拜了？"/>
+<node ID="ID_1743738650" LINK="https://hackway.org/docs/cs/intro" 
+	TEXT="气宗大本营——参考美国名校的计算机培养方案，整理的计算机专业学习路线"/>
 </node>
 <node FOLDED="true" ID="ID_1975038489" POSITION="left" 
 	TEXT="附录：工具精选">
