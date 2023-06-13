@@ -214,6 +214,8 @@
 <node ID="ID_433738875" LINK="https://mmbiz.qpic.cn/mmbiz_png/Z6bicxIx5naKW3Xq6YwicNhu2I3hK9fd0QhwayqUbYZoH133R98Kuib07NOdnQLM1YRibToal0LDVJBUeib4ZWSbTQw/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" 
 	TEXT="单向数据流"/>
 </node>
+<node ID="ID_1121618979" LINK="https://juejin.cn/post/6844903775040176135" 
+	TEXT="React是如何区分class和function的？"/>
 </node>
 <node FOLDED="true" ID="ID_1240834598" 
 	TEXT="高级">
