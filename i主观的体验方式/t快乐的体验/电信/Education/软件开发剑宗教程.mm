@@ -111,14 +111,6 @@
 </node>
 </node>
 </node>
-</node>
-<node FOLDED="true" ID="ID_732399075" POSITION="left" 
-	TEXT="附录：自习材料精选">
-<node FOLDED="true" ID="ID_1871806682" LINK="https://www.yuque.com/jianxu/knowledgemap/852850" 
-	TEXT="大猫兼续的编程语言分类">
-<node HGAP="18" ID="ID_1290403012" 
-	TEXT="里面气宗“理论学科”提到“千万不要觉得在工作和生活中根本用不上” ，但对于我几十年编程经验得出的剑宗来说，真的用不上，特别是对于前端应用层开发来说,从来没用到过算法（顶多间接用过包装着算法的库文件），个人认为前端工程师没必要花时间在算法开发上，优先级可以降到最低。" VSHIFT="-61"/>
-</node>
 <node FOLDED="true" ID="ID_1904138012" 
 	TEXT="技术积累规划">
 <node FOLDED="true" ID="ID_204033532" 
@@ -147,6 +139,14 @@
 <node ID="ID_1274851632" 
 	TEXT="这个真的是日新月异，不用刻意去积累具体的技术，反而可以去关注数据结构、算法、计算机网络、操作系统等基础知识知识，以便理解后端不断前进的性能优化的底层原理，以利于选择某种技术优化路径。"/>
 </node>
+</node>
+</node>
+<node FOLDED="true" ID="ID_732399075" POSITION="left" 
+	TEXT="附录：自习材料精选">
+<node FOLDED="true" ID="ID_1871806682" LINK="https://www.yuque.com/jianxu/knowledgemap/852850" 
+	TEXT="大猫兼续的编程语言分类">
+<node HGAP="18" ID="ID_1290403012" 
+	TEXT="里面气宗“理论学科”提到“千万不要觉得在工作和生活中根本用不上” ，但对于我几十年编程经验得出的剑宗来说，真的用不上，特别是对于前端应用层开发来说,从来没用到过算法（顶多间接用过包装着算法的库文件），个人认为前端工程师没必要花时间在算法开发上，优先级可以降到最低。" VSHIFT="-61"/>
 </node>
 <node ID="ID_568837376" LINK="http://www.linuxeden.com/a/121162" 
 	TEXT="幽默的编程语言分类"/>
