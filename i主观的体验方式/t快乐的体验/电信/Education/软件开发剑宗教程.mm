@@ -161,6 +161,8 @@
 	TEXT="黄华泰的博客"/>
 <node ID="ID_1156325910" LINK="http://www.linuxeden.com/a/121699" 
 	TEXT="为什么计算机采用 8 位字节"/>
+<node ID="ID_1024651412" LINK="https://beej-zhcn.netdpi.net/ipaddress_struct/byte_orderff08_wei_yuan_zu_shun_xu_ff09" 
+	TEXT="Byte Order（字节的顺序）"/>
 <node ID="ID_846373165" LINK="https://mp.weixin.qq.com/s/GBSiE0c16kUXpk-LSjGs7g" 
 	TEXT="我们是否对现代前端开发框架过于崇拜了？"/>
 <node ID="ID_1743738650" LINK="https://hackway.org/docs/cs/intro" 
