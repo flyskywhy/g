@@ -98,6 +98,8 @@
 	TEXT="掌握 React Native 和 git">
 <node ID="ID_233017688" 
 	TEXT="将  https://github.com/osdio/noder-react-native 仓库换个名称比如 Rnw8Koa ，并参考 https://github.com/flyskywhy/ReactWebNative8Koa 的历史提交点进行升级 RN 升级"/>
+<node ID="ID_442624365" LINK="https://github.com/maxlxq/maxlxq.github.io/blob/master/docs/other/React_16%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%94%B9%E5%8F%98%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.md" 
+	TEXT="React 16为什么要改变生命周期"/>
 </node>
 <node FOLDED="true" ID="ID_1602304220" 
 	TEXT="掌握 JS 后端">
@@ -121,6 +123,8 @@
 	TEXT="精通 JS 代码能力以及用 JS 表达的设计模式">
 <node ID="ID_931626741" LINK="https://wizardforcel.gitbooks.io/javascript-patterns/content/index.html" 
 	TEXT="JavaScript 模式"/>
+<node ID="ID_1511282316" LINK="https://github.com/ryanmcdermott/clean-code-javascript" 
+	TEXT="Clean Code concepts adapted for JavaScript"/>
 </node>
 <node FOLDED="true" ID="ID_1409824826" 
 	TEXT="精通 Web 界面知识">
@@ -167,6 +171,28 @@
 	TEXT="我们是否对现代前端开发框架过于崇拜了？"/>
 <node ID="ID_1743738650" LINK="https://hackway.org/docs/cs/intro" 
 	TEXT="气宗大本营——参考美国名校的计算机培养方案，整理的计算机专业学习路线"/>
+<node ID="ID_116123520" LINK="https://github.com/cunyu1943/ebooks" 
+	TEXT="编程书籍资源库"/>
+<node ID="ID_1302364534" LINK="https://cloud-atlas.readthedocs.io/zh_CN/latest/" 
+	TEXT="云计算图志"/>
+<node ID="ID_1144254516" LINK="https://github.com/ripienaar/free-for-dev" 
+	TEXT="A list of SaaS, PaaS and IaaS offerings"/>
+<node ID="ID_1913596565" LINK="https://github.com/jondot/awesome-react-native" 
+	TEXT="Awesome React Native"/>
+<node ID="ID_1593037798" LINK="https://github.com/sindresorhus/awesome" 
+	TEXT="Awesome lists"/>
+<node ID="ID_1352182005" LINK="https://github.com/utensil/awesome-stars/blob/master/README.md" 
+	TEXT="Awesome Stars"/>
+<node ID="ID_960000808" LINK="https://github.com/GrowingGit/GitHub-Chinese-Top-Charts" 
+	TEXT="GitHub中文排行榜"/>
+<node ID="ID_1635329572" LINK="https://github.com/MichealWayne/fe-tools" 
+	TEXT="前端开发常用文档/网站地址、样式/js方法封装库、项目模板"/>
+<node ID="ID_170135515" LINK="https://github.com/bradtraversy/design-resources-for-developers" 
+	TEXT="design and UI resources"/>
+<node ID="ID_1680134446" LINK="https://github.com/cunyu1943/websites" 
+	TEXT="优质网站搜罗"/>
+<node ID="ID_1792956952" LINK="https://github.com/cunyu1943/softwares" 
+	TEXT="软件搜集"/>
 </node>
 <node FOLDED="true" ID="ID_1975038489" POSITION="left" 
 	TEXT="附录：工具精选">
