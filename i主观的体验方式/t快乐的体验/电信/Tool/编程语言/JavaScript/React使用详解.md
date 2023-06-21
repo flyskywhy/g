@@ -60,7 +60,7 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
     react-native init --version 0.31.0 AwesomeProject
 
 ## 配置 Android 开发环境
-从 [https://developer.android.google.cn/studio/index.html](https://developer.android.google.cn/studio/index.html) 下载 sdk-tools-linux 成为比如 `~/tools/android-sdk/` ，在 `~/.bashrc` 中添加 `export ANDROID_HOME=~/tools/android-sdk` 。后续在编译各种 APP 时 `~/tools/android-sdk/tools/bin/sdkmanager` 会视需要自动下载比如 `~/tools/android-sdk/platforms/android-26/` 等，如果在自动下载时出现 "You have not accepted the license agreements of the following SDK components" 的错误，则需手动运行一下 `yes | ~/tools/android-sdk/tools/bin/sdkmanager --licenses` 。
+从 <https://developer.android.com/studio#cmdline-tools> 下载 Command line tools 成为比如 `~/tools/android_sdk/cmdline-tools/latest/` ，在 `~/.bashrc` 中添加 `export ANDROID_HOME=~/tools/android-sdk` 。后续在编译各种 APP 时 `~/tools/android-sdk/cmdline-tools/latest/bin/sdkmanager` 会视需要自动下载比如 `~/tools/android-sdk/platforms/android-26/` 等，如果在自动下载时出现 "You have not accepted the license agreements of the following SDK components" 的错误，则需手动运行一下 `yes | ~/tools/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses` 。
 
 为了让 android-sdk 中 32 位的 aapt (比如 `~/tools/android-sdk/build-tools/26.0.0/aapt` ) 能够在 64 位的 Linux 中运行，还要确保已经运行过如下命令：
 
