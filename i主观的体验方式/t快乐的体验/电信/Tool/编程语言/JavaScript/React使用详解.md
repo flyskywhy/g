@@ -968,3 +968,6 @@ subprojects {
     }
 }
 ```
+
+### `Could not resolve org.webkit:android-jsc:+`
+Downgrade gradle-6.7-all.zip (comes from RN 0.64.3) to gradle-6.2-all.zip (comes from RN 0.63.2) in `android/gradle/wrapper/gradle-wrapper.properties` to fix it, ref to <https://stackoverflow.com/a/76521192/6318705>
