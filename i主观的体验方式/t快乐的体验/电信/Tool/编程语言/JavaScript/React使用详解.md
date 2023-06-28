@@ -165,7 +165,12 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
 
 如果生成好的 aab 在上传到 Google Play 时报错说“您上传的 APK 或 Android App Bundle 内含活动、活动别名、服务或广播接收器，这些项目有 intent 过滤器，但没有“android:exported”属性设置。此文件无法在 Android 12 或更高版本上安装”，且将自己 APP 的 `android:exported` 设为 true 后仍然如此，则将 `compileSdkVersion` 设为 31 再次进行编译时就可以依据 [Apps targeting Android 12 and higher are required to specify an explicit value for android:exported when the corresponding component has an intent filter defined. See https://developer.android.com/guide/topics/manifest/activity-element#exported for details](https://github.com/facebook/react-native/issues/35232#issuecomment-1324619149) 中所说的错误定位到某个第三方组件了。
 
-如果将 `compileSdkVersion` 设为 31 后编译时碰到 `Installed Build Tools revision 31.0.0 is corrupted` 错误，则需要从低版本比如 `android-sdk/build-tools/30.0.0/` 中复制出 `d8` 和 `d8.jar` 来。
+如果将 `compileSdkVersion` 设为 31 后编译时碰到 `Installed Build Tools revision 31.0.0 is corrupted` 错误，则需要从低版本比如 `android-sdk/build-tools/30.0.0/` 中复制出 `d8` 和 `d8.jar` 来，或是参考<https://stackoverflow.com/a/68430992/6318705>
+
+    cd ~/tools/android-sdk/build-tools/31.0.0
+    mv d8 dx \
+    cd lib  \
+    mv d8.jar dx.jar
 
 ## release 在线更新（热更新）
 参见 [React Native CodePush实践小结](https://segmentfault.com/a/1190000009642563) 。
