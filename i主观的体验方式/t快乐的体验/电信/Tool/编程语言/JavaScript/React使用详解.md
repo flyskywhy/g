@@ -101,10 +101,17 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
 
 并将生成的 debug.keystore 放到 `~/.android/` 中。
 
+如果 `react-native run-android` 时因网络问题导致 gradle 这个编译工具自身都下载失败，则可以暂时让电脑进行系统性翻墙比如运行翻墙 VPN 或是在系统代理设置中设置翻墙服务器的代理 `IP:port` ，或是在此时会发现新生成了一个目录比如 `~/.gradle/wrapper/dists/gradle-6.2-all/dvufqs6kielxeao781pmk5huj/` ，你可以删除该目录中的 `gradle-6.2-all.zip.part.0` ，然后在可以翻墙的浏览器中下载 `android/gradle/wrapper/gradle-wrapper.properties` 中的 `services.gradle.org/distributions/gradle-6.2-all.zip` 文件到该目录中，最后重新 `react-native run-android` 即可，或者干脆使用镜像地址 `mirrors.cloud.tencent.com/gradle/gradle-6.2-all.zip` 替换进 `gradle-wrapper.properties` 中。
+
 如果 `react-native run-android` 时因网络问题导致 gradle 这个编译工具报出一些第三方库下载失败，则可以暂时让电脑进行系统性翻墙比如运行翻墙 VPN 或是在系统代理设置中设置翻墙服务器的代理 `IP:port` ，或是暂时让电脑只在运行 gradle 时才翻墙，也就是在 `~/.gradle/gradle.properties` 中添加
 
     systemProp.https.proxyHost=翻墙服务器的代理IP
     systemProp.https.proxyPort=翻墙服务器的代理port
+
+或是在 `build.gradle` 中添加下面镜像仓库地址之一
+
+    maven { url 'https://mirrors.cloud.tencent.com/nexus/repository/maven-public/'}
+    maven { url 'https://mirrors.163.com/maven/repository/maven-public/'}
 
 如果 `react-native start` 出现错误提示 “increase the fs.inotify.max_user_watches sysctl” ，则可按 [Increasing the amount of inotify watchers](https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers) 进行操作。
 
@@ -919,6 +926,8 @@ dependencyResolutionManagement {
     //          > Read timed out
     repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
+        maven { url 'https://mirrors.cloud.tencent.com/nexus/repository/maven-public/'}
+        maven { url 'https://mirrors.163.com/maven/repository/maven-public/'}
         maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
         maven { url 'https://maven.aliyun.com/repository/central' }
