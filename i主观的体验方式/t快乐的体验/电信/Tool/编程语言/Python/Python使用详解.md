@@ -53,9 +53,11 @@ Li Zheng <flyskywhy@gmail.com>
 
 则需要先
 
-    pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+    pip config set global.index-url https://mirrors.cloud.tencent.com/pypi/simple
 
-（就会自动生成`~/.pip/pip.ini` 文件）来加以解决
+（就会自动生成`~/.pip/pip.ini` 文件）来加以永久解决，或是在 `pip install` 后面临时加上参数
+
+    -i https://mirrors.cloud.tencent.com/pypi/simple --trusted-host mirrors.cloud.tencent.com
 
 如果出现错误
 
@@ -106,4 +108,23 @@ Li Zheng <flyskywhy@gmail.com>
 
     pip install --upgrade pip --user
     sudo update-alternatives --install /usr/bin/pip pip ~/.local/bin/pip3.6 300
+    sudo update-alternatives --config pip
+
+后续如果碰到
+
+    ERROR: Could not find a version that satisfies the requirement
+
+错误，升级 Python 也是一种解决方法，比如
+
+    cd ~/tools/
+    wget https://www.python.org/ftp/python/3.7.17/Python-3.7.17.tgz
+    tar axvf Python-3.7.17.tgz
+    cd Python-3.7.17
+    ./configure
+    make
+    make test
+    sudo make altinstall
+    sudo update-alternatives --install /usr/bin/python python /usr/local/bin/python3.7 350
+    sudo update-alternatives --config python
+    sudo update-alternatives --install /usr/bin/pip pip /usr/local/bin/pip3.7 350
     sudo update-alternatives --config pip
