@@ -96,6 +96,16 @@ Li Zheng <flyskywhy@gmail.com>
 
 如果出现错误
 
+    ModuleNotFoundError: No module named '_bz2'
+
+则需要
+
+    sudo apt-get install libbz2-dev
+
+并重新编译
+
+如果出现错误
+
     Exception:
     Traceback (most recent call last):
       File "/usr/local/lib/python3.6/site-packages/pip/_internal/cli/base_command.py", line 143, in main
