@@ -24,3 +24,7 @@ finally
     ./clash-linux-amd64-v1.15.1 -f clash_shadowsocks.yaml
 
 PS: You can use tmux to keep it running it even after close ssh terminal.
+
+## to test in terminal
+
+    curl -x clash_ip:8118 https://www.google.com
