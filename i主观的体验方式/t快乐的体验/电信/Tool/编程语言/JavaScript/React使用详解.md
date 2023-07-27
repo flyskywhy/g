@@ -954,7 +954,9 @@ dependencyResolutionManagement {
     }
 }
 ```
-and now can also remove useless `allprojects` in `build.gradle`.
+and also remove useless `allprojects` in `build.gradle`.
+
+Now after `./android/gradlew clean -p ./android/`, you can continue your build.
 
 ### `AAPT: error: resource android:attr/colorError not found`
 If got error like
