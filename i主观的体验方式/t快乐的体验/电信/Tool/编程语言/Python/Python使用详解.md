@@ -138,3 +138,9 @@ Li Zheng <flyskywhy@gmail.com>
     sudo update-alternatives --config python
     sudo update-alternatives --install /usr/bin/pip pip /usr/local/bin/pip3.7 350
     sudo update-alternatives --config pip
+
+## 坑
+
+### `action='store_false'`
+
+这个用于解决一个 PyTorch 问题的提交点 <https://github.com/flyskywhy/YOLOv5-Lite/commit/bb07475> 花了我几天时间去调试，然而究其原因只是 Python 的一个无聊设计——如果命令行参数被设计为 `action='store_false'` ，那就表示如果命令运行时没有写上该参数，则该命令就认为该参数为 `True` ，反之如果写上该参数，则反而为 `False` ——比较反人类的设计，很少有人会无聊到这样为自己的命令代码这样设计参数。
