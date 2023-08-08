@@ -150,7 +150,7 @@ To detect:
 
 To mobile optimized model exported to `runs/yolov5Lite-e_wrgb/exp/weights/best.ptl`:
 
-    python export.py --weights runs/yolov5Lite-e_wrgb/exp/weights/best.pt --grid --img 416
+    python export.py --weights runs/yolov5Lite-e_wrgb/exp/weights/best.pt --grid --img-size 416
     cp runs/yolov5Lite-e_wrgb/exp/weights/best.ptl YOLOv5Lite-e.ptl
 
 得到 `YOLOv5Lite-e.ptl` 。
