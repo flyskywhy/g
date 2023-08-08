@@ -22,7 +22,7 @@ PyTorch 也可以用于训练其它深度学习模型，本文只介绍用于训
 
 部署阶段所用的代码框架一般用的是 Meta 公司的 PlayTorch ，可以参考其在 <https://playtorch.dev/docs/tutorials/snacks/yolov5/> 中如何使用 `react-native-pytorch-core` ；如果追求 Android 手机上实时推理速度的，可以使用 <https://github.com/flyskywhy/YOLOv5-Lite> 和 <https://github.com/flyskywhy/Yolo-FastestV2> 所用的腾讯公司的 NCNN ；至于 Google 的 TF lite ，在部署上曾有先发优势，但由于源代码质量不高以及其 1.0 和 2.0 版本 API 不兼容等原因，现已慢慢乏人使用，不过如果用于 Web 的话可能还是需要 `tf.js` 。
 
-另，标注是人工智能中的“人工”阶段，可以参考[深度学习图像标注工具汇总](https://blog.csdn.net/qq_34806812/article/details/81394646)和[LabelBee 让人工标注更智能](https://mp.weixin.qq.com/s/ii22i3dSauoSCmhLjNUo-w)。
+另，标注是人工智能中的“人工”阶段，可以参考[深度学习图像标注工具汇总](https://blog.csdn.net/qq_34806812/article/details/81394646)和[LabelBee 让人工标注更智能](https://mp.weixin.qq.com/s/ii22i3dSauoSCmhLjNUo-w)。如果没有足够的照片而且目标尺寸较小使得在一张高分辨率照片中有许多目标，则也可以使用类似[在线图片水平_垂直均等切割工具](https://uutool.cn/img-incision/)来切割出几百张照片以进行训练。
 
 ## `react-native-pytorch-core` 与 `yolov5`
 
