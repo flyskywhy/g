@@ -105,7 +105,7 @@ To detect:
 To mobile optimized model exported to `runs/yolov7-tiny_wrgb/exp/weights/best.torchscript.ptl`:
 
     python export.py --weights runs/yolov7-tiny_wrgb/exp/weights/best.pt --grid --img-size 416
-    cp runs/yolov7-tiny_wrgb/exp/weights/best.torchscript.ptl best.torchscript.ptl yolov7-tiny.ptl
+    cp runs/yolov7-tiny_wrgb/exp/weights/best.torchscript.ptl yolov7-tiny.ptl
 
 得到 `yolov7-tiny.ptl` 。
 
@@ -157,7 +157,7 @@ To mobile optimized model exported to `runs/yolov5Lite-e_wrgb/exp/weights/best.p
 
 测得
 
-    detect: 80ms
+    detect: 110ms
 
 接近但还达不到视频实时检测的总用时需求 33ms 以及 <https://github.com/ppogg/YOLOv5-Lite> 官网描述在 NCNN 中的 320x320 情况下的 27ms ，估计要移植 NCNN 到 react-native 才有可能。
 
@@ -204,7 +204,24 @@ names=../datasets/wrgb/obj.names
 
 这里的 `train-Yolo-FastestV2.txt` 复制自 `train.txt` 并将里面的相对路径替换为绝对路径。
 
-虽说 <https://github.com/dog-qiuqiu/Yolo-FastestV2> 官网自称使用 NCNN 在麒麟 990 上可以达到 detect: 5ms ，而我的 fork 版本 <https://github.com/flyskywhy/Yolo-FastestV2> 使用 `react-native-pytorch-core` 在高通骁龙 888 上也测得 detect: 80ms ，但由于其推理 `model.forward` 返回的数据格式与 `yolov5` 和 `yolov7` 等不同导致无法直接使用在现有 APP 代码中，所以暂时无法得知打分情况在手机上的高低。
+To train:
+
+    python train.py --data ../datasets/wrgb/obj-Yolo-FastestV2.data
+    cp weights/best.torchscript.ptl Yolo-FastestV2.ptl
+
+To detect:
+
+    python test.py --data ../datasets/wrgb/obj-Yolo-FastestV2.data --weights weights/wrgb-50-epoch-0.862199ap-model.pth --img SOME.jpg
+
+得到 `Yolo-FastestV2.ptl` 。
+
+测得
+
+    detect: 80ms
+
+<https://github.com/dog-qiuqiu/Yolo-FastestV2> 官网自称使用 NCNN 在麒麟 990 上可以达到 detect: 5ms
+
+由于其推理 `model.forward` 返回的数据格式与 `yolov5` 和 `yolov7` 等不同导致无法直接使用在现有 APP 代码中，所以暂时无法得知打分情况在手机上的高低。
 
 ## YOLO 代码大致流程
 
