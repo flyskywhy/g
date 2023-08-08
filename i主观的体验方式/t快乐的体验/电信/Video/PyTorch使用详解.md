@@ -43,6 +43,21 @@ PyTorch 也可以用于训练其它深度学习模型，本文只介绍用于训
     detect: 370ms
     NMS: 6300ms
 
+注，如果上面在 `python export.py --weights runs/yolov5s_wrgb/exp/weights/best.pt --include torchscript` 时加上了参数 ` --img-size 416` ，则需要在 JS 代码中将 `const IMAGE_SIZE = 640` 改为 `const IMAGE_SIZE = 416` ，否则会出现诸如
+```
+{"message": "The size of tensor a (52) must match the size of tensor b (80) at non-singleton dimension 3
+
+  Debug info for handle(s): debug_handles:{-1}, was not found.
+
+Exception raised from infer_size_impl at /data/users/atalman/pytorch/aten/src/ATen/ExpandUtils.cpp:35 (most recent call first):
+(no backtrace available)"}
+```
+或者
+```
+{"message": "shape '[1, 2, 60, 52, 52]' is invalid for input of size 768000"}
+```
+这样的错误（52x8=416 而 80x8=640），且 416 分辨率下测得 `detect: 150ms`
+
 发现主要耗时在 detect 给出了 25200 个结果让 NMS 中的 for 循环做后处理，所以可以想办法使用 topk 只让 NMS 处理前 200 个预测值最大的结果，比如在 `outputsToNMSPredictions` 函数定义中
 ```
 -  const rows = prediction.shape[0];
