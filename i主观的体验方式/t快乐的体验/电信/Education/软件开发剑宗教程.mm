@@ -204,6 +204,10 @@
 	TEXT="Shell 编程范例"/>
 <node ID="ID_1780597025" LINK="http://www.linuxeden.com/a/121826" 
 	TEXT="超越 Bash: 9 个不太知名的 Linux Shell 及其功能"/>
+<node ID="ID_1255475591" LINK="http://www.linuxeden.com/a/124616" 
+	TEXT="Linux 中退出码的含义"/>
+<node ID="ID_1710202162" LINK="http://www.linuxeden.com/a/125003" 
+	TEXT="如何在命令行上舒适地生存？"/>
 </node>
 <node FOLDED="true" ID="ID_726628109" 
 	TEXT="文件管理">
@@ -253,6 +257,11 @@
 	TEXT="javascript 异常处理的一些经验"/>
 </node>
 </node>
+<node FOLDED="true" ID="ID_196931428" 
+	TEXT="C">
+<node ID="ID_1336154631" LINK="https://wangdoc.com/clang/" 
+	TEXT="C 语言教程"/>
+</node>
 </node>
 <node FOLDED="true" ID="ID_1567221494" 
 	TEXT="UML">
@@ -260,6 +269,15 @@
 	TEXT="写出易维护的代码｜React开发的设计模式及原则"/>
 <node ID="ID_762670432" LINK="https://mp.weixin.qq.com/s/kc7tgGLiPUrmq67da9Uhow" 
 	TEXT="谈谈我工作中的23个设计模式"/>
+</node>
+<node FOLDED="true" ID="ID_544481102" 
+	TEXT="人工智能">
+<node ID="ID_891474038" LINK="https://labs.kagi.com/fastgpt" 
+	TEXT="不翻墙就可使用的 GPT 网站 FastGPT"/>
+<node ID="ID_1596026153" LINK="https://www.toolai.io/zh/" 
+	TEXT="全球最佳人工智能AI工具聚合网站"/>
+<node ID="ID_1917535967" LINK="https://github.com/flyskywhy/g/blob/master/i%E4%B8%BB%E8%A7%82%E7%9A%84%E4%BD%93%E9%AA%8C%E6%96%B9%E5%BC%8F/t%E5%BF%AB%E4%B9%90%E7%9A%84%E4%BD%93%E9%AA%8C/%E7%94%B5%E4%BF%A1/Video/PyTorch%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3.md" 
+	TEXT="在 react-native 中使用深度学习模型的方法《PyTorch 使用详解》"/>
 </node>
 </node>
 </node>
