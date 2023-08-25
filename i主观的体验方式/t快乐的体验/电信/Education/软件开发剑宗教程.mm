@@ -278,6 +278,8 @@
 	TEXT="全球最佳人工智能AI工具聚合网站"/>
 <node ID="ID_1917535967" LINK="https://github.com/flyskywhy/g/blob/master/i%E4%B8%BB%E8%A7%82%E7%9A%84%E4%BD%93%E9%AA%8C%E6%96%B9%E5%BC%8F/t%E5%BF%AB%E4%B9%90%E7%9A%84%E4%BD%93%E9%AA%8C/%E7%94%B5%E4%BF%A1/Video/PyTorch%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3.md" 
 	TEXT="在 react-native 中使用深度学习模型的方法《PyTorch 使用详解》"/>
+<node ID="ID_842002271" LINK="https://mp.weixin.qq.com/s/9gTUZAPnKaI6B4oIBA-RVQ" 
+	TEXT="老潘的AI部署以及工业落地学习之路"/>
 </node>
 </node>
 </node>
