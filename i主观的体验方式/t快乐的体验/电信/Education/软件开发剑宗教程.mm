@@ -280,6 +280,8 @@
 	TEXT="在 react-native 中使用深度学习模型的方法《PyTorch 使用详解》"/>
 <node ID="ID_842002271" LINK="https://mp.weixin.qq.com/s/9gTUZAPnKaI6B4oIBA-RVQ" 
 	TEXT="老潘的AI部署以及工业落地学习之路"/>
+<node ID="ID_407818238" LINK="https://ai.dreamthere.cn/" 
+	TEXT="AI导航"/>
 </node>
 </node>
 </node>
