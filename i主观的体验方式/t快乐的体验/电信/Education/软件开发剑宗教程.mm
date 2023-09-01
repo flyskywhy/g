@@ -195,6 +195,10 @@
 	TEXT="优质网站搜罗"/>
 <node ID="ID_1792956952" LINK="https://github.com/cunyu1943/softwares" 
 	TEXT="软件搜集"/>
+<node ID="ID_1701567737" LINK="https://github.com/dunwu/linux-tutorial" 
+	TEXT="linux-tutorial"/>
+<node ID="ID_1893598856" LINK="https://github.com/isno/theByteBook" 
+	TEXT="深入架构原理与实践"/>
 </node>
 <node FOLDED="true" ID="ID_1975038489" POSITION="left" 
 	TEXT="附录：工具精选">
