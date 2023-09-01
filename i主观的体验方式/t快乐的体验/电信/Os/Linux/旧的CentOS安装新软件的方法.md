@@ -74,7 +74,7 @@ cd pip-9.0.1
 python setup.py install
 ```
 
-而新的 Python 3 会在编译安装过程中包含 pip ，参见 [Python 使用详解](../..//Tool/编程语言/Python/Python使用详解.md)
+而新的 Python 3 会在编译安装过程中包含 pip ，参见 [Python 使用详解](../../Tool/编程语言/Python/Python使用详解.md)
 
 参考 <https://developer.aliyun.com/mirror/pypi> 在 `~/.pip/pip.conf` 中添加
 ```
