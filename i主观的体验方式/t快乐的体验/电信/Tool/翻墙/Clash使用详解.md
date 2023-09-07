@@ -25,6 +25,8 @@ finally
 
 PS: You can use tmux to keep it running it even after close ssh terminal.
 
+PS: [work with privoxy](https://github.com/flyskywhy/g/blob/master/i%E4%B8%BB%E8%A7%82%E7%9A%84%E4%BD%93%E9%AA%8C%E6%96%B9%E5%BC%8F/t%E5%BF%AB%E4%B9%90%E7%9A%84%E4%BD%93%E9%AA%8C/%E7%94%B5%E4%BF%A1/Os/Linux/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BB%B4%E6%8A%A4%E8%AF%A6%E8%A7%A3.md)
+
 ## to test in terminal
 
     curl -x clash_ip:8118 https://www.google.com
