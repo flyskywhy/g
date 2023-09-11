@@ -266,6 +266,11 @@
 <node ID="ID_1336154631" LINK="https://wangdoc.com/clang/" 
 	TEXT="C 语言教程"/>
 </node>
+<node FOLDED="true" ID="ID_51981005" 
+	TEXT="算法">
+<node ID="ID_169044482" LINK="https://www.hello-algo.com/" 
+	TEXT="动画图解、一键运行的数据结构与算法教程"/>
+</node>
 </node>
 <node FOLDED="true" ID="ID_1567221494" 
 	TEXT="UML">
