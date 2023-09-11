@@ -157,6 +157,8 @@ To train:
 
     # Download `v5lite-e.pt` from `Download Link` in `YOLOv5-Lite/README.md` as `models/v5lite-e.pt`
 
+    rm ../datasets/wrgb/train.cache # If needed e.g. got `_pickle.UnpicklingError: STACK_GLOBAL requires str`
+
     python train.py --epochs 55 --data ../datasets/wrgb/obj.yaml --cfg ../datasets/wrgb/v5Lite-e.yaml --weights models/v5lite-e.pt --img-size 416 --workers 4 --batch-size 16 --project runs/yolov5Lite-e_wrgb --device cpu
 
 To detect:
