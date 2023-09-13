@@ -58,7 +58,7 @@ Exception raised from infer_size_impl at /data/users/atalman/pytorch/aten/src/AT
 ```
 这样的错误（52x8=416 而 80x8=640），且 416 分辨率下测得 `detect: 150ms`
 
-发现主要耗时在 detect 给出了 25200 个结果让 NMS 中的 for 循环做后处理，所以可以想办法使用 topk 只让 NMS 处理前 200 个预测值最大的结果，比如在 `outputsToNMSPredictions` 函数定义中
+发现主要耗时在 detect 给出了 25200 个结果让 NMS 中的 for 循环做后处理，所以可以想办法使用 topk 只让 NMS 处理前 `nMSLimit = 200` 个预测值最大的结果，比如在 `outputsToNMSPredictions` 函数定义中
 ```
 -  const rows = prediction.shape[0];
 +  const indices = prediction.topk(nMSLimit, {
@@ -93,6 +93,54 @@ Exception raised from infer_size_impl at /data/users/atalman/pytorch/aten/src/AT
     NMS: 140ms
 
 总用时优化了 13 倍！
+
+进一步测试可知 `outputsToNMSPredictions` 函数中的 for 循环里每 `prediction[indiceScoreSorted].data()` 一次就需耗时 1ms 左右，因此上面如果 `nMSLimit = 500` ，则就会测得 `NMS: 500ms` 左右，经分析还可以这样优化
+```
+-  const numberOfClass = prediction.shape[1] - 5;
++  const predictionLength = prediction.shape[1];
++  const numberOfClass = predictionLength - 5;
++  const indicesArray = indices.data();
++  const predictionsArray = prediction.data();
+   for (let i = 0; i < rows; i++) {
+-    const indiceScoreSorted = indices[i][4];
+-    const outputs = prediction[indiceScoreSorted].data();
++    const indiceScoreSorted = indicesArray[i * predictionLength + 4];
++    const predictionPoint = indiceScoreSorted * predictionLength;
+     // Only consider an object detected if it has a confidence score of over predictionThreshold
+-    const score = outputs[4];
++    const score = predictionsArray[predictionPoint + 4];
+     if (score > predictionThreshold) {
+       // Find the detected objct calss with max score and get the classIndex
+-      let max = outputs[5];
++      let max = predictionsArray[predictionPoint + 5];
+       let classIndex = 0;
+       for (let j = 0; j < numberOfClass; j++) {
+-        if (outputs[j + 5] > max) {
+-          max = outputs[j + 5];
++        if (predictionsArray[predictionPoint + j + 5] > max) {
++          max = predictionsArray[predictionPoint + j + 5];
+           classIndex = j;
+         }
+       }
+
+       // Calulate the bound of the detected object bounding box
+-      const x = outputs[0];
+-      const y = outputs[1];
+-      const w = outputs[2];
+-      const h = outputs[3];
++      const x = predictionsArray[predictionPoint];
++      const y = predictionsArray[predictionPoint + 1];
++      const w = predictionsArray[predictionPoint + 2];
++      const h = predictionsArray[predictionPoint + 3];
+
+       const left = imgScaleX * (x - w / 2);
+       const top = imgScaleY * (y - h / 2);
+```
+
+此时测得
+
+    detect: 370ms
+    NMS: 20ms
 
 但还达不到视频实时检测的总用时需求 33ms
 
