@@ -73,6 +73,19 @@ Exception raised from infer_size_impl at /data/users/atalman/pytorch/aten/src/AT
 +    const indiceScoreSorted = indices[i][4];
 +    const outputs = prediction[indiceScoreSorted].data();
 ```
+以及
+```
+ function nonMaxSuppression(boxes, limit, threshold) {
++  // 之前已经用 prediction.topk 在 native 层排序过了，所以这里不再在 js 层排序了
+   // Do an argsort on the confidence scores, from high to low.
+-  const newBoxes = boxes.sort((a, b) => {
+-    return a.score - b.score;
+-  });
++  // const newBoxes = boxes.sort((a, b) => {
++  //   return a.score - b.score;
++  // });
++  const newBoxes = boxes;
+```
 
 此时测得
 
