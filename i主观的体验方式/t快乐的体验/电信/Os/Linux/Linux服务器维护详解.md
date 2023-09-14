@@ -103,7 +103,7 @@ Li Zheng <flyskywhy@gmail.com>
 解决过程如下：
 
 1. 在 `公网.xx.xx.120 私网.xx.xx.85` 中安装 VPN 软件使之成为阿里云 VPN
-2. 在 `内网.xx.xx.106` 中拨入阿里云 VPN
+2. 在 `内网.xx.xx.106` 中拨入阿里云 VPN ，并 [设置当前 IP 地址的路由](../../Net/Vpn/VPN路由设置详解.md)
 3. 在 `内网.xx.xx.106` 中安装运行 privoxy 这个纯粹的代理软件，并将其配置文件中的监听设为 `listen-address 0.0.0.0:8118` 、转发设为 `forward / 私网.xx.xx.156:7890`
 4. 在 `公网.xx.xx.131 私网.xx.xx.156` 中参考 [Clash 使用详解](../../Tool/翻墙/Clash使用详解.md) 安装运行 clash 并将其配置文件中的监听设为 `mixed-port: 7890` ，如果 `公网.xx.xx.91` 所对应的域名后缀不是 cn 也就是不符合配置文件中 rules 处的 `DOMAIN-SUFFIX,cn,DIRECT` ，则需要添加比如 `DOMAIN-SUFFIX,你的.域名.com,DIRECT`
 5. 在 `公网.xx.xx.131 私网.xx.xx.156` 的安全组中允许 7890 端口入方向对 `私网.xx.xx.85` 的授权
