@@ -200,7 +200,7 @@
 <node ID="ID_1893598856" LINK="https://github.com/isno/theByteBook" 
 	TEXT="深入架构原理与实践"/>
 <node ID="ID_426079399" LINK="https://mp.weixin.qq.com/s/HoFSNCd1U3eoUqYaQiEgwQ" 
-	TEXT="腾讯 13 年，我所总结的Code Review终极大法"/>
+	TEXT="《腾讯 13 年，我所总结的Code Review终极大法》一文及其提到的《 Unix 编程艺术》一书"/>
 </node>
 <node FOLDED="true" ID="ID_1975038489" POSITION="left" 
 	TEXT="附录：工具精选">
@@ -267,6 +267,14 @@
 	TEXT="C">
 <node ID="ID_1336154631" LINK="https://wangdoc.com/clang/" 
 	TEXT="C 语言教程"/>
+<node ID="ID_1323780273" LINK="https://github.com/skyformat99/ametal" 
+	TEXT="AMetal裸机软件包"/>
+<node ID="ID_1530619701" LINK="https://github.com/zicohao/BOOK" 
+	TEXT="AMetal书稿"/>
+<node ID="ID_1588545911" LINK="https://github.com/zlgopen/ametal_applictions" 
+	TEXT="AMetal架构实际项目开发示例"/>
+<node ID="ID_1506533453" LINK="https://github.com/zlgopen/awtk/blob/master/README_zh.md" 
+	TEXT="AWKT开源GUI引擎"/>
 </node>
 <node FOLDED="true" ID="ID_51981005" 
 	TEXT="算法">
