@@ -590,6 +590,8 @@ ls: /Users/lizheng/Library/Caches/com.facebook.ReactNativeBuild/boost_1_63_0.tar
 
 曾经在模拟器中安装调试运行时碰到过这个错误，按 https://stackoverflow.com/questions/46206867/timeout-waiting-for-modules-to-be-invalidated 中的说法是需要将真机的 WiFi 连到与 macOS 同一个局域网中，不过我的情况是将模拟器换成真机后就好了，搞不懂背后真正的原因是啥。
 
+注：参考 [How to share your Mac's internet with iPhone, iPad, Android, etc](https://www.idownloadblog.com/2022/12/01/how-to-share-mac-wi-fi-internet/) 一文将上网能力通过 macOS 的 USB 口分享给 iPhone ，由于是有线连接，所以 Hot reloading 的速度快到飞起。
+
 * 真机调试时需要在 Xcode 的菜单 `Preferences | Accounts` 那里添加 Apple ID ，并在 Xcode 的主界面中的 Project 的某个 Target 的 'Signing & Capabilities' 那里选择相应的 Team 。
 
 但是，千万要记得所添加的那个 Apple ID 就是今后将要用来发布到 App Store 的账号，否则如果先用自己个人的免费账号在真机上进行调试了，那么苹果服务器就会自动将你所调试的 APP 的 PRODUCT_BUNDLE_IDENTIFIER 比如 com.domainname.appname 作为 APP ID 保存到你的个人账号名下了，那样等你后续用公司的收费账号在 https://developer.apple.com/ 上申请 Identifiers 时，它就会说 "An App ID with Identifier 'com.domainname.appname' is not available" ，而你用免费账号登录 https://developer.apple.com/ 的话根本连 Identifiers 的进入按钮都看不见更别说删除该 APP ID 了，这样你只能让你的公司账号下的 PRODUCT_BUNDLE_IDENTIFIER 改名……苹果公司又一个反人类的设计。
@@ -607,6 +609,8 @@ ls: /Users/lizheng/Library/Caches/com.facebook.ReactNativeBuild/boost_1_63_0.tar
 * 用 Debug 配置进行调试
 
 由于使用 Release 配置点击 Run 按钮的话需要等待半小时，所以调试时记得将 `Produce | Scheme | Edit Scheme | Run | Build Configuration` 设置为 Debug 。其实就算使用 Debug ，运行也需要 3 分钟，哪像 react-native 开发时只需要手机摇一摇花 3 秒钟就能看到 JS 代码所做的改变。真为那些全部代码都使用 Xcode 原生编写的开发人员感到悲哀——每天不知道浪费了多少个 3 分钟。还好我只需要捏着鼻子偶尔用连语法都是反人类的 ObjectC 语言在 Xcode 中做一些原生适配，就又可以愉快地去写 JS 代码了。
+
+注： <https://reactnative.dev/docs/publishing-to-app-store> 提到 `export SKIP_BUNDLING=true` 可以进一步减少 Debug 编译运行的时间。
 
 * 项目所在绝对路径中不应该有空格，否则编译会失败
 
