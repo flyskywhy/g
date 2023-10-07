@@ -269,6 +269,8 @@
 	TEXT="C">
 <node ID="ID_1336154631" LINK="https://wangdoc.com/clang/" 
 	TEXT="C 语言教程"/>
+<node ID="ID_1163822338" LINK="https://github.com/seisman/how-to-write-makefile" 
+	TEXT="跟我一起写Makefile"/>
 <node ID="ID_1323780273" LINK="https://github.com/skyformat99/ametal" 
 	TEXT="AMetal裸机软件包"/>
 <node ID="ID_1530619701" LINK="https://github.com/zicohao/BOOK" 
