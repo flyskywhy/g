@@ -301,6 +301,8 @@
 	TEXT="老潘的AI部署以及工业落地学习之路"/>
 <node ID="ID_407818238" LINK="https://ai.dreamthere.cn/" 
 	TEXT="AI导航"/>
+<node ID="ID_230233394" LINK="https://github.com/LearnPrompt/LearnPrompt" 
+	TEXT="一个永久免费开源的 AIGC 课程"/>
 </node>
 </node>
 </node>
