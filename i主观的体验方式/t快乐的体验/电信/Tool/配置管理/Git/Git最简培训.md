@@ -17,4 +17,8 @@ Li Zheng <flyskywhy@gmail.com>
 
 附：如果不想在 `git gui` 界面左上角“未缓存的改动”窗口中看到 `.o` 之类的文件，可以在 git 管理的目录中建立 `.gitignore` 文件并每行写入一种特征比如 `*.o` 。
 
-另，向 gitlab 或 github 进行 `git push` 操作时所需的密钥配置方法参见 [笔记多地同步](https://www.bilibili.com/video/BV1qt411b7xw?p=6) 讲解视频。
+另，针对 gitlab 或 github 进行 `git clone` 或 `git push` 操作时所需的密钥配置方法参见 [Ubuntu 22.04 SSH the RSA key isn't working since upgrading from 20.04](https://askubuntu.com/questions/1409105/ubuntu-22-04-ssh-the-rsa-key-isnt-working-since-upgrading-from-20-04) 运行
+
+    ssh-keygen -t ed25519
+
+后将生成的 `.pub` 文件中的内容粘帖到 gitlab 或 github 账户设置的 SSH key 那里。
