@@ -3,7 +3,7 @@ Li Zheng <flyskywhy@gmail.com>
 # Git 最简培训
 本文以 git 的图形界面进行培训，相比记忆各种 git 的终端命令，可以达到最简而仍能完成日常 git 操作。本培训不包含中心仓库的建立方法而只是使用方法。
 
-在 Linux 终端或者 Windows 的 `D:\msysgit\msys.bat` 所打开的终端中，进入某个 git 管理的目录后，输入 `git gui`或者 `gitk --all` 命令，即可打开图形界面。只有打开着图形界面对照操作，培训才有效果。最好是自己找个测试目录进去 `git init` 然后随便折腾。
+在 Linux 终端或者 Windows 的 `D:\msysgit\msys.bat` 所打开的终端中，进入某个 git 管理的目录后，输入 `git gui` 或者 `gitk --all` 命令，即可打开图形界面。只有打开着图形界面对照操作，培训才有效果。最好是自己找个测试目录进去 `git init` 然后随便折腾。
 
 要做一个最简单的 Git 使用培训的话，除了说第一次要 `git clone` 或是 `git init` 一把，并且日常慢慢熟悉 `git gui` 图形界面中的菜单、按钮和 `gitk --all` 图形界面中的 `F2` 按键、各种按钮、分支名为粗体的是当前分支、分支名上的右键菜单、commit 注释上的右键菜单外，日常使用无非如下步骤：
 
