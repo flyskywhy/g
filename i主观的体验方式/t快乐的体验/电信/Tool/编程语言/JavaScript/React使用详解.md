@@ -459,6 +459,30 @@ If using `react-native-gesture-handler@2` not `react-native-gesture-handler@1` w
 ```
 into `config-overrides.js` .
 
+#### `Uncaught Error: Cannot find module 'react-native-pytorch-core'`
+It maybe `Uncaught Error: PlayTorchJSIModule not found` if `APP/tsconfig.json` exist.
+
+Fix it by:
+```
+-import {Camera, Canvas} from 'react-native-pytorch-core';
++if (Platform.OS !== 'web') {
++  var {Camera, Canvas} = require('react-native-pytorch-core');
++}
+```
+
+#### warning `Module not found: Error: Can't resolve 'react-native-pytorch-core'`
+If use a pure ts package e.g. `"react-native-pytorch-core": "git+https://github.com/flyskywhy/playtorch#CameraModule"` which only has `src/` but no `lib/`, then need `npm install @tsconfig/react-native@2.0.2` and create `APP/tsconfig.json` with the content
+```
+{
+  "extends": "@tsconfig/react-native/tsconfig.json"
+}
+```
+thus `const useTypeScript = fs.existsSync(paths.appTsConfig)` in `node_modules/react-scripts/config/webpack.config.js` can be `true`, and patch by
+
+    sed -i -e "s/lib\/commonjs/src/" node_modules/react-native-pytorch-core/package.json
+
+PS: There is already `"react-native": "src/index"` in `react-native-pytorch-core/package.json`, so metro of react native already works fine without the patch.
+
 ## RN < 0.60 的安装 react-web
     npm install -g react-web-cli
 
