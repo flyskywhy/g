@@ -119,6 +119,9 @@ module.exports = {
         // "indent-cases": true,
         "add-brackets": true,
         "keep-one-line-blocks": false,
+        "unpad-paren": true,
+        "pad-header": true,
+        "pad-comma": true,
     },
     "options_c": {
         "additional_options": ["--convert-tabs"]
