@@ -116,7 +116,7 @@ module.exports = {
         "indent": "spaces",
         "indent-spaces": 4,
         "indent-switches": true,
-        "indent-cases": true,
+        // "indent-cases": true,
         "add-brackets": true,
         "keep-one-line-blocks": false,
     },
