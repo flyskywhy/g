@@ -79,4 +79,5 @@ Li Zheng <flyskywhy@gmail.com>
 			- 物理
 				- [以十层理解带你深度解析光的本质！](https://www.bilibili.com/video/BV1LC4y1V74r/)（以及物理学的本质）
 				- [以十层理解带你深度解析原子以及物质的本质！](https://www.bilibili.com/video/BV18g4y1Z7rP/)
+				- [以八层理解带你深度解析引力的本质！](https://www.bilibili.com/video/BV1D2421T7yJ/)
 				- [清华大学现代量子力学 67讲](https://www.bilibili.com/video/BV1up411R7Hg/)（题外话，从 Stern–Gerlach 实验开始讲起的量子力学才易入门）
