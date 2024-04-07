@@ -24,6 +24,7 @@ Li Zheng <flyskywhy@gmail.com>
 			- [Programming_learning_resource](https://github.com/shihyu/Programming_learning_resource)
 			- [命令行的艺术](https://github.com/jlevy/the-art-of-command-line/blob/master/README-zh.md)
 			- [各种 awesome 的 awesome](https://github.com/sindresorhus/awesome)
+			- [动手实战人工智能](https://aibydoing.com/intro)
 		- 农
 			- [农民如何拯救了中国三次现代化危机？](https://www.bilibili.com/video/BV1fr4y1L7E9/)——温铁军
 			- [给普罗大众兜底的不是农村，是社会主义](https://www.bilibili.com/video/BV1FW4y1771p/)——未明子
