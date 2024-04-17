@@ -260,6 +260,10 @@
 	TEXT="React是如何区分class和function的？"/>
 <node ID="ID_196185100" LINK="https://github.com/cheng1992zhen/weekly-1/blob/master/docs/issue-76.md" 
 	TEXT="React Hooks是一个巨坑"/>
+<node ID="ID_1829744776" LINK="https://cloud.tencent.com/developer/news/707873" 
+	TEXT="React Hooks 还不如类？"/>
+<node ID="ID_25483563" LINK="https://medium.com/swlh/the-ugly-side-of-hooks-584f0f8136b6" 
+	TEXT="React Hooks 还不如类？(英文)"/>
 <node ID="ID_1449966400" LINK="https://joshcollinsworth.com/blog/antiquated-react" 
 	TEXT="Preact Signals 是比 React Hooks 更好的选择"/>
 </node>
