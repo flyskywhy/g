@@ -37,6 +37,12 @@ Li Zheng <flyskywhy@gmail.com>
 			- [从地缘战略到币缘战略——全球化的演变](https://www.bilibili.com/video/BV1pL411F7XS/)——温铁军
 			- [美国债务增长就像陀螺旋转，一旦停下来就要倒下](https://www.bilibili.com/video/BV1he4y1e7FS/)——温铁军
 			- [工人阶级晋升中产阶级的代价是后半生都得为银行还债](https://www.bilibili.com/video/BV1Re411P7iS/)——赫德森
+			- [私人债务如何让富人越来越富](https://www.bilibili.com/video/BV1De411w7TP/)——赫德森
+			- [地主阶级和银行阶级统治的金融资本主义，通往债务奴役之路？【赫德森-文明的抉择1】](https://www.bilibili.com/video/BV12P411z7V4/)——赫德森
+			- [经济学家是如何把曾经人人喊打的食租食利阶级洗白的？【赫德森-文明的抉择2】](https://www.bilibili.com/video/BV1Fj411r7jC/)——赫德森
+			- [新自由主义，一场富人向穷人发起的阶级斗争【赫德森-文明的抉择3】](https://www.bilibili.com/video/BV1Xm4y1H7W4/)——赫德森
+			- [当政府成为新自由主义的推手…【赫德森-文明的抉择4】](https://www.bilibili.com/video/BV1N841197M8/)——赫德森
+			- [警惕举“去美元化”大旗，走西方金融化老路！](https://www.bilibili.com/video/BV1Vz4y1J7mj/)——赫德森
 		- 诗
 			- [搜韵-诗词门户网站](https://sou-yun.cn/)
 		- 体
