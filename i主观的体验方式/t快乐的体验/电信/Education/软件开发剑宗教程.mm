@@ -171,6 +171,8 @@
 	TEXT="我们是否对现代前端开发框架过于崇拜了？"/>
 <node ID="ID_1743738650" LINK="https://hackway.org/docs/cs/intro" 
 	TEXT="气宗大本营——参考美国名校的计算机培养方案，整理的计算机专业学习路线"/>
+<node ID="ID_875433401" LINK="https://github.com/ByteByteGoHq/system-design-101" 
+	TEXT="简要图解各种复杂系统"/>
 <node ID="ID_116123520" LINK="https://github.com/cunyu1943/ebooks" 
 	TEXT="编程书籍资源库"/>
 <node ID="ID_1302364534" LINK="https://cloud-atlas.readthedocs.io/zh_CN/latest/" 
@@ -197,6 +199,8 @@
 	TEXT="软件搜集"/>
 <node ID="ID_1701567737" LINK="https://github.com/dunwu/linux-tutorial" 
 	TEXT="linux-tutorial"/>
+<node ID="ID_1518561484" LINK="https://github.com/linux-kernel-labs-zh/docs-linux-kernel-labs-zh-cn" 
+	TEXT="Linux 内核实验中文教程"/>
 <node ID="ID_1893598856" LINK="https://github.com/isno/theByteBook" 
 	TEXT="深入架构原理与实践"/>
 <node ID="ID_426079399" LINK="https://mp.weixin.qq.com/s/HoFSNCd1U3eoUqYaQiEgwQ" 
