@@ -88,6 +88,7 @@ Li Zheng <flyskywhy@gmail.com>
 				- [以十层理解带你深度解析原子以及物质的本质！](https://www.bilibili.com/video/BV18g4y1Z7rP/)
 				- [以八层理解带你深度解析引力的本质！](https://www.bilibili.com/video/BV1D2421T7yJ/)
 				- [以十层理解带你深度解析能量的本质！](https://www.bilibili.com/video/BV1v1421o775/)
+				- [运动的十层理解](https://www.bilibili.com/video/BV1zm42157wP/)
 				- [宏观尺度上目前认为不存在更高维度，因为只有是三维空间，引力和距离才是平方反比关系](https://www.bilibili.com/video/BV1mi421f7Je/)
 				- [关于时间的十层理解](https://www.bilibili.com/video/BV1TA4m1A7mx/)
 				- [清华大学现代量子力学 67讲](https://www.bilibili.com/video/BV1jw411F7Pk/)——庄鹏飞（题外话，从 Stern–Gerlach 实验开始讲起的量子力学才易入门）
