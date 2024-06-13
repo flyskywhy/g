@@ -17,7 +17,7 @@ msysgit 是 git 的 Windows 版本。
 运行安装目录中的`msys.bat`就可开启带有 git 和 mingw 编译环境的终端窗口，在这个终端窗口中可以运行各种 Linux 命令包括用 gcc 来编译 c 程序，当然我们的主要目的还是运行`git clone`命令下载 git 仓库或是用`git gui`和`gitk --all`命令打开图形界面。
 
 ## 换行符
-安装好后要确保`msysgit/etc/gitconfig`文件中的`autocrlf = false`，否则如果为true的话可能会导致各种问题。
+安装好后要确保`msysgit/etc/gitconfig`文件中的`autocrlf = false`，或是通过`git config --global core.autocrlf false`命令来保证，否则如果为true的话可能会导致各种问题。
 
 ## 中文乱码
 如果在 gitk 中发现文件内容里的中文变成乱码的，则需要在`msysgit/etc/gitconfig`中添加如下内容：
