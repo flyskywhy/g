@@ -42,6 +42,7 @@ DEP_OPT = $(shell if `$(MY_CC) --version | grep "gcc" >/dev/null`; then \
                   echo "-MM -MP"; else echo "-M"; fi )
 DEPEND      = $(MY_CC)  $(DEP_OPT)  $(MY_CFLAGS)
 DEPEND.d    = $(subst -g ,,$(DEPEND))
+COMPILE.c   = $(MY_CC)  $(MY_CFLAGS) -c
 
 # Rules for creating dependency files (.d).
 #------------------------------------------
@@ -58,17 +59,25 @@ DEPEND.d    = $(subst -g ,,$(DEPEND))
 
 # On Linux, the code below is only one second slower than the code above, but is more equal to %.d:%.c
 #
-#              Linux(above or below)  Windows(above)  Windows(below)
-# .h            10s                    29s             30s
-# .c             6s                    17s            100s
-# make clean   0.5s                     3s             26s
-# make cleanD  0.5s                     3s             26s
-# make          26s                   135s            135s
+#                          Linux(above or below)  Windows(above)  Windows(below)
+# .h                        10s                    26s             27s
+# .c                         5s                    17s             90s
+# make clean               0.1s                     3s             26s
+# make help(after cleanD)  3.5s                    48s             50s
+# make(after clean cleanD)  25s                   106s            108s
 #
 # but Windows(below) spend too much time after edit .c , so use above by default
 
 #%.d:$(C_SRCS)
 #	@ c=$(join ../, $(addsuffix .c, $(basename $@))); if [ -f $$c ] && [ $$c -nt $@ ]; then echo -n $(dir $@) > $@; $(DEPEND.d) $$c >> $@; fi
+
+define MAKE_MY_TARGET
+$1: $2  ../makefile.targets
+	$(COMPILE.c) $2 -o $1
+endef
+
+# Here will replace `%.o:` in eclipse generated subdir.mk
+$(foreach src, $(C_SRCS), $(eval $(call MAKE_MY_TARGET, $(subst ../,,$(src:.c=.o)), $(src))))
 
 ifndef NODEP
 ifneq ($(DEPS),)
@@ -85,6 +94,7 @@ help:
 	@echo 'TARGETS:'
 	@echo '  all       (=make) compile and link.'
 	@echo '  NODEP=yes make without generating dependencies.'
+	@echo '  cleanD    clean dependencies.'
 	@echo '  show      show variables (for debug use only).'
 	@echo '  help      print this message.'
 
