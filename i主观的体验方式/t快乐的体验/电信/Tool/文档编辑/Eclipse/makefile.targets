@@ -76,7 +76,7 @@ $1: $2  ../makefile.targets
 	$(COMPILE.c) $2 -o $1
 endef
 
-# Here will replace `%.o:` in eclipse generated subdir.mk
+# Here will replace `%.o:` in eclipse generated subdir.mk which can not apply $(MY_CFLAGS)
 $(foreach src, $(C_SRCS), $(eval $(call MAKE_MY_TARGET, $(subst ../,,$(src:.c=.o)), $(src))))
 
 ifndef NODEP
