@@ -12,7 +12,9 @@ Li Zheng <flyskywhy@gmail.com>
 使用软件行业普遍使用的 UTF-8 编码格式的源代码，之所以这里特地强调，是因为有些 IDE 或文本编辑器的 Windows 版打开文本文件时默认使用的是 ANSI 编码甚至是 GB2312 编码，所以为了让文件中所有的中文字符都能正常显示而不至于出现一部分乱码，请在编辑每个文件前确认 IDE 菜单选项中是否选择了 UTF-8 。或者可以使用其它编辑器比如 Sublime Text 软件进行编辑，而 IDE 仅仅只是用来编译。
 
 ## 换行符
-使用软件行业普遍使用的 LF 换行符的源代码。可应用 Sublime Text 来保证，详见 [Sublime Text 使用详解](https://github.com/flyskywhy/g/tree/master/i主观的体验方式/t快乐的体验/电信/Tool/文档编辑/SublimeText/SublimeText使用详解.md) 中的“ 设置换行符为 LF ”小节。使用 geany 图形编辑器或 dos2unix 命令行工具来转换。
+为了避免一些命令行工具可能的换行符处理 BUG ，以及避免 git 提交点出现整个文件所有行都有差异的现象，请使用软件行业普遍使用的 LF 换行符的源代码。可应用 Sublime Text 来保证，详见 [Sublime Text 使用详解](https://github.com/flyskywhy/g/tree/master/i主观的体验方式/t快乐的体验/电信/Tool/文档编辑/SublimeText/SublimeText使用详解.md) 中的“ 设置换行符为 LF ”小节。使用 geany 图形编辑器或 dos2unix 命令行工具来转换。
+
+为了避免一些命令行工具可能的处理 BUG ，请确保文件最后一行是空行。
 
 ## 注释
 中英文混写时，英文与中文之间要有空格。数字与中文之间要有空格。总之一个基本原则是，使得当双击英文或数字时，不会产生选中一整段中英文句子的现象，比如在写文章而非写注释时，有时会在英文左右添加 \` 符号，此时 \` 符号与中文之间就无需空格了，因为此时双击两个 \` 符号间的内容只会选中该内容本身。
