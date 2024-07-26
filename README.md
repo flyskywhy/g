@@ -50,6 +50,8 @@ Li Zheng <flyskywhy@gmail.com>
 			- [消减训练·学生党工作久坐必备·快速见效·音乐卡点](https://www.bilibili.com/video/BV1gy4y1J7Bg/)
 		- 学
 			- [论鸡娃教育](https://www.bilibili.com/video/BV1zT411n7it/)——未明子
+			- [再见了，学术硕士](https://www.ruanyifeng.com/blog/2021/06/weekly-issue-161.html)
+			- [工作找不到，博士能读吗？](https://www.ruanyifeng.com/blog/2021/06/weekly-issue-161.html)
 		- 幼教
 			- 《爱和自由》——孙瑞雪
 		- 娱
