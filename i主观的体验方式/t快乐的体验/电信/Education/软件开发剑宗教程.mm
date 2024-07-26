@@ -210,6 +210,19 @@
 </node>
 <node FOLDED="true" ID="ID_1975038489" POSITION="left" 
 	TEXT="附录：工具精选">
+<node ID="ID_492915689" LINK="https://devdocs.io">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      主流软件语言和工具的 API 文档
+    </p>
+  </body>
+</html>
+</richcontent>
+</node>
 <node FOLDED="true" ID="ID_95600426" 
 	TEXT="shell">
 <node ID="ID_711956130" LINK="https://tinylab-1.gitbook.io/shellbook/" 

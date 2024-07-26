@@ -21,6 +21,7 @@ Li Zheng <flyskywhy@gmail.com>
 			- 《高效能人士的七个习惯》
 			- 《原则》——瑞·达利欧
 		- 电信
+			- [主流软件语言和工具的 API 文档](https://devdocs.io)
 			- [Programming_learning_resource](https://github.com/shihyu/Programming_learning_resource)
 			- [命令行的艺术](https://github.com/jlevy/the-art-of-command-line/blob/master/README-zh.md)
 			- [各种 awesome 的 awesome](https://github.com/sindresorhus/awesome)
