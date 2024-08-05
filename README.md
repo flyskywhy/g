@@ -52,6 +52,7 @@ Li Zheng <flyskywhy@gmail.com>
 			- [论鸡娃教育](https://www.bilibili.com/video/BV1zT411n7it/)——未明子
 			- [再见了，学术硕士](https://www.ruanyifeng.com/blog/2021/06/weekly-issue-161.html)
 			- [工作找不到，博士能读吗？](https://www.ruanyifeng.com/blog/2021/06/weekly-issue-161.html)
+			- [培训班 vs 大学，求职成功率比较](https://www.ruanyifeng.com/blog/2021/06/weekly-issue-164.html)
 		- 幼教
 			- 《爱和自由》——孙瑞雪
 		- 娱
@@ -61,6 +62,7 @@ Li Zheng <flyskywhy@gmail.com>
 			- [哲学、政治、科学到底是什么？](https://www.bilibili.com/video/BV1Jt4y1w71y/)——未明子
 			- [为什么我叫你们学习黑格尔！不是让你们进一步学习马克思和列宁，而是要成为马克思和列宁！](https://www.bilibili.com/video/BV1D14y1H7CQ/)——未明子
 			- [为什么要学习黑格尔，而不是做1、2、3个不堪用没用的学学主义者](https://www.bilibili.com/video/BV1V84y117jc/)——未明子
+			- [开悟！一口气24小时看完30个人生底层大问题](https://www.bilibili.com/video/BV1wS42197Ye/)
 		- 政
 			- [从国家到国际到共产主义的胜利](https://www.bilibili.com/video/BV1wG4y1b7Ki/)——未明子
 			- [【行动路线】我们的道路（近-中-远），以及我两年来的财务状况](https://www.bilibili.com/video/BV1FW4y1x792/)——未明子
@@ -94,5 +96,7 @@ Li Zheng <flyskywhy@gmail.com>
 				- [运动的十层理解](https://www.bilibili.com/video/BV1zm42157wP/)
 				- [宏观尺度上目前认为不存在更高维度，因为只有是三维空间，引力和距离才是平方反比关系](https://www.bilibili.com/video/BV1mi421f7Je/)
 				- [关于时间的十层理解](https://www.bilibili.com/video/BV1TA4m1A7mx/)
+				- [185分钟，一口气看完，困扰人类千年的十大终极问题！](https://www.bilibili.com/video/BV1tU411U7Kn/)
+				- [333分钟，一口气看完，深度解读现代物理学几乎所有理论！](https://www.bilibili.com/video/BV1cz421i7k8/)
 				- [清华大学现代量子力学 67讲](https://www.bilibili.com/video/BV1jw411F7Pk/)——庄鹏飞（题外话，从 Stern–Gerlach 实验开始讲起的量子力学才易入门）
 				- [《什么是量子力学》](https://mp.weixin.qq.com/s/dzWixn8QyzO2bh6KZBg6Cw)——“长尾科技”微信公众号（不同于常见的量子力学“史”的科普书，这是从 Stern–Gerlach 实验开始讲起的量子力学本身的科普书， 5 万字即可入门）
