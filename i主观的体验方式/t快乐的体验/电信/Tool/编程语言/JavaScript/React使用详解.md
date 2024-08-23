@@ -459,14 +459,20 @@ If using `react-native-gesture-handler@2` not `react-native-gesture-handler@1` w
 ```
 into `config-overrides.js` .
 
-#### `Uncaught Error: Cannot find module 'react-native-pytorch-core'`
+### `Cannot find module 'ajv/dist/compile/codegen'`
+Need
+```
+npm install ajv@8.17.1
+```
+
+#### `Uncaught Error: Cannot find module 'react-native-playtorch'`
 It maybe `Uncaught Error: PlayTorchJSIModule not found` if `APP/tsconfig.json` exist.
 
 Fix it by:
 ```
--import {Camera, Canvas} from 'react-native-pytorch-core';
+-import {Camera, Canvas} from 'react-native-playtorch';
 +if (Platform.OS !== 'web') {
-+  var {Camera, Canvas} = require('react-native-pytorch-core');
++  var {Camera, Canvas} = require('react-native-playtorch');
 +}
 ```
 
