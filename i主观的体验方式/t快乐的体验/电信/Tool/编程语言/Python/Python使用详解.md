@@ -2,7 +2,18 @@ Li Zheng <flyskywhy@gmail.com>
 
 # Python 使用详解
 
-## 安装 Python
+## 从预编译包安装 Python
+从 <https://github.com/indygreg/python-build-standalone> 下载预编译好的安装包，以[cpython-3.11.10+20241016-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst](https://github.com/indygreg/python-build-standalone/releases/download/20241016/cpython-3.11.10+20241016-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst)为例
+
+    cd /home/foobar/tools/
+    wget https://github.com/indygreg/python-build-standalone/releases/download/20241016/cpython-3.11.10+20241016-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst
+    tar axvf cpython-3.11.10+20241016-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst
+    mv python cpython-3.11.10
+    export PYTHONHOME=/home/foobar/tools/cpython-3.11.10/install
+    export PYTHONPATH=/home/foobar/tools/cpython-3.11.10/install
+    export PATH=/home/foobar/tools/cpython-3.11.10/install/bin:$PATH
+
+## 从源码安装 Python
 以期望运行 `https://github.com/Tianxiaomo/pytorch-YOLOv4/tool/darknet2pytorch.py` 为例，在 `git clone` 下来之后的 `pytorch-YOLOv4` 目录中直接运行
 
     python tool/darknet2pytorch.py
@@ -41,6 +52,8 @@ Li Zheng <flyskywhy@gmail.com>
 则需要
 
     sudo apt install libffi-devel
+
+并重新（最好先重新`./configure`）`make`
 
 现在再次运行
 
@@ -92,7 +105,15 @@ Li Zheng <flyskywhy@gmail.com>
 
     sudo apt install libssl-dev
 
-并重新编译
+并重新（最好先重新`./configure`）`make`
+
+其它对应备忘
+
+`_dbm`和`_gdbm`对应`sudo apt install libgdbm-dev libgdbm-compat-dev`
+
+`_tkinter`对应`sudo apt install tk-dev`
+
+`readline`对应`sudo apt install libreadline-dev`
 
 如果出现错误
 
@@ -102,7 +123,7 @@ Li Zheng <flyskywhy@gmail.com>
 
     sudo apt-get install libbz2-dev
 
-并重新编译
+并重新（最好先重新`./configure`）`make`
 
 如果出现错误
 
@@ -144,3 +165,8 @@ Li Zheng <flyskywhy@gmail.com>
 ### `action='store_false'`
 
 这个用于解决一个 PyTorch 问题的提交点 <https://github.com/flyskywhy/YOLOv5-Lite/commit/bb07475> 花了我几天时间去调试，然而究其原因只是 Python 的一个无聊设计——如果命令行参数被设计为 `action='store_false'` ，那就表示如果命令运行时没有写上该参数，则该命令就认为该参数为 `True` ，反之如果写上该参数，则反而为 `False` ——比较反人类的设计，很少有人会无聊到这样为自己的命令代码这样设计参数。
+
+### `pip install` 时报错`no space left on device`也就是`/tmp/`存储空间不够
+
+    mkdir /home/foobar/a-big-tmp
+    TMPDIR=/home/foobar/a-big-tmp/ pip install -r requirements.txt
