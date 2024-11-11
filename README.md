@@ -46,6 +46,8 @@ Li Zheng <flyskywhy@gmail.com>
 			- [警惕举“去美元化”大旗，走西方金融化老路！](https://www.bilibili.com/video/BV1Vz4y1J7mj/)——赫德森
 		- 诗
 			- [搜韵-诗词门户网站](https://sou-yun.cn/)
+		- 书
+			- [经常看书与不看书差距到底有多大](https://github.com/flyskywhy/g-lfs/blob/master/经常看书与不看书差距到底有多大.jpeg)
 		- 体
 			- [消减训练·学生党工作久坐必备·快速见效·音乐卡点](https://www.bilibili.com/video/BV1gy4y1J7Bg/)
 		- 学
