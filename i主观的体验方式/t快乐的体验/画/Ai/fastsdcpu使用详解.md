@@ -71,5 +71,17 @@
 
 生成的图像数据以 base64 字符串的形式在`res.data.images[0]`中体现，将该字符串加上前缀`data:image/png;base64,`粘帖到浏览器地址栏中，就可以直接查看了。
 
+## 一些 BUG 的解决方法
+### `ImportError: dlopen: cannot load any more object with static TLS`
+如果碰到类似如下错误
+```
+  File "/home/foobar/fastsdcpu/env/lib/python3.9/site-packages/cv2/__init__.py", line 153, in bootstrap
+    native_module = importlib.import_module("cv2")
+  File "/home/foobar/cpython-3.9.20/install/lib/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+ImportError: dlopen: cannot load any more object with static TLS
+```
+则参考<https://github.com/pytorch/pytorch/issues/2575#issuecomment-2469427242>和<https://www.cnblogs.com/operaculus/p/12500510.html>，在`fastsdcpu/src/app.py`的第一行增加一句`import cv2`即可。
+
 ## 参考
 [使用倚天CPU实例部署Stable Diffusion](https://help.aliyun.com/zh/ecs/deploy-stable-diffusion-on-yitian-instances)
