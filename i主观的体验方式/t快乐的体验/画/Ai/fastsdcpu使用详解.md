@@ -85,3 +85,5 @@ ImportError: dlopen: cannot load any more object with static TLS
 
 ## 参考
 [使用倚天CPU实例部署Stable Diffusion](https://help.aliyun.com/zh/ecs/deploy-stable-diffusion-on-yitian-instances)
+
+[更精简的出图项目：fastsdcpu](https://www.bilibili.com/opus/947554435010134039?jump_opus=1)
