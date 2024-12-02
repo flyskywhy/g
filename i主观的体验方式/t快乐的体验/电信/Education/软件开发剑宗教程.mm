@@ -217,11 +217,12 @@
       低认知负荷的代码或许比《Clean Code》更重要
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 </node>
 <node ID="ID_97188571" LINK="https://webglfundamentals.org/webgl/lessons/zh_cn/" 
 	TEXT="WebGL 理论基础"/>
+<node ID="ID_1731880789" LINK="https://blog.stackademic.com/100-free-resources-every-web-developer-must-try-2fa9fa499ef5" 
+	TEXT="100+ FREE Resources Every Web Developer Must Try"/>
 </node>
 <node FOLDED="true" ID="ID_1975038489" POSITION="left" 
 	TEXT="附录：工具精选">
