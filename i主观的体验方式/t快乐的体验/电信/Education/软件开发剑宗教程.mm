@@ -223,6 +223,8 @@
 	TEXT="WebGL 理论基础"/>
 <node ID="ID_1731880789" LINK="https://blog.stackademic.com/100-free-resources-every-web-developer-must-try-2fa9fa499ef5" 
 	TEXT="100+ FREE Resources Every Web Developer Must Try"/>
+<node ID="ID_1310984971" LINK="https://www.thebyte.com.cn/" 
+	TEXT="深入架构原理与实践 "/>
 </node>
 <node FOLDED="true" ID="ID_1975038489" POSITION="left" 
 	TEXT="附录：工具精选">
