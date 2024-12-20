@@ -583,13 +583,19 @@ brew 在安装软件前会先尝试升级 brew 自身，这里可能是中国网
 
 * 安装 JAVA 环境
 
-如果想在 macOS 上编译 Android APP ，则还需参考 [macOS 的 JDK 安装问题 (Homebrew)](https://www.cnblogs.com/imzhizi/p/macos-jdk-installation-homebrew.html) 一文安装 JDK8
+如果想在 macOS 上编译 Android APP ，则还需参考 <https://reactnative.dev/docs/0.70/environment-setup?guide=native&os=macos> 一文安装 JDK11
 
-    brew install AdoptOpenJDK/openjdk/adoptopenjdk8
+    brew install --cask zulu@11
 
-或是 brew 所提示的
-
-    brew install homebrew/cask-version/temurin8
+如果编译 Android NDK 过程中出现如下错误的
+```
+> Task :libuvccamera:ndkBuild FAILED
+Android NDK: Host 'awk' tool is outdated. Please define NDK_HOST_AWK to point to Gawk or Nawk !
+```
+则需要在`~/.zshrc`中添加
+```
+export NDK_HOST_AWK=/usr/bin/awk
+```
 
 ## Xcode 编译过程问题集锦
 
