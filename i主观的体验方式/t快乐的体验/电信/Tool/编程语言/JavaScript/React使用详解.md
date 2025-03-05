@@ -654,6 +654,10 @@ ls: /Users/lizheng/Library/Caches/com.facebook.ReactNativeBuild/boost_1_63_0.tar
 
 如果没有标准化安装 nodejs ，比如 `brew install node@10` 这种方式安装的，则就算已经在 `~/.zshrc` 或 `~/.bash_profile` 中 `export PATH=/usr/local/opt/node@10/bin:$PATH` 了，也还是会在真机编译时报 `Can't find 'node' binary to build React Native bundle` 这样的错误，此时需要按提示到 Xcode 的 Project 的 `Build Phases | Bundle React Native code and images` 那里将 `export NODE_BINARY=node` 改为 `export NODE_BINARY=$(which node)` 。或者还有一种方法 `ln -s $(which node) /usr/local/bin/node` 。
 
+* `EMFILE: too many open files`
+
+如果即使`launchctl limit maxfiles 16384 16384 && ulimit -n 16384`了也没用，那是因为对于 M2 的苹果电脑，需要做的是参考<https://github.com/facebook/watchman/issues/923#issuecomment-2550990976>中那样在`TARGETS > (your app) > Build Phases > Bundle React Native code and images`中将`/opt/homebrew/bin`添加到`$PATH`中。
+
 * release error with [data-uri.macro](https://github.com/Andarist/data-uri.macro)
 
 如果 APP 中使用了 `data-uri.macro` ，则 release 打包时会出现比如 `Error: /Users/YOU/proj/YOUR_APP/ios/app/images/gif/index.js: data-uri.macro: ENOENT: no such file or directory, open '/Users/YOU/proj/YOUR_APP/ios/app/images/gif/spot.gif'` ，此时需要到 Xcode 的 Project 的 `Build Phases | Bundle React Native code and images` 那里将
