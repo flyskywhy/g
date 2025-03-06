@@ -656,7 +656,7 @@ ls: /Users/lizheng/Library/Caches/com.facebook.ReactNativeBuild/boost_1_63_0.tar
 
 * `EMFILE: too many open files`
 
-如果即使`launchctl limit maxfiles 16384 16384 && ulimit -n 16384`了也没用，那是因为对于 M2 的苹果电脑，需要做的是参考<https://github.com/facebook/watchman/issues/923#issuecomment-2550990976>中那样在`TARGETS > (your app) > Build Phases > Bundle React Native code and images`中将`/opt/homebrew/bin`添加到`$PATH`中。
+如果即使`launchctl limit maxfiles 16384 16384 && ulimit -n 16384`了也没用，那是因为对于 M2 的苹果电脑，需要做的是参考<https://github.com/facebook/watchman/issues/923#issuecomment-2550990976>中那样在`TARGETS > (your app) > Build Phases > Bundle React Native code and images`中将`/opt/homebrew/bin`添加到`$PATH`中。另外，还需在编译前手动执行一次`watchman watch-del-all`。
 
 * release error with [data-uri.macro](https://github.com/Andarist/data-uri.macro)
 
