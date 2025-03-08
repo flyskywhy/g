@@ -14,9 +14,9 @@ Li Zheng <flyskywhy@gmail.com>
 ## 本地 X 窗口软件
 安装并启动 [MobaXterm ](http://mobaxterm.mobatek.net) ，然后
 
-    echo "export DISPLAY=:0.0" >> ~/.bashrc
+    echo "export DISPLAY=***.***.***.***:0.0" >> ~/.bashrc
 
-重启 Ubuntu 后，运行命令比如 `geany` 就能启动图形界面的 Geany 了。
+重启 Ubuntu 后，运行命令比如 `geany` 就能启动图形界面的 Geany 了。其中，***。***。***。*** 是wsl 的地址
 
 ## ssh 远程 X 窗口软件
 直接使用 MobaXterm 自带的 ssh 会话就好。
