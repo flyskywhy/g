@@ -618,6 +618,10 @@ ls: /Users/lizheng/Library/Caches/com.facebook.ReactNativeBuild/boost_1_63_0.tar
 
 这是 react-native 最基本的一个 `.h` 文件，也会报错，对于苹果公司的产品真是无语了。这一般是因为 Xcode 或 macOS 的 bug ，重启 macOS 就可以了……如果使用外接鼠标的话，有时 macOS 突然会变得很卡，很难用鼠标进行移动、点击等操作，换个鼠标仍然如此，也是重启 macOS 就可以了，或是将鼠标接收器换个 USB 口，但如果换了，剩下的那个 USB 口有时无法正常连接 iPhone 进行调试……
 
+* `no template named function in namespace std`
+
+Xcode 16 可能会出现这个问题，解决方法是在`工程文件 | Build Settings (All) | Apple Clang - Language -  C++ | C++ Language Dialect`中选择`C++11[-std=c++11]`。
+
 * 尽量在 Xcode 中编辑文件内容
 
 否则 Xcode 会不知道文件已经编辑过了。如果是在 Xcode 中编辑的话， Xcode 会自动 index 一下，然后 build 时就不会出错了。再次吐槽的是， index 和 build 的速度也太慢了。
