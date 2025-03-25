@@ -660,7 +660,15 @@ Xcode 16 可能会出现这个问题，解决方法是在`工程文件 | Build S
 
 * `EMFILE: too many open files`
 
-如果即使`launchctl limit maxfiles 16384 16384 && ulimit -n 16384`了也没用，那是因为对于 M2 的苹果电脑，需要做的是参考<https://github.com/facebook/watchman/issues/923#issuecomment-2550990976>中那样在`TARGETS > (your app) > Build Phases > Bundle React Native code and images`中将`/opt/homebrew/bin`添加到`$PATH`中。另外，还需在编译前手动执行一次`watchman watch-del-all`。
+如果即使[macOS 开启或关闭 SIP](https://sspai.com/post/55066)关闭 SIP 然后`launchctl limit maxfiles 16384 16384 && ulimit -n 16384`了也没用，那是因为对于 M2 的苹果电脑，需要做的是参考<https://github.com/facebook/watchman/issues/923#issuecomment-2550990976>中那样在`TARGETS > (your app) > Build Phases > Bundle React Native code and images`中将`/opt/homebrew/bin`添加到`$PATH`中。另外，还需在编译前手动执行一次`watchman watch-del-all`。
+
+* `ld: 5 uplicate symbols`
+
+将 XCode 升级到 15 之后，比如编译使用着`telink sdk v3.3.3.5`的`react-native-btsig-telink@5.0.3`时，在链接阶段报了该错误，以其中一个为例
+```
+duplicate symbol '_OBJC_IVAR_$_SigECCEncryptHelper._crypto'
+```
+解决方法是在 Xcode 的 Project 的`Build Settings(All) | Linking | Other Linker Flags`内添加 `-ld_classic`。
 
 * release error with [data-uri.macro](https://github.com/Andarist/data-uri.macro)
 
