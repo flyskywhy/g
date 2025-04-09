@@ -819,6 +819,15 @@ Results logged to /Library/Ruby/Gems/2.3.0/extensions/universal-darwin-18/2.3.0/
 
     rm -rf /Library/Developer/CommandLineTools
 
+如果 `pod install` 时出现比如 `Could not find 'minitest'` 这样的错误，则需要
+```
+unset GEM_HOME
+unset GEM_PATH
+unset MY_RUBY_HOME
+unset RUBY
+unset IRBRC
+```
+
 ### 一些 Cocoapods 使用技巧
 
 `pod install` 背后的原理其实就是生成了一个 `ios/Pods/` 目录，并在里面自动放入或删除各个第三方库的 `.h` 头文件及编译配置文件。 `.h` 头文件所在的目录名就是相应第三方库的 `.podspec` 文件中写明的 `name` 字段，这样你自己的源代码或其它第三方库就能简单地以 `<SomeName/some.h>` 来调用该库的功能了。
