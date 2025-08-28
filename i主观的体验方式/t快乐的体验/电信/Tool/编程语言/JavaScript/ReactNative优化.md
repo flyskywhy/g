@@ -41,6 +41,9 @@ export function mapStateToProps(state, props) {
 
 一句话，只要 `mapStateToProps()` 返回的那些 props 中有引用值，最好就使用 `shouldComponentUpdate()` 和 `react-fast-compare` 组件进行配合。
 
+## 数组调用 action 不如 action 调用数组
+比如通过 API 获得一个数组，如果数组很大且为每个元素进行 action 去修改 redux ，则 APP 会非常卡，此时只要想办法修改为 action 调用整个数组即可。
+
 ## [react-fast-compare](https://github.com/FormidableLabs/react-fast-compare) 组件
 之所以 `react-fast-compare` 组件很重要，是因为 redux 的 store 改变时，整个 store 的 state 的引用地址都改变了（ redux 使用的是复制并修改的原理），因此只要不是 number 或 string 之类的直接值，而是 `[]` 或 `{}` 之类的引用值，都需要借助 `react-fast-compare` 组件来进行修改与否的判断。
 
