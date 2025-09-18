@@ -1,7 +1,7 @@
 Li Zheng <flyskywhy@gmail.com>
 
 # React 使用详解
-React 并不是简单地在 Javascript 中嵌入 HTML ，而是对 UI （包括 web 和 APP）渲染的方式进行了革新。而且， [选择 React 是商业问题而不是技术问题](https://www.sdk.cn/news/4774) 。
+React 并不是简单地在 Javascript 中嵌入 HTML ，而是对 UI （包括 web 和 APP）渲染的方式进行了革新。而且， [选择 React 是商业问题而不是技术问题](https://developer.aliyun.com/article/115052) 。
 
 本文的工具安装以 Linux 为例，其它平台详见 [开始使用React Native - react native 中文网](http://reactnative.cn/docs/0.27/getting-started.html)
 
