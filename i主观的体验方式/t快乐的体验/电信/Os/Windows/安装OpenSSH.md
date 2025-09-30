@@ -1,6 +1,6 @@
 # 安装 OpenSSH
 
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 ## WinXP
 参考[Windows上安装配置SSH教程（2）——在Windows XP和Windows 10上安装并配置OpenSSH for Windows - feipeng8848](https://www.cnblogs.com/feipeng8848/p/8568018.html)

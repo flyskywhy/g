@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 # VPN 路由设置详解
 设置路由的意思是，设置是否把拨 VPN 后所获取来的网关比如 100.100.100.1 作为自己访问因特网上所有 IP 地址的网关（也就是默认网关）或仅仅是某一类或某一个 IP 地址的网关。

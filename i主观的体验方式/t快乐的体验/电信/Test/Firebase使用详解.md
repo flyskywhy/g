@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 # Firebase 使用详解
 Firebase 提供的 Crashlytics 崩溃报告或后端服务等功能，是需要在 APP 中集成 firebase SDK 的，比如 `npm install @react-native-firebase/app` ，不过如果只是使用 Test Lab 功能的话，则不用那么麻烦。

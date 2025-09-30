@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 # msysgit 使用详解
 msysgit 是 git 的 Windows 版本。

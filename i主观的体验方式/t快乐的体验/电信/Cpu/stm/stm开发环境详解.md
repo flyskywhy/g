@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 # stm 开发环境详解
 

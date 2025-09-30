@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 # 旧的 CentOS 安装新软件的方法
 ## 旧的 CentOS 6 切换 yum 源后自动安装

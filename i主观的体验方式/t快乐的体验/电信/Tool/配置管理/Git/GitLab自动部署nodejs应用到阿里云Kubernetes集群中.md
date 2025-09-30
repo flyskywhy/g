@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 # gitlab 自动部署 nodejs 应用到阿里云 Kubernetes 集群中
 使用 ECS 部署的基本步骤：将程序复制到 ECS 某个目录中然后发命令给 ECS 启动程序。

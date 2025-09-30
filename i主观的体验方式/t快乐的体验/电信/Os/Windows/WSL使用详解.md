@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 在最新版的 Win10 的应用商店中安装好 Ubuntu 后，除了使用默认的命令行界面，还可以参考本文提供的方法使用图形界面、音频支持等功能。
 

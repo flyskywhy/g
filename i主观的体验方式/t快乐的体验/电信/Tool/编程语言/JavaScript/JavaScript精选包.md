@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 # JavaScript 精选包
 安装各种包后，JavaScript 就变得更强大。安装 [nodejs](nodejs.org) 之后就能使用 npm 命令。

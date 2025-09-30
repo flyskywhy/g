@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 # 新增域名自动跳转到原域名暨配合nginx配置文件理解阿里云界面相关设置
 域名自动跳转可以在 nginx 配置中进行，也可以在 html 中进行， nginx 方法的缺点是需要在某台服务器上用文本编辑器维护 nginx 及 https 功能，而且一不小心就配错导致 `nginx restart` 不起来， html 的优点是 nginx 及 https 功能都在阿里云 CDN 中进行，只要在阿里云界面中鼠标点点就行。为了能方便使用阿里云中的 https 功能，此处记录 index.html 修改及相关阿里云配置方法。

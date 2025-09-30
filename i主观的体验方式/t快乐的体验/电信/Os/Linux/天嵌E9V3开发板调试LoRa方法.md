@@ -1,6 +1,6 @@
 # 天嵌 E9V3 开发板调试 LoRa 方法
 
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 # 准备 NFS 方式运行环境
 参考 [Linux开发板调试典型方法](Linux开发板调试典型方法.md) 启动 Linux。

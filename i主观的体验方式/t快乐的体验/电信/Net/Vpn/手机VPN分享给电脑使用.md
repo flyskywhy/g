@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 # 手机 VPN 分享给电脑使用
 有时 VPN 服务器管理人员只提供了手机连接而没有电脑连接的方法，则可使用本文弥补之。

@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 # QuickCut 使用详解
 ffmpeg 是视频转码领域最好用的命令行工具， QuickCut 则是它最好用的的图形界面版本。

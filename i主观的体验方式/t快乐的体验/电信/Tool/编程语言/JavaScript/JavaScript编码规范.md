@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 大部分编码规范可以用 Sublime Text 编辑器的 SublimeLinter-contrib-eslint 插件来自动完成，详见 [Sublime Text 使用详解](../../文档编辑/SublimeText/SublimeText使用详解.md) 中的“ SublimeLinter-eslint ”小节和“ JsPrettier ”小节，以及参照既有项目代码的格式，其它未尽事宜则记录在本文。
 

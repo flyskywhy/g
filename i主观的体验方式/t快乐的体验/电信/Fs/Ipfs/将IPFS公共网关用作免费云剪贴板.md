@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 # 将 IPFS 公共网关用作免费云剪贴板
 IPFS 上的数据可以通过如下两种协议进行存取：

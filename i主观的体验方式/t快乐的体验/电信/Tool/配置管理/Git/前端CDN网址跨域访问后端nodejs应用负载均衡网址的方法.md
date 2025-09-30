@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 # 前端 CDN 网址跨域访问后端 nodejs 应用负载均衡网址的方法
 

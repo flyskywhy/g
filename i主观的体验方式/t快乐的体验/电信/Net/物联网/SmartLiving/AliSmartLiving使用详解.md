@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 # Ali SmartLiving 使用详解
 [阿里云生活物联网平台](https://living.aliyun.com/)

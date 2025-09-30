@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 # React Native 项目中把任意二进制文件打包进 APP 的方法
 本文主要讲述把任意二进制文件打包进 APP 的方法，至于直接从 APP 运行时所在的操作系统中选择读取二进制文件的方法，则配合 [react-native-file-selector](https://github.com/prscX/react-native-file-selector) 使用 [rn-fetch-blob](https://github.com/joltup/rn-fetch-blob) 即可。

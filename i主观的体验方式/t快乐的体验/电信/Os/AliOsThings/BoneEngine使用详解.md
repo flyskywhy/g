@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 # BoneEngine 使用详解
 简介见 [BoneEngine@Lite背景介绍](https://aliosthings.gitbook.io/docs/documentation/components/middleware/boneengine-lite)

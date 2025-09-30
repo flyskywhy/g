@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 # 调整 Ubuntu 交换文件
 现在的 Ubuntu 默认安装时的交换文件为 2GB 左右，而有些软件比如 [nodec](https://github.com/pmq20/node-packer) 需要 10GB 左右的交换空间，此时就需要给 Ubuntu 设定一个更大的交换文件。

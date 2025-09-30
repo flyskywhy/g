@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 # IPFS 技术应用在消息类型物联网项目中相对于传统后端服务器加数据库方式的优势
 

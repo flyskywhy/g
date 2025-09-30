@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 react-native 的 Android 开发在 Ubuntu 上很方便，至少个人觉得比 macOS 方便。在 Ubuntu 上的开发方法可参见 [React使用详解](React使用详解.md) 。偶尔在 macOS 上调试 iOS 版然后在 macOS 上配合 CI 自动编译出 .ipa 文件的方法参见本文。本文可用于 macOS 真机或虚拟机。
 

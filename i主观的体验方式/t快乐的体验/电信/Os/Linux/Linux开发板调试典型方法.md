@@ -1,6 +1,6 @@
 # Linux 开发板调试典型方法
 
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 # 安装开发环境
 

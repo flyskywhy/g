@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 # Git 最简培训
 本文以 git 的图形界面进行培训，相比记忆各种 git 的终端命令，可以达到最简而仍能完成日常 git 操作。本培训不包含中心仓库的建立方法而只是使用方法。

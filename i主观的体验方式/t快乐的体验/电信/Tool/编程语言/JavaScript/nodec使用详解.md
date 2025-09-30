@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 # nodec 使用详解
 为了加快 nodejs 应用部署速度和加密 JS 源代码，可以使用 [nodec](https://github.com/pmq20/node-packer) 来将 `index.js` `node_modules/` 等等编译为单独一个可执行文件，选择 nodec 的原因见这里的讨论 [How to make exe files from a node.js app](https://stackoverflow.com/questions/8173232/how-to-make-exe-files-from-a-node-js-app) 。

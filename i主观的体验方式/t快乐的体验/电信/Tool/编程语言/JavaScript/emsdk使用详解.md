@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 # emsdk 使用详解
 emsdk 可以将 C 代码编译为可以被 JS 调用的 WebAssembly 格式。

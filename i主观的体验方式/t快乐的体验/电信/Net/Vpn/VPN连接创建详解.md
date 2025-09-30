@@ -1,4 +1,4 @@
-Li Zheng <flyskywhy@gmail.com>
+Li Zheng flyskywhy@gmail.com
 
 # VPN 连接创建详解
 也可参考 [Client VPN OS Configuration](https://documentation.meraki.com/MX-Z/Client_VPN/Client_VPN_OS_Configuration) 来创建连接。
