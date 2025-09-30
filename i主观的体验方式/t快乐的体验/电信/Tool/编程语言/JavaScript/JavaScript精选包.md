@@ -1,7 +1,7 @@
 Li Zheng flyskywhy@gmail.com
 
 # JavaScript 精选包
-安装各种包后，JavaScript 就变得更强大。安装 [nodejs](nodejs.org) 之后就能使用 npm 命令。
+安装各种包后，JavaScript 就变得更强大。安装 [https://nodejs.org/](https://nodejs.org/) 之后就能使用 npm 命令。
 
 ## sequelize
 使用NodeJS来关系型操作数据库时， Sequelize 是一个比较合适的 ORM(Object Relationship Model) 框架。参见 [Sequelize 和 MySQL 对照](https://segmentfault.com/a/1190000003987871) 一文。

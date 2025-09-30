@@ -55,7 +55,7 @@ Such cygwin is completely installed now.
 
 ### 1.2.2 Can install cygwin by setup.exe
 
-Download and install `setup.exe` from [www.cygwin.com](www.cygwin.com), Just switch the state of Devel package from Default to Install in the `Select Packages` page of setup installation interface, then can carried out the installation of cygwin.
+Download and install `setup.exe` from [https://www.cygwin.com/](https://www.cygwin.com/) , Just switch the state of Devel package from Default to Install in the `Select Packages` page of setup installation interface, then can carried out the installation of cygwin.
 
 In addition, because cygwin's `make.exe` from `3.81` version of the beginning, make no longer supports Windows path similar to `C:`, so, in order to let the native version (non-cygwin version) compiler and a customized version of the [ecos-tools](https://github.com/flyskywhy/ecos-tools.git) support ecos, after standard cygwin installation, you also need to replace `cygwin/bin/make.exe` with `3.80 ` the older version, this version can download from [http://geant4.cern.ch/support/extras/cygwin/make.exe](http://geant4.cern.ch / support / extras / cygwin / make.exe).
 
@@ -278,7 +278,7 @@ At `Project name` of eclipse `File->New->Project->C Project`, fill ecos_app_base
 
 #### 3.5.1.1 configure JTAG connection
 
-If you use the USB JTAG from [www.digilentinc.com](www.digilentinc.com), In Xilinx xsdk, you need select `3rd Party Cable, Xilinx Plug-in` at `Type` in `Xilinx Tools->Configure JTAG Settings` dialog, then type `-cable type xilinx_plugin modulename digilent_plugin` at `Other Options`.
+If you use the USB JTAG from [https://digilent.com/](https://digilent.com/) , In Xilinx xsdk, you need select `3rd Party Cable, Xilinx Plug-in` at `Type` in `Xilinx Tools->Configure JTAG Settings` dialog, then type `-cable type xilinx_plugin modulename digilent_plugin` at `Other Options`.
 
 #### 3.5.1.2 download bit file via JTAG
 
@@ -307,7 +307,7 @@ On the following solution:
 
 #### 3.5.1.4 download and run ecos application via the JTAG command line interface (operation is more complex, but the download time is shorter)
 
-In the `XMD Console` window of Xilinx xsdk or in a terminal window after run `xmd` command, if you use the USB JTAG from [www.digilentinc.com](www.digilentinc.com), you should connect to the JTAG by the following command at first:
+In the `XMD Console` window of Xilinx xsdk or in a terminal window after run `xmd` command, if you use the USB JTAG from [https://digilent.com/](https://digilent.com/) , you should connect to the JTAG by the following command at first:
 
     connect mb mdm -cable type xilinx_plugin modulename digilent_plugin
 

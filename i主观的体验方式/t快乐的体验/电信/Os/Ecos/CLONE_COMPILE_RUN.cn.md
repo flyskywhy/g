@@ -55,7 +55,7 @@ Li Zheng flyskywhy@gmail.com
 
 ### 1.2.2 可以通过setup.exe来安装cygwin
 
-从[www.cygwin.com](www.cygwin.com)下载安装`setup.exe`，在setup安装界面的`Select Packages`页面中只要使Devel软件包的状态由Default变为Install即可进行cygwin的安装。
+从 [https://www.cygwin.com/](https://www.cygwin.com/) 下载安装`setup.exe`，在setup安装界面的`Select Packages`页面中只要使Devel软件包的状态由Default变为Install即可进行cygwin的安装。
 
 另外，由于从cygwin的`make.exe`的`3.81`版开始，make不再支持Windows的类似`C:`这样的路径，因此，为了能够让原生版（非cygwin版）编译器及定制版[ecos-tools](https://github.com/flyskywhy/ecos-tools.git)支持ecos，安装好标准cygwin后，还需要将`cygwin/bin/make.exe`替换成较老的`3.80`版，该版本可以在[http://geant4.cern.ch/support/extras/cygwin/make.exe](http://geant4.cern.ch/support/extras/cygwin/make.exe)下载。
 
@@ -278,7 +278,7 @@ lunch命令会列出本目录中所有的.ecc文件，请选择与前述ecos配�
 
 #### 3.5.1.1 配置JTAG连接
 
-如果使用了[www.digilentinc.com](www.digilentinc.com)的USB JTAG，需要在Xilinx xsdk中`Xilinx Tools->Configure JTAG Settings`对话框中的`Type`选择`3rd Party Cable, Xilinx Plug-in`，然后在`Other Options`中输入`-cable type xilinx_plugin modulename digilent_plugin`。
+如果使用了 [https://digilent.com/](https://digilent.com/) 的USB JTAG，需要在Xilinx xsdk中`Xilinx Tools->Configure JTAG Settings`对话框中的`Type`选择`3rd Party Cable, Xilinx Plug-in`，然后在`Other Options`中输入`-cable type xilinx_plugin modulename digilent_plugin`。
 
 #### 3.5.1.2 通过JTAG下载bit文件
 
@@ -307,7 +307,7 @@ lunch命令会列出本目录中所有的.ecc文件，请选择与前述ecos配�
 
 #### 3.5.1.4 通过JTAG命令行界面下载、运行ecos应用程序（操作较复杂，但是下载时间较短）
 
-在Xilinx xsdk中的`XMD Console`窗口或是自己在终端窗口里用`xmd`命令打开的窗口中，如果使用了[www.digilentinc.com](www.digilentinc.com)的USB JTAG，则首先通过如下命令来连接该JTAG：
+在Xilinx xsdk中的`XMD Console`窗口或是自己在终端窗口里用`xmd`命令打开的窗口中，如果使用了 [https://digilent.com/](https://digilent.com/) 的USB JTAG，则首先通过如下命令来连接该JTAG：
 
     connect mb mdm -cable type xilinx_plugin modulename digilent_plugin
 
