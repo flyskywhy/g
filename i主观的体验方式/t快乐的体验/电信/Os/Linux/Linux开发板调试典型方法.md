@@ -58,20 +58,20 @@ pu rtscts           No
 
 ### Linux 内核
 然后输入如下命令将主机上的 tftpd 目录（比如 `192.0.16.37` 上的 `/tftp` 目录）中来自于 [天嵌 E9v3 卡片电脑下载资料](http://www.embedsky.com/index.php?g=home&m=download&a=show&id=7) 中 `Linux 4.1镜像` 里的 Linux 内核文件 `zImage` 和 [ARM 设备树](https://blog.csdn.net/21cnbao/article/details/8457546) 文件 `imx6q-sabresd.dtb` 下载到开发板中：
-
+```
     tftpboot 192.168.0.16.37:zImage
     tftpboot ${fdt_addr} 192.168.11.105:imx6q-sabresd.dtb
-
-这里 ${fdt_addr} 不用关心，这是 uboot 中已经设好的环境变量（可以通过 `env print` 命令查看）。
+```
+这里 `${fdt_addr}` 不用关心，这是 uboot 中已经设好的环境变量（可以通过 `env print` 命令查看）。
 
 如果 tftpboot 下载 zImage 时总是失败然后自动重试，则需要多试几次进入 uboot 后 5 秒左右运行下载命令，或是将开发板断电 4 分钟然后再上电，估计这是该开发板的一个 BUG 。
 
 ### Linux 根文件系统
 最后输入如下命令挂载主机上的 nfs 中的某个目录（比如 `192.0.16.37` 上的 `/nfs/rootfs_qt5` 目录）作为根文件系统并启动 Linux （下面的 `192.0.16.87` 是开发板之前在 Bootload 步骤中获得的 IP 地址）：
-
+```
     setenv bootargs console=ttySAC0,115200 ip=192.0.16.87:192.0.16.37:192.0.16.1:255.255.255.0 init=/init root=/dev/nfs rootwait rw nfsroot=192.0.16.37:/nfs/rootfs_qt5,v3,tcp video=mxcfb0:dev=hdmi,1280x720@60,if=RGB24,bpp=32 video=mxcfb1:off video=mxcfb2:off video=mxcfb3:off vmalloc=400M androidboot.console=ttySAC0 androidboot.hardware=freescale cma=384M
     bootz ${loadaddr} - ${fdt_addr}
-
+```
 这里 bootz 的参数特别是 - 符号的意义可参见 `? bootz` 命令的输出。
 
 ### 天嵌开发板其它

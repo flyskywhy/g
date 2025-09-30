@@ -4,9 +4,9 @@ Li Zheng flyskywhy@gmail.com
 简介见 [BoneEngine@Lite背景介绍](https://aliosthings.gitbook.io/docs/documentation/components/middleware/boneengine-lite)
 
 ## eval 命令行使用
-
+```
     eval "for (i = 0\; i < 2\; i++) {print(7)}"
-
+```
 由上可知几点：
 
 * 如果有空格存在的，则需要用引号包起来
