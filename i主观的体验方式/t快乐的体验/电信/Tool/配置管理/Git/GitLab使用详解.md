@@ -55,9 +55,9 @@ gitlab 用的 web 服务程序是 nginx ，如果占用 80 端口的其它程序
     external_url 'http://SomeHostName'
 
 这个外部链接将被用作比如用户注册确认邮件中的确认地址等 gitlab 基础功能，所以需要将其设置为浏览器可以访问到的地址，比如：
-
+```
     external_url 'http://192.x.x.7:8788'
-
+```
 最后 `sudo gitlab-ctl reconfigure` 即可。
 
 ## 解决 8080 端口被占问题
@@ -81,7 +81,7 @@ gitlab 用的 web 服务程序是 nginx ，如果占用 80 端口的其它程序
     Notify.test_email('destination_email@address.com', 'Message Subject', 'Message Body').deliver_now
 
 # 安全
-作为内部使用的 Git 仓库，安全是非常重要的，因此要及时用 root 账户进入比如 [http://192.x.x.7:8788/admin/application_settings](http://192.x.x.7:8788/admin/application_settings) 进行分支保护程度、仓库可见程度、用户注册是否发送确认邮件等等默认全局设置。后续特定 Project 的分支保护程度和仓库可见程度可分别到 `Settings > Repository > Protected Branches` 和 ` Settings > General` 中去设置，比如纯文档类的仓库，就没必要进行 Merge Request 了，每个开发人员无需 Fork 到自己名下，而是直接在原仓库的 gitlab 网页上修改，这种情况下只要到 `Settings > Repository > Protected Branches` 中 `Unprotect` ，并且在 Group 的 `Members` 或 Project 的 `Settings > Members` 中显式地将允许修改的开发人员至少添加为 Developer 即可。
+作为内部使用的 Git 仓库，安全是非常重要的，因此要及时用 root 账户进入比如 `http://192.x.x.7:8788/admin/application_settings` 进行分支保护程度、仓库可见程度、用户注册是否发送确认邮件等等默认全局设置。后续特定 Project 的分支保护程度和仓库可见程度可分别到 `Settings > Repository > Protected Branches` 和 ` Settings > General` 中去设置，比如纯文档类的仓库，就没必要进行 Merge Request 了，每个开发人员无需 Fork 到自己名下，而是直接在原仓库的 gitlab 网页上修改，这种情况下只要到 `Settings > Repository > Protected Branches` 中 `Unprotect` ，并且在 Group 的 `Members` 或 Project 的 `Settings > Members` 中显式地将允许修改的开发人员至少添加为 Developer 即可。
 
 # 备份恢复迁移
 参考了 [Gitlab配置、备份、升级、迁移](http://www.cnblogs.com/lidong94/p/7161717.html) 一文，备份方法是：
