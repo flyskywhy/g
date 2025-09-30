@@ -16,9 +16,9 @@ Li Zheng flyskywhy@gmail.com
 ```
 ## 注意 __dirname 的使用场景
 如果可执行文件运行时需要写文件比如 log 输出的，则 nodejs 应用代码里相关路径描述中不能带有
-
+```
     __dirname + '/access.log'
-
+````
 这样的写法，而需要
 
     'access.log'

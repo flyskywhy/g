@@ -26,7 +26,7 @@ PyTorch 也可以用于训练其它深度学习模型，本文只介绍用于训
 
 ## `react-native-pytorch-core` 与 `yolov5`
 
-参考 [Python 使用详解](../Tool/编程语言/Python/PyTorch使用详解.md) 安装 Python 。
+参考 [Python 使用详解](../Tool/编程语言/Python/Python使用详解.md) 安装 Python 。
 
 参考 [wrgb dataset](https://github.com/flyskywhy/wrgb) 数据集训练出 `yolov5s.ptl` 。
 
