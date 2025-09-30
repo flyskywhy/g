@@ -83,19 +83,19 @@ Appium 支持远程测试，这样就可以让一台电脑连着一台手机作�
     "e2e-android-remote-prepare": "sshpass -p 服务端登录密码 scp -o StrictHostKeyChecking=no ./android/app/build/outputs/apk/app-release.apk 服务端登录帐号@服务端地址:~/项目目录/android/app/build/outputs/apk/app-release.apk"
 
 最后运行这个 script 进行测试：
-
+```
     "e2e-android-remote": "codeceptjs run --profile=android --override '{\"helpers\": {\"Appium\": {\"host\": \"服务端地址\"}}}'",
-
+```
 哦……好吧，为了照顾 Windows 用户，这个 script 也可以调整为：
-
+```
     "e2e-android-remote": "codeceptjs run --profile=android --override \"{\\\"helpers\\\": {\\\"Appium\\\": {\\\"host\\\": \\\"服务端地址\\\"}}}\"",
-
+```
 ## CI/CD 测试 Web
 添加 `--detach` 以让 selenium 在后台继续运行；用 `e2e-web-headless` 来让 [flyskywhy/java-nodejs:v8.3.0](https://hub.docker.com/r/flyskywhy/java-nodejs/tags/) docker 镜像中的 google-chrome 浏览器运行在无界面模式下：
-
+```
     "e2e-server-web": "touch node_modules/webdriver-manager/selenium/standalone-response.xml; touch node_modules/webdriver-manager/selenium/chrome-response.xml; webdriver-manager start --detach --versions.standalone=3.7.1 --versions.gecko=v0.18.0 --versions.chrome=2.32",
     "e2e-web-headless": "codeceptjs run --override \"{\\\"helpers\\\": {\\\"WebDriverIO\\\": {\\\"desiredCapabilities\\\": {\\\"chromeOptions\\\": {\\\"args\\\": [\\\"--no-sandbox\\\", \\\"--headless\\\", \\\"--disable-gpu\\\", \\\"--window-size=800,600\\\"]}}}}}\"",
-
+```
 然后在比如 [GitLab使用详解](../../配置管理/Git/GitLab使用详解.md) 中所说的 .gitlab-ci.yml 中用如下脚本测试：
 ```
 image: flyskywhy/java-nodejs:v8.3.0

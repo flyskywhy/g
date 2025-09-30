@@ -189,7 +189,7 @@ Fiber 架构是为了解决之前 React 存在的问题而提出来：
 * 问题2，之前 React 所有的渲染没有优先级可言，导致 React 逮住哪个组件就渲染哪个。
 
 ### setState
-不应在 render() 中调用比如 this.setState({foo: bar}) ，而只是在 render() 中使用别的地方设置好的数据比如 this.state.foo ，否则会出现 “Warning: Cannot update during an existing state transition (such as within `render` or another component's constructor). Render methods should be a pure function of props and state; constructor side-effects are an anti-pattern, but can be moved to `componentWillMount`.”
+不应在 render() 中调用比如 `this.setState({foo: bar})` ，而只是在 render() 中使用别的地方设置好的数据比如 this.state.foo ，否则会出现 “Warning: Cannot update during an existing state transition (such as within `render` or another component's constructor). Render methods should be a pure function of props and state; constructor side-effects are an anti-pattern, but can be moved to `componentWillMount`.”
 
 还有就是要注意 [在React组件unmounted之后setState的报错处理](http://www.cnblogs.com/libin-1/p/6667442.html)
 

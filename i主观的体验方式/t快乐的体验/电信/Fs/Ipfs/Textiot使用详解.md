@@ -307,11 +307,11 @@ Thread 是由一堆区块链 block 组成的，`textile blocks ls -t 上面得�
     textile invites create -a <P帐号1公共地址> <thread-id>
 ```
 此时如果之前帐号0 已经把帐号1 添加为联系人了的话，就会出现如下提示：
-
+```
     {
         "id": "邀请id1CtzKgpPqkSiHZASEBYsSUHu2nSh3dYBjnGnHrJw45"
     }
-
+```
 否则：
 
     contact not found
@@ -321,7 +321,7 @@ Thread 是由一堆区块链 block 组成的，`textile blocks ls -t 上面得�
     11 Mar 19 16:13 CST   invited you to join zu3yjmV
 
 另外，这个 `邀请id` 也可以用帐号1 运行如下命令获得：
-
+```
     textile invites ls --api=http://127.0.0.1:41600
     {
         "items": [
@@ -335,9 +335,9 @@ Thread 是由一堆区块链 block 组成的，`textile blocks ls -t 上面得�
             }
         ]
     }
-
+```
 帐号1 接受该邀请加入该 Thread 中：
-
+```
     textile invites accept <邀请id> --api=http://127.0.0.1:41600
     {
         "author": "12D3KooWRFH28AZrHyVB2jC9oswXMsdEd6mZBU5eYDUkBfEkhdQn",
@@ -353,7 +353,7 @@ Thread 是由一堆区块链 block 组成的，`textile blocks ls -t 上面得�
             "name": "P帐号0"
         }
     }
-
+```
 此时帐号0 和帐号1 的 daemon 都会打印出一些 Thread 更新的信息，比如帐号0 会打印出：
 
     11 Mar 19 16:17 CST  P帐号0 added JOIN update to czu3yjmV

@@ -10,7 +10,7 @@ Li Zheng flyskywhy@gmail.com
 由 sequelize 的 findAll 查出来的结果是数组里面包含着 key-value 对象，但有时候只想要一个扁平的 value 数组，这时候 [arr-pluck](https://github.com/jonschlinkert/arr-pluck) 就能派上用场了。
 
 例子：
-
+```
     var pluck = require('arr-pluck');
 
     var role_ids = yield user_roles.findAll({
@@ -21,7 +21,7 @@ Li Zheng flyskywhy@gmail.com
     }).then(function(data) {
         return pluck(data, 'role_id');
     });
-
+```
 ## array-unique
 一般来说可以设置成让 sequelize 的 findAll 查出来的结果数组是去重的，但有时自己写的代码还是需要进行数组去重，而 JavaScript 没有自带数组去重命令，自己再去编码实现去重则比较累赘且不一定有比较好的性能，还好现在有号称速度最快的 [array-unique](https://github.com/jonschlinkert/array-unique) 。
 

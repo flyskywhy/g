@@ -8,12 +8,12 @@ Li Zheng flyskywhy@gmail.com
 
 ## 缩减可执行文件尺寸的优化操作
 运行 nodec 前可以做一些优化工作，比如将下面的优化操作写到你的自动部署脚本中，参考 [gitlab 自动部署 nodejs 应用到阿里云 Kubernetes 集群中](../../配置管理/Git/GitLab自动部署nodejs应用到阿里云Kubernetes集群中.md) ：
-
+```
     rm -fr __tests__ android app index.android.js index.ios.js index.web.js ios # 删除后端运行时不需要的文件，以减小 nodec 最终生成的可执行文件大小
     rm -fr node_modules # nodec 会自动调用 npm install 的
     sed -i -e '/    "react/d' -e '/    "redux/d' -e '/    "rmc-/d' package.json # 去除前端依赖，以加快 nodec 自动调用的 npm install --production 运行速度
     sed -i -e "s/^{.*/{\"gitSha\":\"`git rev-parse --short HEAD`\",/" package.json # 如果 nodejs 应用中想要 git 哈希值的话可以这样做，因为 nodec 最终生成的可执行文件内部是不包含 .git/ 的
-
+```
 ## 注意 __dirname 的使用场景
 如果可执行文件运行时需要写文件比如 log 输出的，则 nodejs 应用代码里相关路径描述中不能带有
 

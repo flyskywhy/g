@@ -109,10 +109,10 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
     systemProp.https.proxyPort=翻墙服务器的代理port
 
 或是在 `build.gradle` 中添加下面镜像仓库地址之一
-
+```
     maven { url 'https://mirrors.cloud.tencent.com/nexus/repository/maven-public/'}
     maven { url 'https://mirrors.163.com/maven/repository/maven-public/'}
-
+```
 如果 `react-native start` 出现错误提示 “increase the fs.inotify.max_user_watches sysctl” ，则可按 [Increasing the amount of inotify watchers](https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers) 进行操作。
 
 上面的 `react-native run-android` 实际上执行的命令是 `./android/gradlew installDebug -p ./android/` ，这个命令每次执行时都会尝试从网上下载一些第三方组件的最新版。可以根据自己的实际情况优化这个命令，比如不想每次都尝试网上下载而是离线编译时添加 `--offline` ，就像这个命令 `./android/gradlew installDebug --offline -x lint -x lintVitalRelease -p ./android/` 中做的那样，不过当离线编译出现比如
@@ -139,7 +139,7 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
     MYAPP_RELEASE_KEY_PASSWORD=130777
 
 ### 更改 android/app/build.gradle
-
+```
     signingConfigs {
         release {
             storeFile file(MYAPP_RELEASE_STORE_FILE)
@@ -154,7 +154,7 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
             signingConfig signingConfigs.release
         }
     }
-
+```
 ### 生成 apk
 
     cd android
@@ -779,10 +779,10 @@ duplicate symbol '_OBJC_IVAR_$_SigECCEncryptHelper._crypto'
 的错误，这一般也是需要删除 Podfile.lock 文件。
 
 如果 `pod install` 时卡死在某个 `Installing` 上，或者最终它报出来 `LibreSSL SSL_connect: Operation timed out in connectiong to github.com:443`，则可以参照[pod install/update 卡住](https://blog.csdn.net/u011374880/article/details/106327526)一文里的解决方法，或是在 `~/.gitconfig` 中添加
-
+```
     [http "https://github.com/"]
         proxy = http://你的科学上网代理IP:端口
-
+```
 如果 `pod install` 时出现比如 `[!] `OpenSSL-Universal` requires CocoaPods version `>= 1.9`, which is not satisfied by your current version, `1.8.4`.` 这样的错误，则先需要
 
     sudo gem install cocoapods -v 1.9.0
@@ -933,7 +933,7 @@ android {
 }
 ```
 Finally fix below in `android/build.gradle`  can work ref to https://github.com/facebook/react-native/issues/35204#issuecomment-1304740228 :
-
+```
     allprojects {
         repositories {
             exclusiveContent {
@@ -954,7 +954,7 @@ Finally fix below in `android/build.gradle`  can work ref to https://github.com/
             url("$rootDir/../node_modules/react-native/android")
         }
     }
-
+```
 ### Recompile with -Xlint:deprecation for details
 If got an error like below:
 ```

@@ -178,7 +178,8 @@ LiveStyle 可参见这篇文章 [Emmet LiveStyle 无刷新同步修改预览](ht
 这样就可以不用记忆 = 符号两边要加空格之类众多的编码规范。当然，最好是使用上面提到的 JsPrettier 。
 
 为了支持 React 的 JSX 格式，需要打开 `preferences | Package Settings | JsFormat | Settings - User` ，输入以下配置：
-
+```
     {
         "e4x": true
     }
+```

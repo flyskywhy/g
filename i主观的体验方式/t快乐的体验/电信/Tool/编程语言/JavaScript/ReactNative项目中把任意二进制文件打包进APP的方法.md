@@ -16,11 +16,11 @@ Li Zheng flyskywhy@gmail.com
     bin2carray firmwareV3.1
 
 最后将上面命令所生成的 firmwareV3.1.c 文件中的
-
+```
     const unsigned char bin2carray_firmwareV3.1[64820] = {
     ...
     };
-
+```
 修改为
 
     export default [
