@@ -39,9 +39,9 @@ gitlab 用的 web 服务程序是 nginx ，如果占用 80 端口的其它程序
     listen *:80
 
 这样的信息，然后使用 `grep gitlab-http.conf /opt/gitlab/* -rsi` 搜索一下会看到一个链接 [https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-cookbooks/gitlab/templates/default/nginx-gitlab-http.conf.erb](https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-cookbooks/gitlab/templates/default/nginx-gitlab-http.conf.erb)，进去就会发现
-
+```
     listen <%= listen_address %>:<%= @listen_port %>
-
+```
 所以我们需要修改 `/etc/gitlab/gitlab.rb` 中的 `listen_port` ，然后实际上是把
 
     # nginx['listen_port'] = nil

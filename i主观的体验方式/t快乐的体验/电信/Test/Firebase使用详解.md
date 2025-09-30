@@ -6,7 +6,7 @@ Firebase 提供的 Crashlytics 崩溃报告或后端服务等功能，是需要�
 Firebase 默认是免费的，参见[Firebase需要花钱吗？](https://blog.back4app.com/zh/firebase%E9%9C%80%E8%A6%81%E8%8A%B1%E9%92%B1%E5%90%97/)和[Firebase Pricing](https://firebase.google.com/pricing?hl=zh-cn)。
 
 ## 创建 Firebase 项目
-登录 Google 帐号，并进入 <https://console.firebase.google.com/>
+登录 Google 帐号，并进入 [https://console.firebase.google.com/](https://console.firebase.google.com/)
 
 点击“创建项目”
 
@@ -46,4 +46,4 @@ Firebase 默认是免费的，参见[Firebase需要花钱吗？](https://blog.ba
 可以在 Test Lab 页面的“预设内容”中预先选择好 5 个实体设备以方便今后测试选择。
 
 ## 解决 @react-native-firebase/app 编译问题
-参见 <https://github.com/flyskywhy/react-native-gcanvas/issues/72#issuecomment-1869305099>
+参见 [https://github.com/flyskywhy/react-native-gcanvas/issues/72#issuecomment-1869305099](https://github.com/flyskywhy/react-native-gcanvas/issues/72#issuecomment-1869305099)

@@ -22,7 +22,7 @@ Li Zheng flyskywhy@gmail.com
     deb http://deb.debian.org/debian-ports unreleased main
     deb-src http://deb.debian.org/debian sid main
 
-再参考 <https://www.ports.debian.org/archive> ，运行
+再参考 [https://www.ports.debian.org/archive](https://www.ports.debian.org/archive) ，运行
 
     gpg --keyserver http://keyserver.ubuntu.com --recv-keys 01C2D6F3D1A46AD1C0DC2F3D8D69674688B6CB36
     gpg --export 01C2D6F3D1A46AD1C0DC2F3D8D69674688B6CB36 | apt-key add -
@@ -37,7 +37,7 @@ Li Zheng flyskywhy@gmail.com
     make linux
 
 ## 在 risc-v Linux 上运行 go + c 程序
-比如编译 <https://github.com/flyskywhy/textiot/commit/046914e> ，然后在 risc-v Linux 上运行时如果出现没头没脑的`Segmentation fault`，则
+比如编译 [https://github.com/flyskywhy/textiot/commit/046914e](https://github.com/flyskywhy/textiot/commit/046914e) ，然后在 risc-v Linux 上运行时如果出现没头没脑的`Segmentation fault`，则
 
     apt install gdb
     gdb textile-riscv

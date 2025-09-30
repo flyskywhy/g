@@ -3,7 +3,7 @@ Li Zheng flyskywhy@gmail.com
 # Python 使用详解
 
 ## 从预编译包安装 Python
-从 <https://github.com/indygreg/python-build-standalone> 下载预编译好的安装包，以[cpython-3.11.10+20241016-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst](https://github.com/indygreg/python-build-standalone/releases/download/20241016/cpython-3.11.10+20241016-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst)为例
+从 [https://github.com/indygreg/python-build-standalone](https://github.com/indygreg/python-build-standalone) 下载预编译好的安装包，以[cpython-3.11.10+20241016-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst](https://github.com/indygreg/python-build-standalone/releases/download/20241016/cpython-3.11.10+20241016-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst)为例
 
     cd /home/foobar/tools/
     wget https://github.com/indygreg/python-build-standalone/releases/download/20241016/cpython-3.11.10+20241016-x86_64_v3-unknown-linux-gnu-pgo+lto-full.tar.zst
@@ -26,7 +26,7 @@ Li Zheng flyskywhy@gmail.com
 
     pip install -r requirements.txt
 
-但运行到一半， `requirements.txt` 中的一个 module 会报错说当前运行的 python 版本太低，于是去 <https://www.python.org/downloads/> 下载较新版本的 `Python 3.10.12` ，而该网站针对 Linux 只提供了源代码下载来自己编译安装，于是
+但运行到一半， `requirements.txt` 中的一个 module 会报错说当前运行的 python 版本太低，于是去 [https://www.python.org/downloads/](https://www.python.org/downloads/) 下载较新版本的 `Python 3.10.12` ，而该网站针对 Linux 只提供了源代码下载来自己编译安装，于是
 
     cd ~/tools/
     wget https://www.python.org/ftp/python/3.10.12/Python-3.10.12.tgz
@@ -96,11 +96,11 @@ Li Zheng flyskywhy@gmail.com
     pip is configured with locations that require TLS/SSL, however the ssl module in Python is not available
 
 的话，则可以观察一下之前 `make` 时最后的输出
-
+```
     Failed to find the necessary bits to build these modules:
     _bsddb             _curses            _curses_panel
     _hashlib           _sqlite3           _ssl   <----------
-
+```
 如果有 `_ssl` 在里面的，则需要
 
     sudo apt install libssl-dev
@@ -164,7 +164,7 @@ Li Zheng flyskywhy@gmail.com
 
 ### `action='store_false'`
 
-这个用于解决一个 PyTorch 问题的提交点 <https://github.com/flyskywhy/YOLOv5-Lite/commit/bb07475> 花了我几天时间去调试，然而究其原因只是 Python 的一个无聊设计——如果命令行参数被设计为 `action='store_false'` ，那就表示如果命令运行时没有写上该参数，则该命令就认为该参数为 `True` ，反之如果写上该参数，则反而为 `False` ——比较反人类的设计，很少有人会无聊到这样为自己的命令代码这样设计参数。
+这个用于解决一个 PyTorch 问题的提交点 [https://github.com/flyskywhy/YOLOv5-Lite/commit/bb07475](https://github.com/flyskywhy/YOLOv5-Lite/commit/bb07475) 花了我几天时间去调试，然而究其原因只是 Python 的一个无聊设计——如果命令行参数被设计为 `action='store_false'` ，那就表示如果命令运行时没有写上该参数，则该命令就认为该参数为 `True` ，反之如果写上该参数，则反而为 `False` ——比较反人类的设计，很少有人会无聊到这样为自己的命令代码这样设计参数。
 
 ### `pip install` 时报错`no space left on device`也就是`/tmp/`存储空间不够
 

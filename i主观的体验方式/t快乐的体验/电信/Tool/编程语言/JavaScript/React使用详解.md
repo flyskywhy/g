@@ -60,7 +60,7 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
     react-native init --version 0.31.0 AwesomeProject
 
 ## 配置 Android 开发环境
-从 <https://developer.android.com/studio#cmdline-tools> 下载 Command line tools 成为比如 `~/tools/android_sdk/cmdline-tools/latest/` ，在 `~/.bashrc` 中添加 `export ANDROID_HOME=~/tools/android-sdk` 。后续在编译各种 APP 时 `~/tools/android-sdk/cmdline-tools/latest/bin/sdkmanager` 会视需要自动下载比如 `~/tools/android-sdk/platforms/android-26/` 等，如果在自动下载时出现 "You have not accepted the license agreements of the following SDK components" 的错误，则需手动运行一下 `yes | ~/tools/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses` 。
+从 [https://developer.android.com/studio#cmdline-tools](https://developer.android.com/studio#cmdline-tools) 下载 Command line tools 成为比如 `~/tools/android_sdk/cmdline-tools/latest/` ，在 `~/.bashrc` 中添加 `export ANDROID_HOME=~/tools/android-sdk` 。后续在编译各种 APP 时 `~/tools/android-sdk/cmdline-tools/latest/bin/sdkmanager` 会视需要自动下载比如 `~/tools/android-sdk/platforms/android-26/` 等，如果在自动下载时出现 "You have not accepted the license agreements of the following SDK components" 的错误，则需手动运行一下 `yes | ~/tools/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses` 。
 
 为了让 android-sdk 中 32 位的 aapt (比如 `~/tools/android-sdk/build-tools/26.0.0/aapt` ) 能够在 64 位的 Linux 中运行，还要确保已经运行过如下命令：
 
@@ -70,7 +70,7 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
 
     sudo apt install default-jdk
 
-或是到 <https://jdk.java.net/archive/> 手动下载所需 JDK 版本并配置好`JAVA_HOME` 这个环境变量。
+或是到 [https://jdk.java.net/archive/](https://jdk.java.net/archive/) 手动下载所需 JDK 版本并配置好`JAVA_HOME` 这个环境变量。
 
 低于 0.67 版本的 React Native 需要 JDK 1.8 版本（官方也称 8 版本），否则需要 11 版本。
 
@@ -172,7 +172,7 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
 
 如果生成好的 aab 在上传到 Google Play 时报错说“您上传的 APK 或 Android App Bundle 内含活动、活动别名、服务或广播接收器，这些项目有 intent 过滤器，但没有“android:exported”属性设置。此文件无法在 Android 12 或更高版本上安装”，且将自己 APP 的 `android:exported` 设为 true 后仍然如此，则将 `compileSdkVersion` 设为 31 再次进行编译时就可以依据 [Apps targeting Android 12 and higher are required to specify an explicit value for android:exported when the corresponding component has an intent filter defined. See https://developer.android.com/guide/topics/manifest/activity-element#exported for details](https://github.com/facebook/react-native/issues/35232#issuecomment-1324619149) 中所说的错误定位到某个第三方组件了。
 
-如果将 `compileSdkVersion` 设为 31 后编译时碰到 `Installed Build Tools revision 31.0.0 is corrupted` 错误，则需要从低版本比如 `android-sdk/build-tools/30.0.0/` 中复制出 `d8` 和 `d8.jar` 来，或是参考<https://stackoverflow.com/a/68430992/6318705>
+如果将 `compileSdkVersion` 设为 31 后编译时碰到 `Installed Build Tools revision 31.0.0 is corrupted` 错误，则需要从低版本比如 `android-sdk/build-tools/30.0.0/` 中复制出 `d8` 和 `d8.jar` 来，或是参考 [https://stackoverflow.com/a/68430992/6318705](https://stackoverflow.com/a/68430992/6318705)
 
     cd ~/tools/android-sdk/build-tools/31.0.0
     mv d8 dx \
@@ -583,7 +583,7 @@ brew 在安装软件前会先尝试升级 brew 自身，这里可能是中国网
 
 * 安装 JAVA 环境
 
-如果想在 macOS 上编译 Android APP ，则还需参考 <https://reactnative.dev/docs/0.70/environment-setup?guide=native&os=macos> 一文安装 JDK11
+如果想在 macOS 上编译 Android APP ，则还需参考 [https://reactnative.dev/docs/0.70/environment-setup?guide=native&os=macos](https://reactnative.dev/docs/0.70/environment-setup?guide=native&os=macos) 一文安装 JDK11
 
     brew install --cask zulu@11
 
@@ -650,7 +650,7 @@ Xcode 16 可能会出现这个问题，解决方法是在`工程文件 | Build S
 
 由于使用 Release 配置点击 Run 按钮的话需要等待半小时，所以调试时记得将 `Produce | Scheme | Edit Scheme | Run | Build Configuration` 设置为 Debug 。其实就算使用 Debug ，运行也需要 3 分钟，哪像 react-native 开发时只需要手机摇一摇花 3 秒钟就能看到 JS 代码所做的改变。真为那些全部代码都使用 Xcode 原生编写的开发人员感到悲哀——每天不知道浪费了多少个 3 分钟。还好我只需要捏着鼻子偶尔用连语法都是反人类的 ObjectC 语言在 Xcode 中做一些原生适配，就又可以愉快地去写 JS 代码了。
 
-注： <https://reactnative.dev/docs/publishing-to-app-store> 提到 `export SKIP_BUNDLING=true` 可以进一步减少 Debug 编译运行的时间。
+注： [https://reactnative.dev/docs/publishing-to-app-store](https://reactnative.dev/docs/publishing-to-app-store) 提到 `export SKIP_BUNDLING=true` 可以进一步减少 Debug 编译运行的时间。
 
 * 项目所在绝对路径中不应该有空格，否则编译会失败
 
@@ -660,7 +660,7 @@ Xcode 16 可能会出现这个问题，解决方法是在`工程文件 | Build S
 
 * `EMFILE: too many open files`
 
-如果即使[macOS 开启或关闭 SIP](https://sspai.com/post/55066)关闭 SIP 然后`launchctl limit maxfiles 16384 16384 && ulimit -n 16384`了也没用，那是因为对于 M2 的苹果电脑，需要做的是参考<https://github.com/facebook/watchman/issues/923#issuecomment-2550990976>中那样在`TARGETS > (your app) > Build Phases > Bundle React Native code and images`中将`/opt/homebrew/bin`添加到`$PATH`中。另外，还需在编译前手动执行一次`watchman watch-del-all`。
+如果即使[macOS 开启或关闭 SIP](https://sspai.com/post/55066)关闭 SIP 然后`launchctl limit maxfiles 16384 16384 && ulimit -n 16384`了也没用，那是因为对于 M2 的苹果电脑，需要做的是参考 [https://github.com/facebook/watchman/issues/923#issuecomment-2550990976](https://github.com/facebook/watchman/issues/923#issuecomment-2550990976) 中那样在`TARGETS > (your app) > Build Phases > Bundle React Native code and images`中将`/opt/homebrew/bin`添加到`$PATH`中。另外，还需在编译前手动执行一次`watchman watch-del-all`。
 
 * `ld: 5 uplicate symbols`
 
@@ -1046,6 +1046,6 @@ subprojects {
 ```
 
 ### `Could not resolve org.webkit:android-jsc:+`
-Downgrade gradle-6.7-all.zip (comes from RN 0.64.3) to gradle-6.2-all.zip (comes from RN 0.63.2) in `android/gradle/wrapper/gradle-wrapper.properties` to fix it, ref to <https://stackoverflow.com/a/76521192/6318705>
+Downgrade gradle-6.7-all.zip (comes from RN 0.64.3) to gradle-6.2-all.zip (comes from RN 0.63.2) in `android/gradle/wrapper/gradle-wrapper.properties` to fix it, ref to [https://stackoverflow.com/a/76521192/6318705](https://stackoverflow.com/a/76521192/6318705)
 
 ### [专治各种网络不服](https://incoder.org/2020/02/27/fuck-gfw/)

@@ -36,14 +36,14 @@ Li Zheng flyskywhy@gmail.com
 我也曾想要通过简单将脚本从 python2 升级到 python3 语法来解决 `NameError: name 'file' is not defined` 等错误，但是又带来了其它语法问题，这已经不是我们而是 sdk 提供者需要再花时间在上面了，还是如上所述安装 python2 吧。之前听说 python 2 和 3 不兼容因而我一直拒绝深入学习使用 python ，果然 python 就是差劲啊，开源世界还不如将用到 python 的地方都切换为 nodejs 呢。
 
 注，上述简单将 python2 的 `file` 改为 python3 的 `open` 后，还会出现如下报错信息：
-
+```
     Traceback (most recent call last):
       File "tools/bk7231u/gen_firmware_img_uart0.py", line 39, in <module>
         pack_image(sys.argv[1], sys.argv[2])
       File "tools/bk7231u/gen_firmware_img_uart0.py", line 30, in pack_image
         f.write("\xff")
     TypeError: a bytes-like object is required, not 'str'
-
+```
 ## 设备端编译 Ali SmartLiving
 参见 `ali-smartliving-device-alios-things/README.md` 中 `build.sh` 的使用方法。
 

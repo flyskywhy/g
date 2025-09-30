@@ -30,7 +30,7 @@
     ./start-webui.sh
 
 ## 本地生成图像
-用浏览器打开<http://127.0.0.1:7860/>
+用浏览器打开 [http://127.0.0.1:7860/](http://127.0.0.1:7860/)
 
 在`Mode`中选择`LCM-LoRA`
 
@@ -47,12 +47,12 @@
     ./start-webserver.sh
 
 ## API 生成图像
-用浏览器打开<http://127.0.0.1:8000/api/config>就可以看到之前`本地生成图像`一节中的设置，也就是自动生成的`fastsdcpu/configs/settings.yaml`中的内容。
+用浏览器打开 [http://127.0.0.1:8000/api/config](http://127.0.0.1:8000/api/config) 就可以看到之前`本地生成图像`一节中的设置，也就是自动生成的`fastsdcpu/configs/settings.yaml`中的内容。
 
 由于每次调用`/api/generate`生成图像时都会自动修改`fastsdcpu/configs/settings.yaml`，而调用`/api/generate`时我们又不希望传入`/home/foobar/fastsdcpu/configs/rupeshs/hypersd-sd1-5-1-step-lora`这样的服务器上的绝对路径，所以需要将`fastsdcpu/src/backend/models/lcmdiffusion_setting.py`中`class LCMLora(BaseModel)`内的默认值修改为相应的绝对路径。
 
 这样，将 fastsdcpu 部署到某台服务器后，就可以用类似下面的代码来生成图像
-
+```
     const res = await axios({
       method: 'post',
       url: 'http://服务器IP地址:8000/api/generate',
@@ -68,7 +68,7 @@
         'Content-Type': 'application/json',
       },
     });
-
+```
 生成的图像数据以 base64 字符串的形式在`res.data.images[0]`中体现，将该字符串加上前缀`data:image/png;base64,`粘帖到浏览器地址栏中，就可以直接查看了。
 
 ## 一些 BUG 的解决方法
@@ -81,7 +81,7 @@
     return _bootstrap._gcd_import(name[level:], package, level)
 ImportError: dlopen: cannot load any more object with static TLS
 ```
-则参考<https://github.com/pytorch/pytorch/issues/2575#issuecomment-2469427242>和<https://www.cnblogs.com/operaculus/p/12500510.html>，在`fastsdcpu/src/app.py`的第一行增加一句`import cv2`即可。
+则参考 [https://github.com/pytorch/pytorch/issues/2575#issuecomment-2469427242](https://github.com/pytorch/pytorch/issues/2575#issuecomment-2469427242) 和 [https://www.cnblogs.com/operaculus/p/12500510.html](https://www.cnblogs.com/operaculus/p/12500510.html) ，在`fastsdcpu/src/app.py`的第一行增加一句`import cv2`即可。
 
 ## 参考
 [使用倚天CPU实例部署Stable Diffusion](https://help.aliyun.com/zh/ecs/deploy-stable-diffusion-on-yitian-instances)

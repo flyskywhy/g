@@ -52,7 +52,7 @@ gpgkey=http://mirrors.cloud.aliyuncs.com/epel-archive/RPM-GPG-KEY-EPEL-6
 ```
 
 ## 旧的 CentOS 6 手动下载 rpm 文件后进行手动安装
-可以到 <https://rpmfind.net> 或 <https://vault.centos.org/6.0/os/x86_64/Packages/> 中下载
+可以到 [https://rpmfind.net](https://rpmfind.net) 或 [https://vault.centos.org/6.0/os/x86_64/Packages/](https://vault.centos.org/6.0/os/x86_64/Packages/) 中下载
 
 ## 旧的 CentOS 5 运行 yum 报错 `No module named rpm`
 CentOS 5 系统自带的 `/usr/bin/python` 原先是软链接到 `/usr/bin/python2.4` ，后来安装了 `2.7` 并使之软链接到了 `/usr/local/bin/python2.7` ，由于不存在 `/usr/local/lib/python2.7/site-packages/rpm` 目录所以报了 `No module named rpm` 的错
@@ -76,7 +76,7 @@ python setup.py install
 
 而新的 Python 3 会在编译安装过程中包含 pip ，参见 [Python 使用详解](../../Tool/编程语言/Python/Python使用详解.md)
 
-参考 <https://developer.aliyun.com/mirror/pypi> 在 `~/.pip/pip.conf` 中添加
+参考 [https://developer.aliyun.com/mirror/pypi](https://developer.aliyun.com/mirror/pypi) 在 `~/.pip/pip.conf` 中添加
 ```
 [global]
 index-url=http://mirrors.cloud.aliyuncs.com/pypi/simple/
@@ -86,7 +86,7 @@ trusted-host=mirrors.cloud.aliyuncs.com
 ```
 
 ## 旧的 CentOS 5 手动下载 rpm 文件后进行手动安装
-可以到 <https://rpmfind.net> 或 <https://vault.centos.org/5.4/os/x86_64/CentOS/> 中下载
+可以到 [https://rpmfind.net](https://rpmfind.net) 或 [https://vault.centos.org/5.4/os/x86_64/CentOS/](https://vault.centos.org/5.4/os/x86_64/CentOS/) 中下载
 
 ## 旧的 CentOS 7 手动下载 rpm 文件后进行手动安装
-可以到 <https://rpmfind.net> 或 <http://mirrors.163.com/centos/> 或 <http://mirror.centos.org/centos/7/> 中下载
+可以到 [https://rpmfind.net](https://rpmfind.net) 或 [http://mirrors.163.com/centos/](http://mirrors.163.com/centos/) 或 [http://mirror.centos.org/centos/7/](http://mirror.centos.org/centos/7/) 中下载

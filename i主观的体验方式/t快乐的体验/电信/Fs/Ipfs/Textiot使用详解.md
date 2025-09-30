@@ -291,9 +291,9 @@ Thread 是由一堆区块链 block 组成的，`textile blocks ls -t 上面得�
     textile daemon --repo-dir=.textile2/
 
 首先是帐号0 把帐号1 添加为联系人
-
+```
     textile contacts add -a <P帐号1公共地址>
-
+```
 此时如果两个 textile 之间已经自动通过 IPFS 网络连接了的话（可以通过 `textile ping 帐号1的peers[0].id` ，就会出现如下提示：
 
     Add 1 contact? [y/n]: y
@@ -303,9 +303,9 @@ Thread 是由一堆区块链 block 组成的，`textile blocks ls -t 上面得�
     No contacts were found
 
 联系人添加好后，帐号0 再把帐号1 邀请进一个 Thread 中
-
+```
     textile invites create -a <P帐号1公共地址> <thread-id>
-
+```
 此时如果之前帐号0 已经把帐号1 添加为联系人了的话，就会出现如下提示：
 
     {
@@ -367,13 +367,13 @@ Thread 是由一堆区块链 block 组成的，`textile blocks ls -t 上面得�
 而且在接受该邀请后，在帐号1 上才能用 `textile contacts ls --api=http://127.0.0.1:41600` 列出帐号0 。
 
 在帐号0 上
-
+```
     textile chat <thread-id>
-
+```
 在帐号1 上
-
+```
     textile chat <thread-id> --api=http://127.0.0.1:41600
-
+```
 然后互相打字时， daemon 都会打印出一些 Thread 更新的信息，比如当帐号0 输入 `hello world` 后，帐号0 的 daemon 会打印出：
 
     11 Mar 19 16:26 CST  P帐号0 added TEXT update to czu3yjmV

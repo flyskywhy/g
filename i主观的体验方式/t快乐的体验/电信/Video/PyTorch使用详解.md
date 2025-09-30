@@ -20,7 +20,7 @@ PyTorch 也可以用于训练其它深度学习模型，本文只介绍用于训
 
 训练阶段所用的代码框架一般用的是 Meta 公司的 PyTorch ； Google 公司的 Tensor Flow 简称 TF 由于源代码质量不高以及其 1.0 和 2.0 版本 API 不兼容等原因，现已慢慢乏人使用；以及只用于 YOLO 模型的 [darknet](https://github.com/AlexeyAB/darknet)。
 
-部署阶段所用的代码框架一般用的是 Meta 公司的 PlayTorch ，可以参考其在 <https://playtorch.dev/docs/tutorials/snacks/yolov5/> 中如何使用 `react-native-pytorch-core` ；如果追求 Android 手机上实时推理速度的，可以使用 <https://github.com/flyskywhy/YOLOv5-Lite> 和 <https://github.com/flyskywhy/Yolo-FastestV2> 所用的腾讯公司的 NCNN ；至于 Google 的 TF lite ，在部署上曾有先发优势，但由于源代码质量不高以及其 1.0 和 2.0 版本 API 不兼容等原因，现已慢慢乏人使用，不过如果用于 Web 的话可能还是需要 `tf.js` 。
+部署阶段所用的代码框架一般用的是 Meta 公司的 PlayTorch ，可以参考其在 [https://playtorch.dev/docs/tutorials/snacks/yolov5/](https://playtorch.dev/docs/tutorials/snacks/yolov5/) 中如何使用 `react-native-pytorch-core` ；如果追求 Android 手机上实时推理速度的，可以使用 [https://github.com/flyskywhy/YOLOv5-Lite](https://github.com/flyskywhy/YOLOv5-Lite) 和 [https://github.com/flyskywhy/Yolo-FastestV2](https://github.com/flyskywhy/Yolo-FastestV2) 所用的腾讯公司的 NCNN ；至于 Google 的 TF lite ，在部署上曾有先发优势，但由于源代码质量不高以及其 1.0 和 2.0 版本 API 不兼容等原因，现已慢慢乏人使用，不过如果用于 Web 的话可能还是需要 `tf.js` 。
 
 另，标注是人工智能中的“人工”阶段，可以参考[深度学习图像标注工具汇总](https://blog.csdn.net/qq_34806812/article/details/81394646)和[LabelBee 让人工标注更智能](https://mp.weixin.qq.com/s/ii22i3dSauoSCmhLjNUo-w)。如果没有足够的照片而且目标尺寸较小使得在一张高分辨率照片中有许多目标，则也可以使用类似[在线图片水平_垂直均等切割工具](https://uutool.cn/img-incision/)来切割出几百张照片以进行训练。
 
@@ -30,7 +30,7 @@ PyTorch 也可以用于训练其它深度学习模型，本文只介绍用于训
 
 参考 [wrgb dataset](https://github.com/flyskywhy/wrgb) 数据集训练出 `yolov5s.ptl` 。
 
-参考 <https://playtorch.dev/docs/tutorials/snacks/yolov5/> 在手机 APP 中使用 `yolov5s.ptl` 并在其中的
+参考 [https://playtorch.dev/docs/tutorials/snacks/yolov5/](https://playtorch.dev/docs/tutorials/snacks/yolov5/) 在手机 APP 中使用 `yolov5s.ptl` 并在其中的
 
     await model.forward(formattedInputTensor)
 
@@ -167,13 +167,13 @@ nc: 4
 names: [ 'w', 'r', 'g', 'b']
 ```
 To train:
-
+```
     # Download `yolov7-tiny.pt` from <https://github.com/WongKinYiu/yolov7/releases> as `cfg/training/yolov7-tiny.pt`
 
     rm ../datasets/wrgb/train.cache # If needed
 
     python train.py --epochs 55 --data ../datasets/wrgb/obj.yaml --cfg ../datasets/wrgb/yolov7-tiny.yaml --hyp data/hyp.scratch.tiny.yaml --weights cfg/training/yolov7-tiny.pt --img-size 416 --workers 4 --project runs/yolov7-tiny_wrgb --device cpu
-
+```
 To detect:
 
     python detect.py --weights runs/yolov7-tiny_wrgb/exp/weights/best.pt --img-size 416 --source SOME.jpg
@@ -197,7 +197,7 @@ To mobile optimized model exported to `runs/yolov7-tiny_wrgb/exp/weights/best.to
 
 看看是否能如 [YOLOv5-Lite：更轻更快易于部署的YOLOv5](https://zhuanlan.zhihu.com/p/400545131) 所说那样训练出能在手机上实时识别的 `.ptl` 。
 
-在通过 <https://github.com/flyskywhy/YOLOv5-Lite/commit/bb07475> 提交点解决了推理 `model.forward` 返回的数据格式问题后，参考 [wrgb dataset](https://github.com/flyskywhy/wrgb) 进行修改，
+在通过 [https://github.com/flyskywhy/YOLOv5-Lite/commit/bb07475](https://github.com/flyskywhy/YOLOv5-Lite/commit/bb07475) 提交点解决了推理 `model.forward` 返回的数据格式问题后，参考 [wrgb dataset](https://github.com/flyskywhy/wrgb) 进行修改，
 
     git clone https://github.com/flyskywhy/YOLOv5-Lite
     cd YOLOv5-Lite
@@ -237,11 +237,11 @@ To mobile optimized model exported to `runs/yolov5Lite-e_wrgb/exp/weights/best.p
 
     detect: 110ms
 
-接近但还达不到视频实时检测的总用时需求 33ms 以及 <https://github.com/ppogg/YOLOv5-Lite> 官网描述在 NCNN 中的 320x320 情况下的 27ms ，估计要移植 NCNN 到 react-native 才有可能。
+接近但还达不到视频实时检测的总用时需求 33ms 以及 [https://github.com/ppogg/YOLOv5-Lite](https://github.com/ppogg/YOLOv5-Lite) 官网描述在 NCNN 中的 320x320 情况下的 27ms ，估计要移植 NCNN 到 react-native 才有可能。
 
 但在手机上测得当 `conf_thres` 设为 0.3 时， `YOLOv5Lite-e.ptl` 检测到 0 个而 `yolov7-tiny.ptl` 检测到 100 个目标，且  `yolov7-tiny.ptl` 很有几个打分在 0.8 以上的，只有当 `conf_thres` 设为 0.1 时 `YOLOv5Lite-e.ptl` 才检测到聊聊几个目标。
 
-所以 `YOLOv5Lite-e.ptl` 看起来并不合适，或者可以再尝试下非官方的 <https://github.com/bubbliiiing/yolov7-tiny-pytorch> 。
+所以 `YOLOv5Lite-e.ptl` 看起来并不合适，或者可以再尝试下非官方的 [https://github.com/bubbliiiing/yolov7-tiny-pytorch](https://github.com/bubbliiiing/yolov7-tiny-pytorch) 。
 
 ## `react-native-pytorch-core` 与 `Yolo-FastestV2`
 
@@ -297,13 +297,13 @@ To detect:
 
     detect: 80ms
 
-<https://github.com/dog-qiuqiu/Yolo-FastestV2> 官网自称使用 NCNN 在麒麟 990 上可以达到 detect: 5ms
+[https://github.com/dog-qiuqiu/Yolo-FastestV2](https://github.com/dog-qiuqiu/Yolo-FastestV2) 官网自称使用 NCNN 在麒麟 990 上可以达到 detect: 5ms
 
 由于其推理 `model.forward` 返回的数据格式与 `yolov5` 和 `yolov7` 等不同导致无法直接使用在现有 APP 代码中，所以暂时无法得知打分情况在手机上的高低。
 
 ## YOLO 代码大致流程
 
-在解决 <https://github.com/flyskywhy/YOLOv5-Lite/commit/bb07475> 提交点所述问题时，通过加打印或删代码查看运行结果，大致了解了 YOLO 代码运行起来的关键节点，这里记录一下。
+在解决 [https://github.com/flyskywhy/YOLOv5-Lite/commit/bb07475](https://github.com/flyskywhy/YOLOv5-Lite/commit/bb07475) 提交点所述问题时，通过加打印或删代码查看运行结果，大致了解了 YOLO 代码运行起来的关键节点，这里记录一下。
 
 本文前面曾提及
 
@@ -341,7 +341,7 @@ To detect:
 
 参考[新手也能彻底搞懂的目标检测Anchor是什么？怎么科学设置？](https://zhuanlan.zhihu.com/p/112574936)将 anchor box 即锚点框或叫先验框调节为适合自己项目数据集中目标物体的大小，以显著提升自己项目在目标检测时的速度。
 
-或许直接使用 <https://github.com/flyskywhy/Yolo-FastestV2> 中提供的 `genanchors.py` 来用 `python genanchors.py --traintxt ../datasets/wrgb/train-Yolo-FastestV2.txt` 自动生成 anchor 更合适。
+或许直接使用 [https://github.com/flyskywhy/Yolo-FastestV2](https://github.com/flyskywhy/Yolo-FastestV2) 中提供的 `genanchors.py` 来用 `python genanchors.py --traintxt ../datasets/wrgb/train-Yolo-FastestV2.txt` 自动生成 anchor 更合适。
 
 ### 网上看到的一些优化概念
 精度换计算/内存/通信：
@@ -350,7 +350,7 @@ To detect:
 * 稀疏通信：精度换通信的一种做法：我们每次对梯度做all reduce的时候并不需要传所有梯度，只需要选择一部分（比如数值比较大）的梯度传输就好了
 * 神经网络的各种剪枝：比如把很小的weight直接删掉，毕竟对最终结果没啥影响
 
-参考 <https://openbayes.com/console/hyperai-tutorials/containers/2uN0r1tcWIj/overview> 进行 int8 quantization 量化？
+参考 [https://openbayes.com/console/hyperai-tutorials/containers/2uN0r1tcWIj/overview](https://openbayes.com/console/hyperai-tutorials/containers/2uN0r1tcWIj/overview) 进行 int8 quantization 量化？
 
 参考阅读：
 
