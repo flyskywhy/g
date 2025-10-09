@@ -19,7 +19,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22.13.1' # 使用你项目需要的 Node 版本
+          node-version: '22' # 使用你项目需要的 Node 版本
           cache: 'npm' # 或 'yarn' 如果你使用 yarn
           cache-dependency-path: 'website/package-lock.json'  # 指定 lock 路径
 
