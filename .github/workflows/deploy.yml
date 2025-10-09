@@ -3,6 +3,12 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [master] # 只在 master 分支推送时触发
+    # paths:
+    #   - 'README.md'
+    #   - 'i主观的体验方式/**'
+    #   - 't客观的存在原理/**'
+    #   - 'website/**'   # 如果 Docusaurus 在 website 目录
+    #   # - '.github/workflows/deploy.yml'
   pull_request:
     branches: [master] # PR 时运行测试
 
