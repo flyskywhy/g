@@ -31,6 +31,7 @@ jobs:
         run: ./build-website.sh
 
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
+        uses: peaceiris/actions-gh-pages@v4
         with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./website/build # Docusaurus 默认构建目录
