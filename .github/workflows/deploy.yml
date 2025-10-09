@@ -1,0 +1,37 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [master] # 只在 master 分支推送时触发
+  pull_request:
+    branches: [master] # PR 时运行测试
+
+jobs:
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        # 如果你的文档在子目录中，取消注释下面这两行
+        # with:
+          # path: 'docs'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22' # 使用你项目需要的 Node 版本
+          cache: 'npm' # 或 'yarn' 如果你使用 yarn
+          cache-dependency-path: 'website/package-lock.json'  # 指定 lock 路径
+
+      - name: Install dependencies
+        run: npm ci # 或 yarn install --frozen-lockfile
+        working-directory: ./website  # 在子目录中运行
+
+      - name: Build website
+        run: ./build-website.sh
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./website/build # Docusaurus 默认构建目录
