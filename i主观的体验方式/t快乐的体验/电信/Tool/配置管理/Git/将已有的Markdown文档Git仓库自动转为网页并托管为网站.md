@@ -66,3 +66,8 @@ git commit -m "Deploy website'
 也因此需要注意的是，要避免（因 md 文档不符合 mdx 语法等原因导致）网页生成失败却又上传到 gh-pages 分支导致网站 404 的情况，参见 [docusaurus: let failed ./build-website.sh can break Github Actions](https://github.com/flyskywhy/g/commit/3a700d16f678c6a7592efe947dac6f1e9ef580e9) 。
 
 至此，更新网站的方法就是：上传自己的 md 文档。
+
+## 个人网站网址
+[https://github.com/flyskywhy/g](https://github.com/flyskywhy/g) Git 仓库对应的网站是 [https://flyskywhy.github.io/g/](https://flyskywhy.github.io/g/) ，点击里面的 [文档](https://flyskywhy.github.io/g/docs/) 链接就可以看到仓库中的文档了。
+
+可能需要先设置好个人网站 [https://flyskywhy.github.io/](https://flyskywhy.github.io/) ，方法是创建 [https://github.com/flyskywhy/flyskywhy.github.com](https://github.com/flyskywhy/flyskywhy.github.com) 这个 Git 仓库（ Github 网站当前的规则是创建 [https://github.com/flyskywhy/flyskywhy.github.io](https://github.com/flyskywhy/flyskywhy.github.io) ），可以在该 Git 仓库的 master 分支上简单放置一个 `index.html` 文件，并在 `Settings | Pages` 中的 `Branch` 处选择 `master` 即可。
