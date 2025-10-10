@@ -21,7 +21,7 @@ npx create-docusaurus@latest website classic
 
 * [docusaurus: fix plain text email address can not after `<` in MDX, to fix Error: MDX compilation failed for file "some.md" Cause: Unexpected character `@` (U+0040) in name](https://github.com/flyskywhy/g/commit/c81bdce006571fe668fe9cc1039d883164c54618)
 * [docusaurus: fix plain text @ % / - can not after < in MDX](https://github.com/flyskywhy/g/commit/30ba6a8b610cf56243edcc83e534a1f998160166)
-* [docusaurus: fix plain text can not after { in MDX](https://github.com/flyskywhy/g/commit/9b448690027682bcd9f576ecd7f72189270bbd08)
+* [docusaurus: fix plain text can not after `{` in MDX](https://github.com/flyskywhy/g/commit/9b448690027682bcd9f576ecd7f72189270bbd08)
 * [docusaurus: fix plain http example (Can't parse URL) can not be in MDX](https://github.com/flyskywhy/g/commit/40b114a9c0bd7d1ae908a8fdd4d89f10be7963a9)
 
 另，目录名或文件名中不要含有空格。
