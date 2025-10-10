@@ -33,7 +33,7 @@ npx create-docusaurus@latest website classic
 
 运行过程中可能会遇到你的 md 文档中有些写法不符合 docusaurus 所用的 mdx 语法的问题，解决方法参见
 
-* [docusaurus: fix plain text can not after { in MDX when npm run build](https://github.com/flyskywhy/g/commit/9a274c682c1df6c7e1c9099b11096eaa11d59bce)
+* [docusaurus: fix plain text can not after `{` in MDX when npm run build](https://github.com/flyskywhy/g/commit/9a274c682c1df6c7e1c9099b11096eaa11d59bce)
 * [docusaurus: fix url link without https// header will Broken link on source page in MDX when npm run build](https://github.com/flyskywhy/g/commit/076351d2848ec0025e953c490b008f894304a99b)
 
 ## 将网页上传到 gh-pages 分支以自动托管为网站
