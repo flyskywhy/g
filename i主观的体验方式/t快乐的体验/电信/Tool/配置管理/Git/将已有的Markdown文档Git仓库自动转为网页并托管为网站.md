@@ -63,4 +63,6 @@ git commit -m "Deploy website'
 
 按照 `deploy.yml` 中设定的规则，只要上传 master 分支，就会触发网页上的 github 仓库中的 `Actions | All workflows` 中的 `Deploy to GitHub Pages` ，进行网页生成然后（如果生成网页与上次不同就）自动提交上传到 gh-pages 分支，而后这个 gh-pages 上传动作又会触发 `Actions | All workflows` 中的 (Github 自带的) `pages-build-deployment` 。
 
+也因此需要注意的是，要避免（因 md 文档不符合 mdx 语法等原因导致）网页生成失败却又上传到 gh-pages 分支导致网站 404 的情况，参见 [docusaurus: let failed ./build-website.sh can break Github Actions](https://github.com/flyskywhy/g/commit/3a700d16f678c6a7592efe947dac6f1e9ef580e9) 。
+
 至此，更新网站的方法就是：上传自己的 md 文档。
