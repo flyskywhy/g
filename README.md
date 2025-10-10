@@ -2,7 +2,7 @@ Li Zheng flyskywhy@gmail.com
 
 # 知识分类
 
-## 本人文章，分门别类在这个[https://github.com/flyskywhy/g](https://github.com/flyskywhy/g)仓库及其对应的[个人网站](https://flyskywhy.github.io/g/)各子目录中
+## 本人文章，分门别类在这个 [https://github.com/flyskywhy/g](https://github.com/flyskywhy/g) Git 仓库及其对应的 [个人网站](https://flyskywhy.github.io/g/) 各子目录中，个人网站自动生成方法参见 [将已有的 Markdown 文档 Git 仓库自动转为网页并托管为网站](i主观的体验方式/t快乐的体验/电信/Tool/配置管理/Git/将已有的Markdown文档Git仓库自动转为网页并托管为网站.md)
 
 ## 他人资料，分门别类简介如下，资料本身请自行搜集
 
