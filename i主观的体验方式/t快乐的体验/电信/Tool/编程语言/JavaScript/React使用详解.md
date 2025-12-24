@@ -50,14 +50,65 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
 
 ## 创建 react-native 项目
 比如项目名称为 AwesomeProject ：
-
-    react-native init AwesomeProject
-
+```
+    npx @react-native-community/cli init AwesomeProject --package-name com.foobar.awesome --version 0.71.6 --pm npm
+```
 这会自动创建 AwesomeProject 目录及其中一些文件。
 
-从 react 15.3.0 开始，容易在应用的界面上引发巨量的 warning "You are manually calling a React.PropTypes validation" ，而且这些 warning 在 react 16 中将会变成 error ，在其它一些 react-native 第三方库解决这些问题（能使用 react 16 了）之前，可以先只用 react 15.2.1 ，所以可以指定安装依赖于 react 15.2.1 的最后一个 react-native 版本 0.31.0 ：
+既然 react native 开发团队现在推荐使用 expo ，那么一般来说还需要安装 expo ：
+```
+    npx install-expo-modules
+```
+它会自动根据 AwesomeProject 的 package.json 中的 react-native 的版本按照 [VersionInfo](https://github.com/expo/expo/blob/main/packages/install-expo-modules/src/utils/expoVersionMappings.ts) 中的规则安装匹配的 expo ，以及更改各种源代码，所以下次升级 react-native 时记得先 `git revert` 这个提交点。
 
-    react-native init --version 0.31.0 AwesomeProject
+expo 自己所提出的 EAS 的编译方式，与 expo 的服务器联系有点紧密，为避免编译环境太过依赖外部，这里仍以介绍传统的 react-native 编译方式也就是 expo 文档中所说的 bare 方式为主。
+
+从 react-native 0.79 和 expo 53 开始，对于 Android 来说，会自动启用 expo 自己编译方式所用的一套 autolink 规则，此时如果直接使用 bare 的 `react-native run-android` 则会曝出编译错误 `Could not find expo.modules.asset:expo.modules.asset:11.1.7` ，此时如果强行在 `node_modules/expo/android/build.gradle` 中将 `useLegacyAutolinking` 设为 true ，虽然能通过编译，但是运行时会出现 `java.lang.NoClassDefFoundError: Failed resolution of: Lexpo/modules/core/interfaces/ReactActivityHandler$DelayLoadAppHandler` 的闪退问题，最终发现，只要类似在 [android/settings.gradle](https://github.com/flyskywhy/GCanvasRNExamples/blob/master/android/settings.gradle) 中添加
+```
+        // to fix `Could not find expo.modules.asset:expo.modules.asset`
+        maven { url("$rootDir/../node_modules/expo-asset/local-maven-repo") }
+        maven { url("$rootDir/../node_modules/expo-file-system/local-maven-repo") }
+        maven { url("$rootDir/../node_modules/expo-font/local-maven-repo") }
+        maven { url("$rootDir/../node_modules/expo-keep-awake/local-maven-repo") }
+```
+即可。
+
+上述几个 expo 组件是 `npx install-expo-modules` 时自带的，如果要安装其它 expo 组件，可以通过比如 `npx expo install expo-camera` 这样的方式来安装，如果安装时出现 `--legacy-peer-deps` 报错，则需要 `npm install --legacy-peer-deps expo-camera`。安装完成后也要象上面一样添加比如
+```
+        maven { url("$rootDir/../node_modules/expo-camera/local-maven-repo") }
+```
+
+至于有一条命令叫做 `npx expo prebuild` ，其实是 expo 的非 bare 方式是不存在 android 和 ios 目录的，然后此命令会自动根据 `app.json` 中类似下面 `+` 新增的配置信息生成那两个目录，参见 [RN/Expo项目本地打包成APK](https://www.cnblogs.com/shengoasis/p/18800767) 一文。
+```
+ {
+   "name": "FOO BAR",
+-  "displayName": "FOO BAR"
++  "displayName": "FOO BAR",
++  "android": {
++    "package": "com.carefree.foobar"
++  },
++  "ios": {
++    "bundleIdentifier": "com.carefree.foobar"
++  }
+ }
+```
+## 关于 react-native 版本升级
+### RN 自身的升级方法
+一个简洁明了的方式是使用 Git 自带的 `cherry-pick` 功能。
+
+1. 使用 `git checkout --orphan gh-pages RnUpgrade` 在自己的仓库中建立一个独立的分支 `RnUpgrade`
+
+2. 在临时目录中运行 `npx @react-native-community/cli init AwesomeProject --package-name com.foobar.awesome --version 0.71.6 --pm npm` ，将得到的所有文件和目录除了 `.git/` 、 `node_modules/` 和 `package-lock.json` 以外统统移过来在 `RnUpgrade` 分支中创建与你主分支相同 RN 版本的提交点 A
+
+3. 删除当前处于 `RnUpgrade` 分支时除了 `.git/` 外的所有文件和目录，但不进行提交
+
+4. 在临时目录中运行 `npx @react-native-community/cli init AwesomeProject --package-name com.foobar.awesome --version 0.70.5 --pm npm`  ，将得到的所有文件和目录除了 `.git/` 、 `node_modules/` 和 `package-lock.json` 以外统统移过来在 `RnUpgrade` 分支中创建你希望升级到的 RN 版本的提交点 B
+
+5. 切换到主分支，用 Git 的 `cherry-pick` 功能将提交点 B 应用过来，然后就会出现很多冲突，此时参考原提交点 B 的变化或是更直观的 [React Native Upgrade Helper](https://react-native-community.github.io/upgrade-helper) 中的变化，解决这些冲突即可
+
+### 其它第三方组件升级
+一般来说第三方组件的 `README.md` 会描述版本对比，有些则可能需要查探一番比如 [react-native-reanimated](https://github.com/software-mansion/react-native-reanimated/blob/main/packages/react-native-reanimated/compatibility.json) 里列出了对应哪个 RN 版本应该安装哪个版本。
+
 
 ## 配置 Android 开发环境
 从 [https://developer.android.com/studio#cmdline-tools](https://developer.android.com/studio#cmdline-tools) 下载 Command line tools 成为比如 `~/tools/android_sdk/cmdline-tools/latest/` ，在 `~/.bashrc` 中添加 `export ANDROID_HOME=~/tools/android-sdk` 。后续在编译各种 APP 时 `~/tools/android-sdk/cmdline-tools/latest/bin/sdkmanager` 会视需要自动下载比如 `~/tools/android-sdk/platforms/android-26/` 等，如果在自动下载时出现 "You have not accepted the license agreements of the following SDK components" 的错误，则需手动运行一下 `yes | ~/tools/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses` 。
@@ -72,7 +123,7 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
 
 或是到 [https://jdk.java.net/archive/](https://jdk.java.net/archive/) 手动下载所需 JDK 版本并配置好`JAVA_HOME` 这个环境变量。
 
-低于 0.67 版本的 React Native 需要 JDK 1.8 版本（官方也称 8 版本），否则需要 11 版本。
+低于 0.67 版本的 React Native 需要 JDK 1.8 版本（官方也称 8 版本），否则需要 11 版本或更高，比如 0.73 版本开始需要 JDK 17 。
 
 如果 `echo $SHELL` 发现是 dash 的话，后续编译时会报 `aapt: Syntax error: newline unexpected (expecting ")"` 的错误，所以还需换成 bash：
 
@@ -93,6 +144,18 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
 
     react-native start
 
+新版本的 `react-native start` 已经不会在终端窗口中打印 `console.log` 等调试信息，而是打印在 chrome 调试窗口中，如果想要继续在终端窗口中打印的，可以使用：
+```
+    react-native --client-logs
+```
+或
+```
+    npx @react-native-community/cli start --client-logs
+```
+或
+```
+    npx expo start
+```
 这样，当 js 代码修改后，将 Android 真机摇一摇，就能 Reload 过来最新修改的 js 代码了。背后的动作实际上是在 Reload 的时候 packager server 实时生成了一个 `index.android.bundle` 被下载到 Android APP 中。 react native 的 LogBox 也就是出错时或 `console.warn` 在 APP 界面上的打印信息中有指明文件名和行数，如果文件名是 `index.android.bundle` 的话，则可以比如用 `wget http://localhost:8081/index.android.bundle` 命令下载到电脑中查看，此时需要注意的是不要下载到你启动 `react-native start` 的目录中比如 `YOUR_PROJECT/index.android.bundle` ，否则后续你对代码的更改再也不会被打包为最新的 `index.android.bundle` 因为 `packager server` 此时就像一个 web server 一样直接将现存的 `YOUR_PROJECT/index.android.bundle` 提供给 Android APP 或 wget 。
 
 如果 `react-native run-android` 出现错误提示 “java.util.concurrent.ExecutionException: com.android.builder.utils.SynchronizedFile$ActionExecutionException: com.android.ide.common.signing.KeytoolException: Failed to create keystore.” ，则需要
@@ -120,6 +183,15 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
     Could not resolve com.android.tools.lint:lint-gradle:26.5.3
 
 这样错误时，就需要临时去掉 `--offline` 来运行一次。
+
+如果编译时出现如下错误
+```
+CMake Error at android/app/build/generated/autolinking/src/main/jni/Android-autolinking.cmake:9 (add_subdirectory):
+add_subdirectory given source
+"node_modules/@budzworthy/react-native-multi-ble-peripheral/android/build/generated/source/codegen/jni/"
+which is not an existing directory.
+```
+则需要先 `./android/gradlew clean -p ./android/` 。
 
 如果 APP 启动就闪退出现，并且 logcat 中有错误提示 “java.lang.UnsatisfiedLinkError: couldn't find DSO to load: libfbjni.so result: 0” ，则需要 `./android/gradlew assembleDebug --rerun-tasks -p ./android/` 或者是 `./android/gradlew clean -p ./android/; react-native run-android; react-native start --reset-cache` 。
 
@@ -193,7 +265,7 @@ flow 是一个静态的 js 类型检查工具。你在很多示例中看到的�
 ```
 
 ## 安装 react-dom
-安装后续要安装的 react-native-web 或 react-web 的 package.json 中的 `peerDependencies` 里的 `react` 和 `react-dom`，因为 react-native-web 或 react-web 相当于是 `react` 和 `react-dom` 这两个宿主的插件，想要装插件就要先装宿主。由于上面 `react-native init` 已经自动安装了 react ，所以现在只需安装 react-dom ：
+安装后续要安装的 react-native-web 或 react-web 的 package.json 中的 `peerDependencies` 里的 `react` 和 `react-dom`，因为 react-native-web 或 react-web 相当于是 `react` 和 `react-dom` 这两个宿主的插件，想要装插件就要先装宿主。由于上面 `npx @react-native-community/cli init` 已经自动安装了 react ，所以现在只需安装 react-dom ：
 
     cd AwesomeProject
     npm install react-dom --save
@@ -690,6 +762,19 @@ duplicate symbol '_OBJC_IVAR_$_SigECCEncryptHelper._crypto'
 * `dyld: Library not loaded: /usr/local/opt/icu4c/lib/libicui18n.66.dylib`
 
 如果在 Xcode 持续开启的状态下，比如为了满足 App Store 上预览视频的分辨率要求而在终端里 `brew install ffmpeg` 用于视频转码，然后一转眼 Xcode 运行 `Product | Archive` 打包到 node 步骤时即可能报上述错误，其原因是 node 和 ffmpeg 都依赖 icu4u ，而一般情况下 node 是比较早之前安装的，那时候自动安装的 icu4u 版本如果比现在 ffmpeg 触发安装的 icu4u 版本旧的话，就会出现本问题。解决的方法是重新启动 Xcode 。
+
+* Could not build module 'Darwin'
+
+如果升级了 RN 版本后再次编译，可能会碰到这个错误，此时只要
+```
+rm -rf Pods Podfile.lock
+rm -rf ~/Library/Developer/Xcode/DerivedData/ModuleCache.noindex
+rm -rf ~/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex
+rm -rf ~/Library/Developer/Xcode/DerivedData/SymbolCache.noindex
+cd ios
+pod install
+````
+即可。
 
 ## App Store 反人类集锦
 * 难以理解的开发证书、生产证书、描述文件
