@@ -950,6 +950,8 @@ Want render a react-native APP as a sub-app (library) in other APP? I implement 
 所以，除了按照 [Configuration _ react-native-unistyles](https://www.unistyl.es/v3/start/configuration) 在 `index.js` 中进行 `StyleSheet.configure({})` 以及设置好 `babel.config.js` 之外，还需 `import {StyleSheet} from 'react-native-unistyles'` 才行。
 
 ## react-native-unimodules
+注：最新版 RN 已经被上面提到的 `npx install-expo-modules` 替代。
+
 react-native 兴起之初，各种第三方组件百家争鸣，但也良莠不齐。最近看来 react-native-unimodules 渐有一统之势，它支持许多开发 APP 时用得到的方方面面的 [Packages](https://docs.expo.io/versions/latest/bare/unimodules-full-list/) ，而且其中所谓 bare workflow 也就是不需要和 Expo 绑定的独立 Packages 已经足够多了。
 
 如果是在 iOS 中使用 react-native-unimodules ，则必须要使用上面提到的 `pod install` 才能正常运行。
