@@ -127,6 +127,13 @@ toFixed() 括号内参数为保留的小数位数。0为整数。支持四舍五
 
 注： toFixed() 函数只能作用于数值型数据，字符串型数据不可调用该函数，且返回值为字符串类型数据。
 
+## hasOwnProperty
+```
+let a = {b: undefined};
+console.log(a.hasOwnProperty('b'); // true
+console.log(a.hasOwnProperty('c'); // false
+```
+
 ## npm
 避免将 package-lock.json 放入 git 仓库中，而仍然通过去掉 package.json 中的 ^ 或 ~ 符号的方式来固定版本，原因如下：
 
