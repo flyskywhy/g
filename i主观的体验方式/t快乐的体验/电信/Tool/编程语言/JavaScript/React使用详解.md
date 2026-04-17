@@ -191,7 +191,19 @@ add_subdirectory given source
 "node_modules/@budzworthy/react-native-multi-ble-peripheral/android/build/generated/source/codegen/jni/"
 which is not an existing directory.
 ```
-则需要先 `./android/gradlew clean -p ./android/` 。
+则需要先 `./android/gradlew clean -p ./android/` ，如果此时出现 `> com.android.ide.common.process.ProcessException: ninja: Entering directory 'android/app/.cxx/Debug/6c3d2yh4/armeabi-v7a'` 的错误，则需要手动去删除 `android/app/.cxx/` 再执行 clean 。如果编译时还出现那个错误，则可能需要参考 [React Native 0.78.0 Android Build Failing with CMake Errors - Missing JNI Directories](https://github.com/facebook/react-native/issues/49888#issuecomment-3497589839) 在 `android/app/build/gradle` 文件末尾添加
+```
+afterEvaluate {
+  tasks.matching { it.name.startsWith('configureCMakeRelWithDebInfo') }.configureEach { cmakeTask ->
+    rootProject.allprojects.each { project ->
+      if (project.tasks?.findByName("generateCodegenArtifactsFromSchema")) {
+        println "CUSTOM TASK DEPENDENCY → ${cmakeTask.name} depends on :${project.name}:generateCodegenArtifactsFromSchema"
+        cmakeTask.dependsOn(":${project.name}:generateCodegenArtifactsFromSchema")
+      }
+    }
+  }
+}
+```
 
 如果 APP 启动就闪退出现，并且 logcat 中有错误提示 “java.lang.UnsatisfiedLinkError: couldn't find DSO to load: libfbjni.so result: 0” ，则需要 `./android/gradlew assembleDebug --rerun-tasks -p ./android/` 或者是 `./android/gradlew clean -p ./android/; react-native run-android; react-native start --reset-cache` 。
 
