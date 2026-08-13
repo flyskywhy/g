@@ -1159,3 +1159,26 @@ subprojects {
 Downgrade gradle-6.7-all.zip (comes from RN 0.64.3) to gradle-6.2-all.zip (comes from RN 0.63.2) in `android/gradle/wrapper/gradle-wrapper.properties` to fix it, ref to [https://stackoverflow.com/a/76521192/6318705](https://stackoverflow.com/a/76521192/6318705)
 
 ### [专治各种网络不服](https://incoder.org/2020/02/27/fuck-gfw/)
+
+### fetch HTTP in another local network on iOS 17+ got `Network request failed`
+need add below into `Info.plist`:
+```
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+        <key>NSAllowsLocalNetworking</key>
+        <true/>
+
+        <key>NSExceptionDomains</key>
+        <dict>
+            <!-- fetch HTTP in another local network on iOS 17+ need this -->
+            <!-- 估计是从 iOS 17 开始，如果不设这个例外，手机无法访问所连 WiFi 的本地局域网中 255 个 IP 地址之外的间接连着的其它局域网 IP 地址 -->
+            <key>192.0.0.0/8</key>
+            <dict>
+                <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+            </dict>
+        </dict>
+    </dict>
+```
